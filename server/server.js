@@ -449,5 +449,5 @@ app.post('/api/feedbacks', (req, res) => {
 // Khởi động server
 app.listen(PORT, () => {
     console.log(`🚀 Server đang chạy tại: http://localhost:${PORT}`);
-    console.log(`Mở Frontend: http://localhost:${PORT}/index/home.html`);
+    console.log(`Mở Frontend: http://localhost:${PORT}/index/index.html`);
 });
