@@ -1,0 +1,19 @@
+{
+  "name": "projekt-t",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:css": "tailwindcss -i ./src/input.css -o ./index/tailwind.css --watch",
+    "build:css": "tailwindcss -i ./src/input.css -o ./index/tailwind.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.4",
+    "tailwindcss": "^4.2.4"
+  }
+}

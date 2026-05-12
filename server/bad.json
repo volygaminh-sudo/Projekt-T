@@ -1,0 +1,21 @@
+{
+  "name": "Richter",
+  "skills": [
+    {
+      "name": "Thanh gươm biến ảo",
+      "desc": "Ở các môi trường khác nhau hơn 1.5 giây sẽ giúp cơ thể thích nghi và cường hoá bản thân. Mỗi lần chuyển trạng thái sẽ giúp Richter tăng tốc trong thoáng chốc.\nBụi cỏ: Tăng tốc đánh\nDưới sông: Tăng tốc chạy\nTrên đường: Tăng miễn thương."
+    },
+    {
+      "name": "Chặt & chém",
+      "desc": "Richter lướt về phía trước gâysát thương vật lý, đồng thời gây hiệu ứng tuỳ theo màu gươm hiện có\nGươm xanh lá: hất tung mục tiêu\nGươm xanh: tăng tầm lướt và gây làm chậm\nGươm đỏ: Hất tung và gây máu tối đa của kẻ địch \n\nChưa hết, Richter vung gươm chém tiếp gây sát thương vật lý, rồi biến đòn đánh kế tiếp gây sát thương phép\nNếu chiêu thức trúng kẻ địch sẽ được hồi lại ngay lập tức. Hiệu ứng này chỉ xảy ra mỗi 4 giây một lần."
+    },
+    {
+      "name": "",
+      "desc": "Richter huơ gươm phòng thủ giúp bản thân miễn nhiễm mọi trạng thái khống chế và sát thương trong 0.75 giây (có thể di chuyển bình thường). Vừa hết thời gian, Richter lập tức tấn công gây sát thương vật lý. Tích trữ tối đa 2 cộng dồn Nếu Richter đang có Gươm vàng và chặn thành công một hiệu ứng khống chế thì hắn sẽ gây choáng mục tiêu 1 giây"
+    },
+    {
+      "name": "Vùng diệt quỷ",
+      "desc": "Richter tung chiêu, khắc dấu ấn diệt quỷ lên kẻ địch lân cận, đồng thời tạo ra một vùng gây sát thương chuẩn và làm chậm mỗi 0.5 giây trong 5 giây. Các nạn nhân trúng dấu ấn nếu chịu 5 đợt sát thương từ chiêu thức này sẽ nhận sát thương chuẩn, đồng thời bị câm lặng 1 giây."
+    }
+  ]
+}

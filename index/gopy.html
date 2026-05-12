@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Góp Ý - Liên Quân</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="gopy.css">
+    <link rel="stylesheet" href="quick-admin.css">
+</head>
+<body class="home-body">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="home.html" class="logo-link">
+                    <img src="../img/unnamed.webp" alt="Logo">
+                    <span class="download-badge">GÓP Ý</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Trang chủ</a></li>
+                    <li><a href="tier-list.html">Tier-list</a></li>
+                    <li><a href="new-hero.html">Tướng Mới</a></li>
+                    <li><a href="capnhat.html">Cập nhật</a></li>
+                    <li><a href="gopy.html" class="active">Góp ý</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content gopy-main">
+        <section class="gopy-container">
+            <h1 class="glow-title">GỬI <span class="highlight">GÓP Ý</span></h1>
+            <p style="text-align: center; color: #ccc;">Hãy gửi những phản hồi và ý kiến để giúp trang web phát triển tốt hơn!</p>
+            <form id="feedback-form" class="gopy-form">
+                <div class="form-group">
+                    <label>Tên của bạn <span class="required">*</span></label>
+                    <input type="text" id="fb-name" required placeholder="Tên hiển thị">
+                </div>
+                <div class="form-group">
+                    <label>Email liên hệ</label>
+                    <input type="email" id="fb-email" placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Chủ đề</label>
+                    <input type="text" id="fb-subject" placeholder="Tiêu đề góp ý">
+                </div>
+                <div class="form-group">
+                    <label>Nội dung <span class="required">*</span></label>
+                    <textarea id="fb-message" rows="5" required placeholder="Nhập nội dung chi tiết..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Gửi Phản Hồi</button>
+            </form>
+            <div id="fb-status" class="status-msg"></div>
+        </section>
+    </main>
+
+    <script src="gopy.js"></script>
+</body>
+</html>

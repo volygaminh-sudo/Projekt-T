@@ -1,0 +1,21 @@
+{
+    "heroName": "Flowborn",
+    "skillNames": [
+        "Dòng chảy năng lượng",
+        "Dòng chảy hội tụ",
+        "Nỏ tiễn phá không",
+        "Nỏ tiễn liên hoàn"
+    ],
+    "skinItems": [
+        {
+            "Tên": "Flowborn",
+            "Icon": "https://lienquan.garena.vn/wp-content/uploads/2026/04/IMG-SQR-0150x0150-080151-ket-thuc2.jpg"
+        }
+    ],
+    "skinPanelData": [
+        {
+            "id": "heroSkin-1",
+            "h3": "Flowborn"
+        }
+    ]
+}

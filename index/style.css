@@ -1,0 +1,682 @@
+/* ========== SETTINGS & TOKENS ========== */
+:root {
+    --color-primary: #f39c12;
+    --color-primary-hover: #ffd700;
+    --color-danger: #e74c3c;
+    --color-danger-hover: #c0392b;
+    --color-success: #2ecc71;
+    --color-bg-dark: #0b0c10;
+    --color-text-main: #ffffff;
+    --color-text-muted: #a0aab2;
+    --color-text-light: #e0e0e0;
+    
+    --glass-bg: rgba(20, 22, 30, 0.6);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    
+    --font-main: 'Montserrat', sans-serif;
+    
+    --transition-fast: 0.3s ease;
+    --transition-smooth: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ========== FONTS ========== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Header & Glassmorphism Navigation Bar */
+header {
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px); /* Glassmorphism effect */
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5px 30px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.download-badge {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+    transition: all 0.3s ease;
+}
+
+.logo-link:hover img {
+    transform: scale(1.05); /* Slight scale on logo hover */
+}
+
+.logo-link:hover .download-badge {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.6);
+    background: linear-gradient(45deg, #e67e22, #f39c12);
+}
+
+/* Navigation Menu Styles */
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 35px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 5px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Hover Effect: Bottom Line Expanding */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #f39c12; /* Golden accent */
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #f39c12;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+
+
+/* =========================================
+   NÂNG CẤP TRANG CHỦ (HOME PAGE UPGRADES)
+   ========================================= */
+
+/* Body riêng cho trang chủ để không đụng index.html */
+body.home-body {
+    background: #0b0c10;
+    color: #fff;
+    margin: 0;
+    overflow-x: hidden;
+    /* Dừng cái animation rotate của thẻ body thông thường */
+    animation: none;
+    background-image: none;
+}
+
+/* HỆ THỐNG NỀN MỚI (FIXED VIDEO BACKGROUND) */
+.home-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+    background-color: #0b0c10;
+}
+
+.home-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8; /* Makes text more readable over the video */
+    pointer-events: none;
+}
+
+/* Thêm điểm sáng glow sau nội dung chính */
+.glow-orb {
+    position: fixed;
+    top: 30%;
+    left: 40%;
+    width: 80vw;
+    height: 80vh;
+    background: radial-gradient(circle at center, rgba(243, 156, 18, 0.4) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    pointer-events: none;
+    animation: orbFloat 15s infinite alternate ease-in-out;
+}
+
+@keyframes orbFloat {
+    0% { transform: translate(-10%, -10%); opacity: 0.8; }
+    100% { transform: translate(10%, 10%); opacity: 0.5; }
+}
+
+/* KHUNG NỘI DUNG CHÍNH */
+.page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.home-hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.home-hero-inner {
+    text-align: center;
+    max-width: 900px;
+    animation: fadeUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.glow-title {
+    font-size: 60px;
+    text-transform: uppercase;
+    font-weight: 900;
+    margin: 0 0 25px 0;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    text-shadow: 0px 5px 15px rgba(0,0,0,0.8);
+}
+
+.glow-title .highlight {
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8));
+}
+
+.home-hero-inner p {
+    font-size: 20px;
+    color: #e0e0e0;
+    line-height: 1.7;
+    margin-bottom: 45px;
+    text-shadow: 0 2px 5px rgba(0,0,0,1);
+}
+
+/* Nút bấm (CTA) */
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.hero-actions a {
+    padding: 16px 45px;
+    border-radius: 40px;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-play {
+    background: linear-gradient(135deg, #f39c12, #c0392b);
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(243, 156, 18, 0.5);
+}
+
+.btn-play:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 12px 30px rgba(243, 156, 18, 0.8);
+}
+
+.btn-read {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #f39c12;
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.2);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.btn-read:hover {
+    background: rgba(243, 156, 18, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(243, 156, 18, 0.5);
+    border-color: #ffd700;
+}
+
+
+/* =========================================
+   FOOTER TÙY CHỈNH (UPGRADED FOOTER)
+   ========================================= */
+footer {
+    padding: 60px 20px;
+    background-color: #0b0c10;
+    border-top: 1px solid #1f2129;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+.glass-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.footer-logo img {
+    max-width: 150px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+}
+
+.footer-text {
+    flex: 1;
+    min-width: 300px;
+    color: #a0aab2;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.company-name {
+    color: #e0e0e0;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 0 15px 0;
+}
+
+.footer-text p {
+    margin: 5px 0;
+}
+
+.footer-link {
+    color: #f39c12;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: #ffd700;
+}
+
+.footer-policies {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.footer-policies a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.footer-policies a:hover {
+    color: #f39c12;
+}
+
+.footer-policies .separator {
+    color: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 768px) {
+    .glass-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+    }
+    .footer-policies {
+        justify-content: center;
+    }
+}
+
+/* =========================================
+   MÀN HÌNH CHÀO (INTRO OVERLAY)
+   ========================================= */
+
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0b0c10;
+    background-image: radial-gradient(circle at center, rgba(243, 156, 18, 0.15) 0%, transparent 70%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+}
+
+.intro-overlay.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-content {
+    max-width: 600px;
+    padding: 40px;
+    animation: contentFloat 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes contentFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-15px); }
+}
+
+.intro-logo img {
+    width: 150px;
+    filter: drop-shadow(0 0 20px rgba(243, 156, 18, 0.5));
+    margin-bottom: 30px;
+}
+
+.intro-title {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.intro-title .highlight {
+    color: #f39c12;
+}
+
+.intro-subtitle {
+    color: #a0aab2;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.btn-enter {
+    background: linear-gradient(135deg, #f39c12, #ff8c00);
+    color: #fff;
+    border: none;
+    padding: 18px 50px;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-enter:hover {
+    transform: scale(1.08);
+    box-shadow: 0 15px 40px rgba(243, 156, 18, 0.6);
+}
+
+/* =========================================
+   MUSIC CONTROLLER (UI)
+   ========================================= */
+
+.music-controller {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.music-controller:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.music-icon {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+}
+
+.music-icon span {
+    width: 3px;
+    height: 10px;
+    background-color: #f39c12;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    animation: musicBars 1s infinite ease-in-out;
+    animation-play-state: paused;
+}
+
+.music-controller.playing .music-icon span {
+    animation-play-state: running;
+}
+
+.music-icon span:nth-child(2) { animation-delay: 0.2s; }
+.music-icon span:nth-child(3) { animation-delay: 0.4s; }
+.music-icon span:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes musicBars {
+    0%, 100% { height: 5px; }
+    50% { height: 20px; }
+}
+
+.music-text {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+
+.music-controller:not(.playing) .music-icon span {
+    height: 3px !important;
+    background-color: #888;
+}
+
+/* =========================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* CONTENT SECTIONS */
+
+.home-section {
+    padding: 100px 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 36px;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: left;
+    margin-bottom: 40px;
+    border-left: 5px solid #f39c12;
+    padding-left: 20px;
+    letter-spacing: 2px;
+}
+
+/* NEWS GRID */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.news-card {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.news-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #f39c12;
+}
+
+.news-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.news-info {
+    padding: 20px;
+}
+
+.news-tag {
+    background: #f39c12;
+    color: #000;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.news-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.news-card p {
+    font-size: 14px;
+    color: #a0aab2;
+    line-height: 1.5;
+}
+
+/* HERO GRID (LITTLE PORTRAITS) */
+.hero-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.hero-portrait {
+    width: 150px;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.hero-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.2);
+    transition: all 0.5s ease;
+}
+
+.hero-portrait:hover {
+    transform: scale(1.05);
+    border-color: #f39c12;
+}
+
+.hero-portrait:hover img {
+    filter: grayscale(0);
+    transform: scale(1.1);
+}
+
+.hero-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+}

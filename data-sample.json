@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Biron",
+    "primary_role": "fighter",
+    "secondary_role": "",
+    "tier": "s",
+    "story": "Người máy sinh học Biron",
+    "skill_p": "Nạp năng lượng: Mỗi đòn đánh thường...",
+    "skill_1": "Cú đấm cơ khí: Biron cường hóa...",
+    "skill_2": "Càn quét: Biron lướt tới...",
+    "skill_3": "Sóng xung kích: Tạo ra sát thương diện rộng...",
+    "items": "Thương Longinus, Giày kiên cường, Đao truy hồn",
+    "image_url": "https://lienquan.garena.vn/wp-content/uploads/2024/09/biron1.jpg",
+    "skins": "Mặc định | ",
+    "skill_p_img": "",
+    "skill_1_img": "",
+    "skill_2_img": "",
+    "skill_3_img": ""
+  },
+  {
+    "name": "Ming",
+    "primary_role": "support",
+    "secondary_role": "mage",
+    "tier": "a",
+    "story": "Pháp sư hỗ trợ Ming",
+    "skill_p": "Đánh dấu...",
+    "skill_1": "Kết nối sinh mệnh",
+    "skill_2": "Thay đổi thuộc tính",
+    "skill_3": "Cứu rỗi",
+    "items": "Gươm hiền triết, Trượng băng, Huân chương Troy",
+    "image_url": "https://lienquan.garena.vn/wp-content/uploads/2023/12/ming1.jpg",
+    "skins": "Mặc định | ",
+    "skill_p_img": "",
+    "skill_1_img": "",
+    "skill_2_img": "",
+    "skill_3_img": ""
+  }
+]

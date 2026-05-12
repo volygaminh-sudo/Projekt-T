@@ -1,0 +1,514 @@
+[
+  {
+    "name": "Dyadia",
+    "skills": "Phúc Duyên, Trao Lương Duyên, Gắn Ác Duyên, Tụ Nhân Duyên"
+  },
+  {
+    "name": "Goverra",
+    "skills": "Binh đoàn thiết vệ, Tiêm kích tuần hành, Mệnh lệnh tập kích, Tín hiệu hủy diệt"
+  },
+  {
+    "name": "Flowborn",
+    "skills": "Dòng chảy năng lượng, Dòng chảy hội tụ, Nỏ tiễn phá không, Nỏ tiễn liên hoàn"
+  },
+  {
+    "name": "Edras",
+    "skills": "Luân hồi quang trảm, Đột kích dũng mãnh, Hóa thân Quang minh, Hóa thân Hắc ám"
+  },
+  {
+    "name": "Flowborn",
+    "skills": "Dòng chảy năng lượng, Dòng chảy hội tụ, Dòng chảy pháp trận, Dòng chảy hủy diệt"
+  },
+  {
+    "name": "Heino",
+    "skills": "Thiên mệnh thấu suốt, Ngân lam thánh giáo / Luân hồi trảm kích, Thiên mệnh dịch chuyển, Thiên mệnh thời không"
+  },
+  {
+    "name": "Dolia",
+    "skills": "Linh lực biển sâu, Hải dương hoan ca, Hồi thiên thủy thuật, Tiên cá thánh ca"
+  },
+  {
+    "name": "Billow",
+    "skills": "Cuồng thú săn mồi, Độn thủy tiềm hành, Cuồng bạo truy kích, Nộ hải sa ngư"
+  },
+  {
+    "name": "Biron",
+    "skills": "Quyết chiến không lùi, Điện chùy xuất kích, Đột kích vũ bão, Trọng lực từ trường"
+  },
+  {
+    "name": "Bolt Baron",
+    "skills": "Thiên lôi chưởng, Thiên lôi bộ, Cuồng lôi kích, Ngạo khung thiên"
+  },
+  {
+    "name": "Erin",
+    "skills": "Diệp vũ tinh linh, Diệp vũ kim quang, Diệp vũ hồ điệp, Diệp vũ nguyệt quế"
+  },
+  {
+    "name": "Charlotte",
+    "skills": "Thất tinh kiếm trận, Tam giác kiếm khí, Lục thức kiếm ảnh, Phá không quang điếm"
+  },
+  {
+    "name": "Qi",
+    "skills": "Chân khí hộ thể, Truy tinh chưởng, Chấn thiên chưởng, Hạo nhiên chưởng"
+  },
+  {
+    "name": "Dirak",
+    "skills": "Giáp năng lượng,  Kim quang ấn, Thiên hoả trận, Lô cốt tử quang"
+  },
+  {
+    "name": "Tachi",
+    "skills": "Phong Ấn Của Rồng, Long phá, Long Bộ, Long Toái"
+  },
+  {
+    "name": "Yue",
+    "skills": "Vương quyền, Cắt giang sơn, Trảm thiên địa, Đạo quân vương"
+  },
+  {
+    "name": "Ming",
+    "skills": "Hồi huyết trảo, Bí thuật cường hóa, Bí thuật phòng ngự, Bí thuật trường sinh"
+  },
+  {
+    "name": "Teeri",
+    "skills": "Thần khí song luân, Quang minh luân, Xuyên tâm luân, Liên hoàn luân"
+  },
+  {
+    "name": "Bonnie",
+    "skills": "Quyền năng bạo tốc, Thỏ vàng xuất kích, Thỏ đỏ trói chân, Thỏ tím gầm thét"
+  },
+  {
+    "name": "Bijan",
+    "skills": "Sa mạc thần lực, Sa mạc mãnh kích, Sa mạc thần âm, Sa mạc thần thú"
+  },
+  {
+    "name": "Bright",
+    "skills": "Thần lực ánh sáng, Tốc độ quang minh, Quang minh phán quyết, Ma súng phán quyết"
+  },
+  {
+    "name": "Iggy",
+    "skills": "Điểm Hỏa, Hỏa Vũ, Hỏa Tốc, Hỏa bạo"
+  },
+  {
+    "name": "Aoi",
+    "skills": "Long Lực, Long Trảm, Long Trảo, Long Diệt"
+  },
+  {
+    "name": "Yan",
+    "skills": "Thiên sơn kiếm, Phá vân kiếm, Hoành long kiếm, Thánh quang bút"
+  },
+  {
+    "name": "Aya",
+    "skills": "Linh hồn sóc nhỏ, Nốt nhạc ánh sáng, Rừng sâu bảo hộ, Khúc nhạc rừng sâu"
+  },
+  {
+    "name": "Allain",
+    "skills": "Kiếm gầm, Kiếm lưu ngân, Kiếm toả mệnh, Kiếm tất sát"
+  },
+  {
+    "name": "Thorne",
+    "skills": "Điều Luật Ma Súng, Đạn ma năng, Ma súng nhập hồn, Ma súng phán quyết"
+  },
+  {
+    "name": "Sinestrea",
+    "skills": "Huyết hoa, Huyết đột (Huyết tiễn, khi đánh xa), Huyết sát (Huyết bão, khi đánh xa), Huyết ảnh"
+  },
+  {
+    "name": "Dextra",
+    "skills": "Huyết chú, Luân hồi cưa, Huyết sát cưa, Hiến tế"
+  },
+  {
+    "name": "Lorion",
+    "skills": "Bí thuật hắc ám, Lưới điện từ, Tĩnh điện, Bão từ trường"
+  },
+  {
+    "name": "Ata",
+    "skills": "Biển sâu chúc phúc, Đạp sóng, Bá vương trảo, Thuyền bạch tuộc"
+  },
+  {
+    "name": "Paine",
+    "skills": "Trảm hồn, Hồn gọi xác, Vong hồn trận, Diệt hồn truy"
+  },
+  {
+    "name": "Laville",
+    "skills": "Đạn liên châu, Đạn truy ảnh, Khiên phản tốc, Đạn thần quang"
+  },
+  {
+    "name": "Rouie",
+    "skills": "Quang tốc, Thần cảnh/Thần ấn, Thần môn, Thần trận"
+  },
+  {
+    "name": "Zata",
+    "skills": "Phong sát, Ưng gào, Vòi rồng, Thiên dực"
+  },
+  {
+    "name": "Volkath",
+    "skills": "Ma Quân, Bá Vương Trảm, Bá vương trảo, Bất tử ma thân"
+  },
+  {
+    "name": "Krizzix",
+    "skills": "Ẩn Đột, Ngụy Trang Đơn Lẻ, Vạn Vật Hấp Dẫn, Ngụy Trang Đồng Bộ"
+  },
+  {
+    "name": "Eland’orr",
+    "skills": "Tinh linh ấn, Phi điệp, Điệp vũ, Phá kén"
+  },
+  {
+    "name": "Ishar",
+    "skills": "Tí Nị, Đá Ma Thuật, Khiên Ma Thuật, Sa Bàn Ma Thuật"
+  },
+  {
+    "name": "Keera",
+    "skills": "Ám lưu, Ác mộng ảo ảnh, Tam giác quỷ, Truy sát"
+  },
+  {
+    "name": "Errol",
+    "skills": "Tay ác ma, Tay lưỡi liềm, Tay đại đao, Mắt ma"
+  },
+  {
+    "name": "Yena",
+    "skills": "Bán nguyệt trảm, Toái nguyệt trảm / Tụ nguyệt trảm, Luân nguyệt trảm / Tứ nguyệt trảm, Mãn nguyệt trảm / Hoành nguyệt trảm"
+  },
+  {
+    "name": "Enzo",
+    "skills": "Tín niệm, Truy bức, Câu hồn, Hành quyết"
+  },
+  {
+    "name": "Celica",
+    "skills": "Bắn dồn, Bùng nổ, Mìn định vị, Pháo thần công"
+  },
+  {
+    "name": "Zip",
+    "skills": "BÉO ĐÔ ĐÔ, ÁC HẬN, KHÍ THÔN, LĂN LONG LÓC"
+  },
+  {
+    "name": "Florentino",
+    "skills": "Xuất chúng, Hào hoa, Thưởng hoa, Tài hoa"
+  },
+  {
+    "name": "Veres",
+    "skills": "Huyết xích, Song xích, Xiềng xích, Đoạt mệnh xích"
+  },
+  {
+    "name": "D’Arcy",
+    "skills": "Lực lượng thứ nguyên, Du hành thứ nguyên, Lập phương thứ nguyên, Ma trận thứ nguyên"
+  },
+  {
+    "name": "Hayate",
+    "skills": "Phản ứng dây chuyền, Chuỗi phi tiêu, Ảnh biến, Bão phi tiêu"
+  },
+  {
+    "name": "Capheny",
+    "skills": "Pháo tự động, Đại bác / Đại liên, Pha phản lực / Pha động lực, Mưa liên thanh"
+  },
+  {
+    "name": "Elsu",
+    "skills": "Bắn tỉa, Ưng trạm, Viễn trình kích, Giật bắn"
+  },
+  {
+    "name": "Wiro",
+    "skills": "Dấu ấn 212, Rìu chiến lực, Găng chiến lực, Thần lực 212"
+  },
+  {
+    "name": "Richter",
+    "skills": "Thanh gươm biến ảo, Chặt & chém, Vùng diệt quỷ"
+  },
+  {
+    "name": "Quillen",
+    "skills": "Đánh lén, Chém đôi, Đoản mệnh, Ẩn sát"
+  },
+  {
+    "name": "Sephera",
+    "skills": "Suối nguồn, Thuỷ âm, Ao tù, Sóng ngầm"
+  },
+  {
+    "name": "Roxie",
+    "skills": "Cuốc lửa, Patin lửa, Balo lửa, Keo lửa"
+  },
+  {
+    "name": "Baldum",
+    "skills": "Cường tráng, Vật tổ vỗ tất, Địa chấn, Địa giam"
+  },
+  {
+    "name": "Y’bneth",
+    "skills": "Đất mẹ, Dây leo, Thiên nhiên vỗ về, Hạt giống sinh mệnh"
+  },
+  {
+    "name": "Annette",
+    "skills": "Gió nhẹ, Gió xoáy, Gió nồm, Mắt bão"
+  },
+  {
+    "name": "Amily",
+    "skills": "Đơn đả độc cước, Tàng đao kích, Liên hoàn cước, Cuồng bạo cước"
+  },
+  {
+    "name": "The Flash",
+    "skills": "Thần tốc lực, Hành trình siêu tốc, Cú đấm chớp nhoáng, Lốc chân không"
+  },
+  {
+    "name": "Wisp",
+    "skills": "Tự hủy, Pháo động năng, Pháo YOYO, Pháo Cao Xạ"
+  },
+  {
+    "name": "Arum",
+    "skills": "Linh thú, Thú kích, Thú sổng, Thú khốn"
+  },
+  {
+    "name": "Rourke",
+    "skills": "Tán Xạ, Đoạt mệnh nỏ, Xung phong, Càng chiến càng hăng"
+  },
+  {
+    "name": "Marja",
+    "skills": "Hồn chú, Sóng thống khổ, Phệ hồn trùng, Ác hồn"
+  },
+  {
+    "name": "Lindis",
+    "skills": "Phục kích, Nguyệt Quang, Nguyệt Vực, Nguyệt Ảnh"
+  },
+  {
+    "name": "Omen",
+    "skills": "Sát khí, Sát kiếm, Sát niệm, Sát vực"
+  },
+  {
+    "name": "Tulen",
+    "skills": "Lôi điện, Lôi quang, Lôi động, Lôi điểu"
+  },
+  {
+    "name": "Liliana",
+    "skills": "Yêu hồ, Hồ quang lực, Hồ quang đạn, Biến ảnh hoán hình"
+  },
+  {
+    "name": "Max",
+    "skills": "Điện tích, Tay bán dẫn, Động cơ cao thế, Ra đa đạn đạo"
+  },
+  {
+    "name": "Wonder Woman",
+    "skills": "Khiên thần lực, Khiên kiếm liên kích, Dây thừng chân thật, Giáp tay thần kì"
+  },
+  {
+    "name": "Xeniel",
+    "skills": "Sách Thánh Tích, Thần Hộ Thể, Chùy Thần Lực, Sứ Mệnh Cứu Thể"
+  },
+  {
+    "name": "TeeMee",
+    "skills": "Vàng vung vãi, Rắm thần lực, Giáo Móc TeeMee, Pháp trận thần kỳ"
+  },
+  {
+    "name": "Kil’Groth",
+    "skills": "Áp suất biển sâu, Sóng tử vong, Mâu thần lực, Ác mộng biển khơi"
+  },
+  {
+    "name": "Moren",
+    "skills": "Đạn công phá, Siêu đạn công phá, Đằng không thủ pháo, Hỏa đạn truy tung"
+  },
+  {
+    "name": "Stuart",
+    "skills": "Thể năng cường hóa, Phi đạn tử vong, Huyết ảnh ma nhãn, Hủy diệt bộc phá"
+  },
+  {
+    "name": "Superman",
+    "skills": "Siêu Phàm, Siêu Năng Lực, Người đàn ông thép, Superman"
+  },
+  {
+    "name": "Ryoma",
+    "skills": "Kiếm Quyết, Thần Hành Bách Biến, Nhất Kích Tất Sát, Loạn Trảm"
+  },
+  {
+    "name": "Astrid",
+    "skills": "Kiếm Tâm, Bạt Kiếm, Quả Cảm, Cự Kiếm"
+  },
+  {
+    "name": "Tel’Annas",
+    "skills": "Sao trời, Ưng nhãn, Ám tiễn, Hỗn mang tiễn"
+  },
+  {
+    "name": "Zuka",
+    "skills": "Võ Hồn, Loạn Đả Bổng, Phi Thân Kích, Trầm Trọng Lực"
+  },
+  {
+    "name": "Ignis",
+    "skills": "Hỏa Hồn, Hỏa Cầu, Hỏa Hoạn, Hỏa Trận"
+  },
+  {
+    "name": "Murad",
+    "skills": "Ảnh Hồn, Tàn Ảnh Đao, Vô Ảnh Vực, Ảo Ảnh Trảm"
+  },
+  {
+    "name": "Zill",
+    "skills": "Bão Tố, Phong Đao, Phong Độn, Phong Ba"
+  },
+  {
+    "name": "Arduin",
+    "skills": "Hồn huyết, Hồn trảm, Hồn giáp, Câu hồn rìu"
+  },
+  {
+    "name": "Skud",
+    "skills": "Sôi máu, Găng nổi loạn, Găng cuồng bạo, Găng hung thần"
+  },
+  {
+    "name": "Raz",
+    "skills": "Đấm Và Lách, Cú Đấm Thăng Hoa, Cú Đấm Chân Không, Tả Xung Hữu Đột"
+  },
+  {
+    "name": "Lauriel",
+    "skills": "Trời Phạt, Con Đường Sám Hối, Đôi Cánh Thuẩn Khiết, Đại Phán Xét"
+  },
+  {
+    "name": "Kaine",
+    "skills": "Truy Nã, Huyết luân, Huyết Kiếm, Huyết Kích"
+  },
+  {
+    "name": "Airi",
+    "skills": "Sắc Lẻm, Phi Tiêu, Kiếm Vũ, Long Kiếm"
+  },
+  {
+    "name": "Kriknak",
+    "skills": "Nhấm Nháp, Ấu Trùng Quỷ, Bọ Húc, Hiểm Họa Không Trung"
+  },
+  {
+    "name": "Arthur",
+    "skills": "Uy dũng, Gươm chính nghĩa, Thần vật hộ thân, Công lý phán quyết"
+  },
+  {
+    "name": "Preyta",
+    "skills": "Rồng dịch bênh, Hơi độc hại, Bom hoại tử, Dịch Hạch"
+  },
+  {
+    "name": "Slimz",
+    "skills": "Xuyên thấu, Lao cơ khí, Lò xo cơ khí, Thuốc cà rốt"
+  },
+  {
+    "name": "Ilumia",
+    "skills": "Thần lực, Quả cầu ánh sáng, Trục xuất, Thần trận"
+  },
+  {
+    "name": "Cresht",
+    "skills": "Đại dương thịnh nộ, Đinh ba thủy thần, Bọt bong bóng, Thủy thần"
+  },
+  {
+    "name": "Jinna",
+    "skills": "Ấn chú, Loạn hạt, Hàng Yêu Phục Ma, Kết Giới Xá Lợi"
+  },
+  {
+    "name": "Helen",
+    "skills": "Thanh cao, Ánh sáng thần thánh, Linh hoa thánh khiết, Kết giới sinh mệnh"
+  },
+  {
+    "name": "Maloch",
+    "skills": "Ma Vương, Quỷ Kiếm, Đoạt hồn, Luyện ngục"
+  },
+  {
+    "name": "Ngộ Không",
+    "skills": "Vô địch thiên hạ, Phân Thân Thuật, Cân đẩu vân, Gậy như ý"
+  },
+  {
+    "name": "Grakk",
+    "skills": "Huyết Tế, Càn Quét, Xích Ma Quái, Nuốt Chửng"
+  },
+  {
+    "name": "Aleister",
+    "skills": "Ma thuật đen, Vách ngăn hắc ám, Ma trận thống khổ, Ngục tù vĩnh hằng"
+  },
+  {
+    "name": "Fennik",
+    "skills": "Ná thun, Kíp nổ, Nẹt điện, Lốc siêu thanh"
+  },
+  {
+    "name": "Lumburr",
+    "skills": "Ỷ mạnh vệ yếu, Đất bằng dậy sóng, Bất khả cản phá, Long trời lở đất"
+  },
+  {
+    "name": "Natalya",
+    "skills": "Âm hoả, Ác Quỷ Tụ Hội, Quả Cầu Hắc Ám, Tia sáng tử vong"
+  },
+  {
+    "name": "Gildur",
+    "skills": "Bàn tay vàng, Quả đấm vàng, Vụ nổ vàng, Vương quốc vàng"
+  },
+  {
+    "name": "Yorn",
+    "skills": "Vô tận tên, Tên nổ, Mưa tên, Tên thần"
+  },
+  {
+    "name": "Toro",
+    "skills": "Mình đồng da sắt, Sừng trâu, Dư chấn, Đại địa chấn"
+  },
+  {
+    "name": "Taara",
+    "skills": "Chiến ý, Trăn trối, Đập tan, Thân thể thép"
+  },
+  {
+    "name": "Nakroth",
+    "skills": "Thẩm phán oai nghiêm, Bồi thẩm đoàn, Nguồn cơn rắc rối, Gươm hành quyết"
+  },
+  {
+    "name": "Violet",
+    "skills": "Nạp đạn, Đạn xuyên thấu, Lựu đạn nổ, Pháo đại"
+  },
+  {
+    "name": "Butterfly",
+    "skills": "Sát Thủ, Quét Kiếm, Phi Kiếm, Ám Sát"
+  },
+  {
+    "name": "Azzen’Ka",
+    "skills": "Sa mạc thần lực, Nghi thức Sa Ngưng, Thần sa luân chuyển, Thần phạt vĩnh hằng"
+  },
+  {
+    "name": "Ormarr",
+    "skills": "Man lực, Búa Cuồng, Búa tạ, Hiên ngang"
+  },
+  {
+    "name": "Alice",
+    "skills": "Bước chân thần tốc, Vụ nổ thời không, Lá chắn thời không, Dòng chảy thời không"
+  },
+  {
+    "name": "Omega",
+    "skills": "Chế độ phá hoại, Chế độ xung phong, Chế độ nghiền nát, Chế độ huỷ diệt"
+  },
+  {
+    "name": "Kahlii",
+    "skills": "Thấu Tâm, Tụ linh trận, Linh hồn hộ mệnh, Binh đoàn linh hồn"
+  },
+  {
+    "name": "Chaugnar",
+    "skills": "Đại dương sâu thẳm, Thủy triều, Nước xoáy, Vực hỗn loạn"
+  },
+  {
+    "name": "Zephys",
+    "skills": "Bền bỉ, Đâm lao, Liên kích, Không kích"
+  },
+  {
+    "name": "Điêu Thuyền",
+    "skills": "Nữ hoàng băng tuyết, Sương giá, Tuyết liên, Bão tuyết"
+  },
+  {
+    "name": "Lữ Bố",
+    "skills": "Chúa tể, Xích thố, Phương thiên họa kích, Chiến thần"
+  },
+  {
+    "name": "Mina",
+    "skills": "Lưỡi hái phục hận, Vũ Điệu Lưỡi Hái, Lưỡi hái tử thần, Ma lực bóng tối"
+  },
+  {
+    "name": "Krixi",
+    "skills": "Tung cánh, Bướm ảo, Bão lá, Mưa sao băng"
+  },
+  {
+    "name": "Mganga",
+    "skills": "Tà thuật, Độc khí, Độc tố, Độc Dược"
+  },
+  {
+    "name": "Triệu Vân",
+    "skills": "Long tướng, Long huyết, Long Hống, Long kích"
+  },
+  {
+    "name": "Valhein",
+    "skills": "Ám khí, Chuyến săn mạo hiểm, Lời nguyền tử vong, Bão đạn"
+  },
+  {
+    "name": "Thane",
+    "skills": "Quyền năng ma thuật, Xung phong, Gươm thần, Excalibur"
+  },
+  {
+    "name": "Veera",
+    "skills": "Mê hoặc, Dơi địa ngục, Hôn gió, Tiểu quỷ"
+  }
+]

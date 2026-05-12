@@ -1,0 +1,976 @@
+biron
+Biron
+S		50.43%
+6.21%
+0.25%
+Florentino
+Hayate
+Thane
+Thane
+Thane
+S		50.97%
+5.88%
+0.08%
+Alice
+Baldum
+Toro
+Mina
+Mina
+S	 	52.04%
+7.47%
+0.17%
+Alice
+Baldum
+Thane
+Butterfly
+Butterfly
+S		47.35%
+13.68%
+0.22%
+Arum
+Zephys
+Richter
+Toro
+Toro
+S	 	48.04%
+19.39%
+0.54%
+Alice
+Baldum
+Thane
+Nakroth
+Nakroth
+S		50.42%
+33.69%
+2.24%
+Arum
+Zephys
+Baldum
+Maloch
+Maloch
+S		50.36%
+7.96%
+0.09%
+Zephys
+Omen
+Amily
+Ignis
+Ignis
+S		49.98%
+3.22%
+0.02%
+Zuka
+Quillen
+Nakroth
+Astrid
+Astrid
+S	 	53.7%
+0.9%
+0.01%
+Gildur
+Lauriel
+Lữ Bố
+Wonder Woman
+Wonder Woman
+S		55.72%
+1.63%
+0.01%
+Maloch
+Hayate
+Zephys
+TeeMee
+TeeMee
+S		51.23%
+2.78%
+3.49%
+Alice
+Baldum
+Thane
+Tulen
+Tulen
+S		50.98%
+15.04%
+0.11%
+Nakroth
+Kriknak
+Murad
+Liliana
+Liliana
+S		49.32%
+13.99%
+0.11%
+Murad
+Kriknak
+Nakroth
+Richter
+Richter
+S	 	48.2%
+7.06%
+0.04%
+Zephys
+Lữ Bố
+Maloch
+Sephera
+Sephera
+S	 	51.29%
+2.26%
+0.03%
+Maloch
+Omen
+Zephys
+Florentino
+Florentino
+S		50.86%
+17.39%
+5.54%
+Marja
+Valhein
+Lauriel
+Hayate
+Hayate
+S		48.61%
+24.22%
+0.46%
+Aleister
+Gildur
+TeeMee
+Capheny
+Capheny
+S		49.74%
+10.8%
+0.06%
+Zill
+Quillen
+Kriknak
+Celica
+Celica
+S		48.96%
+1.22%
+0.01%
+Murad
+Nakroth
+Kriknak
+Volkath
+Vol'kath
+S	 	51.15%
+5.55%
+0.12%
+Baldum
+Fennik
+Aleister
+Eland’orr
+Eland'orr
+S	 	48.27%
+2.08%
+0.04%
+Murad
+Nakroth
+Kriknak
+Keera
+Keera
+S		49.77%
+5.45%
+0.07%
+Kriknak
+Murad
+Nakroth
+Paine
+Paine
+S		52.33%
+3.33%
+0.1%
+Nakroth
+Zill
+Veera
+Zata
+Zata
+S		50.59%
+6.19%
+1.05%
+Zephys
+Nakroth
+Zill
+Allain
+Allain
+S		46.76%
+22.88%
+0.54%
+Hayate
+Eland’orr
+Fennik
+Bright
+Bright
+S		49.95%
+5.17%
+0.04%
+Murad
+Nakroth
+Kriknak
+Iggy
+Iggy
+S		50.58%
+4.4%
+0.04%
+Zuka
+Ngộ Không
+Kriknak
+Aoi
+Aoi
+S		52.78%
+6.69%
+1.28%
+Arum
+Stuart
+Zephys
+Aya
+Aya
+S		48.54%
+10.93%
+36.27%
+Ngộ Không
+Zata
+Kriknak
+Teeri
+Teeri
+S		53.13%
+6.13%
+0.03%
+Kriknak
+Nakroth
+Murad
+Bonnie
+Bonnie
+S		50.59%
+2.04%
+0.03%
+Kriknak
+Murad
+Nakroth
+Ming
+Ming
+S		52.65%
+2.51%
+0.2%
+Zill
+Murad
+Ngộ Không
+Erin
+Erin
+S		49.65%
+3.46%
+0.07%
+Ilumia
+Aoi
+Omen
+Tachi
+Tachi
+S	 	48.92%
+0.9%
+0.01%
+Lauriel
+Zill
+Murad
+Charlotte
+Charlotte
+S		47.6%
+1.78%
+0.02%
+Mina
+Aleister
+Thane
+Dolia
+Dolia
+S		50.41%
+5.34%
+2.69%
+Paine
+Lindis
+Baldum
+Billow
+Billow
+S		49.88%
+25.41%
+8.78%
+Arthur
+Omen
+Thane
+Airi
+Airi
+A	 	49.52%
+6.48%
+0.03%
+Arum
+Zephys
+Kriknak
+Lữ Bố
+Lữ Bố
+A		49.46%
+3.91%
+0.03%
+Zephys
+Maloch
+Omen
+Krixi
+Krixi
+A		49.86%
+23.21%
+0.17%
+The Flash
+Keera
+Sinestrea
+Triệu Vân
+Triệu Vân
+A	 	51.4%
+28.95%
+0.33%
+Hayate
+Eland’orr
+Fennik
+Kahlii
+Kahlii
+A		49.23%
+5.25%
+0.07%
+Zill
+Murad
+Nakroth
+Zephys
+Zephys
+A		49.07%
+3.03%
+0.01%
+Hayate
+Eland’orr
+Aleister
+Điêu Thuyền
+Điêu Thuyền
+A		51.3%
+5.57%
+0.23%
+Zill
+Murad
+Nakroth
+Chaugnar
+Chaugnar
+A		54.12%
+3.41%
+0.37%
+Lauriel
+Raz
+Violet
+Violet
+Violet
+A		50.7%
+34.67%
+0.13%
+Murad
+Ngộ Không
+Zuka
+Ormarr
+Ormarr
+A		52.17%
+1.98%
+0.02%
+Zephys
+Omen
+Xeniel
+Azzen’Ka
+Azzen'Ka
+A		50.36%
+4.62%
+0.06%
+Zill
+Murad
+Nakroth
+Alice
+Alice
+A		48.85%
+13.94%
+0.66%
+Ngộ Không
+Nakroth
+Zill
+Gildur
+Gildur
+A	 	50.87%
+20.3%
+0.77%
+Alice
+Baldum
+Thane
+Grakk
+Grakk
+A		50.71%
+11.58%
+36.98%
+Tulen
+Lauriel
+Nakroth
+Aleister
+Aleister
+A		51.82%
+5.53%
+34.71%
+Zill
+Murad
+Nakroth
+Fennik
+Fennik
+A	 	52.11%
+10.42%
+0.15%
+Keera
+Zill
+Violet
+Helen
+Helen
+A		48.89%
+2.57%
+0.69%
+Hayate
+Kriknak
+Murad
+Ngộ Không
+Ngộ Không
+A		48.03%
+18.01%
+3.98%
+Arum
+Zephys
+Baldum
+Kriknak
+Kriknak
+A		48.85%
+3.26%
+0.02%
+Arum
+Zephys
+Baldum
+Arthur
+Arthur
+A		47.06%
+9.12%
+0.03%
+Lauriel
+Maloch
+Omen
+Slimz
+Slimz
+A		51.25%
+7.4%
+0.03%
+Murad
+Nakroth
+Kriknak
+Ilumia
+Ilumia
+A		52.87%
+4.76%
+0.05%
+Ngộ Không
+Kaine
+Paine
+Raz
+Raz
+A		48.81%
+22.9%
+0.77%
+Nakroth
+Murad
+Kriknak
+Lauriel
+Lauriel
+A		50.83%
+10.39%
+0.48%
+Gildur
+Aleister
+Nakroth
+Kaine
+Kaine
+A		50.58%
+6.9%
+7.03%
+Lindis
+Murad
+Omen
+Murad
+Murad
+A		50.36%
+17%
+2.94%
+Zephys
+Baldum
+Arum
+Zill
+Zill
+A		49.35%
+5.74%
+0.03%
+Murad
+Hayate
+Eland’orr
+Arduin
+Arduin
+A	 	51.01%
+5.16%
+0.02%
+Zephys
+Lữ Bố
+Maloch
+Stuart
+Stuart
+A		51.02%
+12.58%
+0.67%
+Kaine
+Zill
+Nakroth
+Ryoma
+Ryoma
+A	 	50.92%
+10.75%
+0.08%
+Maloch
+Omen
+Zephys
+Tel’Annas
+Tel'Annas
+A		49.54%
+22.19%
+0.15%
+Nakroth
+Murad
+Quillen
+Superman
+Superman
+A		49.42%
+0.53%
+0.03%
+Hayate
+Aleister
+Stuart
+Xeniel
+Xeniel
+A	 	50.68%
+1.89%
+0.03%
+Omen
+Allain
+Slimz
+Kil’Groth
+Kil'Groth
+A		48.38%
+2.87%
+0.05%
+Maloch
+Omen
+Zephys
+Moren
+Moren
+A		53.1%
+0.69%
+0.02%
+Quillen
+Zill
+Kriknak
+Omen
+Omen
+A		48.61%
+6.65%
+0.07%
+Zephys
+Lữ Bố
+Xeniel
+The Flash
+The Flash
+A	 	49.46%
+1.27%
+0.04%
+Aleister
+Arum
+Zill
+Rourke
+Rourke
+A		53.61%
+1.21%
+0.02%
+Fennik
+Zephys
+Lữ Bố
+Roxie
+Roxie
+A		47.95%
+0.26%
+0.01%
+Omen
+Baldum
+Alice
+Baldum
+Baldum
+A		49.09%
+3.06%
+0.06%
+Alice
+Thane
+Gildur
+Amily
+Amily
+A		47.71%
+3.57%
+0.02%
+Zephys
+Lữ Bố
+Maloch
+Y’bneth
+Y'bneth
+A	 	52.92%
+6.15%
+0.22%
+Gildur
+Thane
+Toro
+Elsu
+Elsu
+A		50.24%
+16.7%
+32.21%
+Murad
+Nakroth
+Ngộ Không
+Quillen
+Quillen
+A		47.63%
+4.07%
+0.1%
+Zephys
+Kriknak
+Baldum
+Veres
+Veres
+A		50.25%
+6.67%
+0.03%
+Zephys
+Xeniel
+Maloch
+D’Arcy
+D'Arcy
+A		50.63%
+2%
+0.02%
+Keera
+Hayate
+Murad
+Yena
+Yena
+A		49.28%
+10%
+0.03%
+Astrid
+Omen
+Zuka
+Zip
+Zip
+A		52.65%
+2.93%
+5.25%
+Alice
+Baldum
+Thane
+Krizzix
+Krizzix
+A		51.73%
+1.33%
+0.07%
+Baldum
+Alice
+Thane
+Ishar
+Ishar
+A	 	48.24%
+6.47%
+0.3%
+D’Arcy
+Dirak
+Điêu Thuyền
+Ata
+Ata
+A	 	48.64%
+0.42%
+0.01%
+Errol
+Maloch
+Slimz
+Laville
+Laville
+A		49.36%
+5.97%
+0.02%
+Ngộ Không
+Zuka
+Ryoma
+Sinestrea
+Sinestrea
+A		50.51%
+1.42%
+0.01%
+Nakroth
+Zill
+Ngộ Không
+Dextra
+Dextra
+A		49.66%
+0.33%
+0.01%
+Hayate
+Eland’orr
+Fennik
+Lorion
+Lorion
+A		50.48%
+1.27%
+0.02%
+Zill
+Nakroth
+Murad
+Yan
+Yan
+A	 	47.06%
+4.87%
+0.05%
+Baldum
+Murad
+Hayate
+Yue
+Yue
+A		49.36%
+11.93%
+0.87%
+Nakroth
+Zata
+Ngộ Không
+Bijan
+Bijan
+A		50.09%
+14.04%
+0.82%
+Omen
+Aoi
+Florentino
+Qi
+Qi
+A	 	52.54%
+3.33%
+0.02%
+Florentino
+Richter
+Stuart
+Dirak
+Dirak
+A		53.41%
+6.91%
+0.2%
+Rourke
+Zill
+D’Arcy
+Bolt Baron
+Bolt Baron
+A		56.66%
+12.89%
+3.52%
+Florentino
+Keera
+Liliana
+Valhein
+Valhein
+B		48.88%
+40.05%
+2.7%
+Murad
+Nakroth
+Kriknak
+Veera
+Veera
+B		50.09%
+28.55%
+7.33%
+Zephys
+Zill
+Murad
+Mganga
+Mganga
+B		47.82%
+4.46%
+0.07%
+Zephys
+Zill
+Ngộ Không
+Omega
+Omega
+B	 	51.42%
+1.01%
+0.02%
+Thane
+Toro
+Baldum
+Yorn
+Yorn
+B		48.77%
+10.43%
+0.1%
+Murad
+Keera
+Bright
+Lumburr
+Lumburr
+B		53.32%
+3.05%
+0.03%
+Alice
+Baldum
+Thane
+Natalya
+Natalya
+B		48.44%
+31.38%
+1.28%
+Zill
+Murad
+Nakroth
+Jinna
+Jinna
+B		49.69%
+0.44%
+0.02%
+Aleister
+Gildur
+Ormarr
+Zuka
+Zuka
+B	 	47.98%
+15.5%
+0.06%
+Lữ Bố
+Zephys
+Xeniel
+Lindis
+Lindis
+B	 	48.35%
+1.37%
+0.02%
+Kriknak
+Quillen
+Murad
+Wisp
+Wisp
+B		53.9%
+0.95%
+0.01%
+Quillen
+Keera
+Astrid
+Marja
+Marja
+B		54.1%
+8.85%
+4.2%
+Lữ Bố
+Maloch
+Richter
+Enzo
+Enzo
+B		52.59%
+11.91%
+11.41%
+Arum
+Kriknak
+Murad
+Rouie
+Rouie
+B		49.04%
+5.59%
+3.62%
+Alice
+Baldum
+Thane
+Thorne
+Thorne
+B	 	51.15%
+2.24%
+0.02%
+Murad
+Nakroth
+Kriknak
+Cresht
+Cresht
+C		50.44%
+3.75%
+0.04%
+Alice
+Baldum
+Thane
+Preyta
+Preyta
+C		55.24%
+0.57%
+0.02%
+Nakroth
+Kriknak
+Murad
+Skud
+Skud
+C	 	50.34%
+2.95%
+0.03%
+Yena
+Amily
+Maloch
+Max
+Max
+C		50.98%
+0.7%
+0.01%
+Maloch
+Zephys
+Xeniel
+Arum
+Arum
+C		50.02%
+4.82%
+18.63%
+Thane
+Alice
+Gildur
+Errol
+Errol
+C	 	47.32%
+5.54%
+0.03%
+Alice
+Liliana
+Lữ Bố
+Taara
+Taara
+D		47.37%
+4.44%
+0.07%
+Alice
+Baldum
+Thane
+Annette
+Annette
+D	 	49.54%
+4.08%
+0.06%
+Alice
+Baldum
+Thane
+Wiro
+Wiro
+D	 	50.68%
+0.57%
+0.05%
+Cresht
+Baldum
+Thane

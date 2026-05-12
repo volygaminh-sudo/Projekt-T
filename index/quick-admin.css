@@ -1,0 +1,78 @@
+/* QUICK ADMIN ACCESS BUTTON */
+.quick-admin-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 25px; /* Đối xứng với nút nhạc ở bên phải */
+    width: 50px;
+    height: 50px;
+    background: rgba(15, 18, 25, 0.7);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+}
+
+.quick-admin-btn i, .quick-admin-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #f39c12;
+    transition: transform 0.6s ease;
+}
+
+.quick-admin-btn:hover {
+    transform: scale(1.15) rotate(15deg);
+    background: rgba(243, 156, 18, 0.2);
+    border-color: rgba(243, 156, 18, 0.5);
+    box-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
+}
+
+.quick-admin-btn:hover i, .quick-admin-btn:hover svg {
+    transform: rotate(90deg);
+    color: #fff;
+}
+
+/* Tooltip */
+.quick-admin-btn::before {
+    content: "ADMIN DASHBOARD";
+    position: absolute;
+    left: 65px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: #f39c12;
+    color: #111;
+    padding: 6px 15px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.quick-admin-btn:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .quick-admin-btn {
+        bottom: 20px;
+        left: 20px;
+        width: 44px;
+        height: 44px;
+    }
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hồ sơ chi tiết tướng Liên Quân Mobile: Tiểu sử, Kỹ năng, Trang bị và các Trang phục.">
+    <title>Hồ Sơ Tướng</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hero-detail.css">
+</head>
+<body class="home-body">
+    <div class="home-background">
+        <video autoplay muted loop id="bg-video" poster="../img/airi-tnvt.jpg">
+            <source src="../img/freecompress-live-wallpaper.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="home.html" class="logo-link">
+                    <img src="../img/unnamed.webp" alt="Logo">
+                    <span class="download-badge">HỒ SƠ TƯỚNG</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Trang chủ</a></li>
+                    <li><a href="tier-list.html">Tier-list</a></li>
+                    <li><a href="new-hero.html">Tướng Mới</a></li>
+                    <li><a href="capnhat.html">Cập nhật</a></li>
+                    <li><a href="gopy.html">Góp ý</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content detail-main">
+        <!-- BREADCRUMB -->
+        <nav class="hd-breadcrumb">
+            <a href="tier-list.html">Tier List</a>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <span id="breadcrumb-name">Đang tải...</span>
+        </nav>
+
+        <!-- HERO OVERVIEW - REDESIGNED -->
+        <div class="hero-overview">
+            <div class="hd-avatar-area">
+                <div id="hd-avatar" class="hd-avatar">
+                    <!-- Avatar load via JS -->
+                </div>
+                <div class="hd-tier-badge" id="hd-tier-badge">
+                    <!-- Tier badge via JS -->
+                </div>
+            </div>
+            <div class="hd-info">
+                <h1 id="hd-name">Đang Tải...</h1>
+                <div class="hd-tags" id="hd-tags">
+                   <!-- Tags load via JS -->
+                </div>
+                <div class="hd-quote">"Sức mạnh này là để bảo vệ Athanor."</div>
+                <!-- QUICK STATS -->
+                <div class="hd-quick-stats" id="hd-quick-stats">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT AREA - 2 COLUMNS LAYOUT -->
+        <div class="hd-layout">
+
+            <!-- LEFT COLUMN: Main Content -->
+            <div class="hd-main-col">
+                <div class="hd-content">
+                    <div class="hd-tabs">
+                        <button class="hd-tab active" onclick="switchTab('skill')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            Kỹ năng
+                        </button>
+                        <button class="hd-tab" onclick="switchTab('story')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                            Tiểu sử
+                        </button>
+                        <button class="hd-tab" onclick="switchTab('items')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                            Lên đồ
+                        </button>
+                        <button class="hd-tab" onclick="switchTab('skins')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            Trang phục
+                        </button>
+                    </div>
+
+                    <!-- Tab Kỹ năng -->
+                    <div id="tab-skill" class="tab-pane active">
+                        <div class="skill-item">
+                            <div class="skill-icon" id="skill-p-icon">
+                                <img id="skill-p-img" src="" alt="P" class="skill-img-dynamic">
+                                <span id="skill-p-label">N</span>
+                            </div>
+                            <div class="skill-text">
+                                <h3>Nội Tại: <span id="skill-p-name">Sức Mạnh Ẩn Giấu</span></h3>
+                                <p id="skill-p-desc">Thông tin chi tiết kỹ năng đang được cập nhật trong Database...</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon" id="skill-1-icon">
+                                <img id="skill-1-img" src="" alt="1" class="skill-img-dynamic">
+                                <span id="skill-1-label">1</span>
+                            </div>
+                            <div class="skill-text">
+                                <h3>Chiêu 1: <span id="skill-1-name">Đang cập nhật</span></h3>
+                                <p id="skill-1-desc">Thông tin chi tiết kỹ năng đang được cập nhật trong Database...</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon" id="skill-2-icon">
+                                <img id="skill-2-img" src="" alt="2" class="skill-img-dynamic">
+                                <span id="skill-2-label">2</span>
+                            </div>
+                            <div class="skill-text">
+                                <h3>Chiêu 2: <span id="skill-2-name">Đang cập nhật</span></h3>
+                                <p id="skill-2-desc">Thông tin chi tiết kỹ năng đang được cập nhật trong Database...</p>
+                            </div>
+                        </div>
+                        <div class="skill-item ultimate">
+                            <div class="skill-icon" id="skill-3-icon">
+                                <img id="skill-3-img" src="" alt="3" class="skill-img-dynamic">
+                                <span id="skill-3-label">3</span>
+                            </div>
+                            <div class="skill-text">
+                                <h3 class="text-danger">Chiêu 3: <span id="skill-3-name">Đang cập nhật</span></h3>
+                                <p id="skill-3-desc">Thông tin chi tiết kỹ năng đang được cập nhật trong Database...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Tiểu Sử -->
+                    <div id="tab-story" class="tab-pane">
+                        <p id="hd-story" class="hd-story-text">Tiểu sử tướng đang được biên soạn chờ đồng bộ CSDL.</p>
+                    </div>
+
+                    <!-- Tab Trang Bị / Lên Đồ -->
+                    <div id="tab-items" class="tab-pane">
+                        <h3 class="hd-section-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                            Trang bị gợi ý
+                        </h3>
+                        <div class="items-grid" id="hd-items">
+                            <!-- Rendered by JS -->
+                        </div>
+
+                        <h3 class="hd-section-title mt-20">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                            Ngọc Đề Cử
+                        </h3>
+                        <div class="arcanas-grid" id="hd-arcanas">
+                            <!-- Rendered by JS -->
+                        </div>
+
+                        <h3 class="hd-section-title mt-20">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            Phù Hiệu Đề Cử
+                        </h3>
+                        <div class="runes-grid" id="hd-runes">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Tab Trang Phục -->
+                    <div id="tab-skins" class="tab-pane">
+                        <div id="skins-grid" class="skins-grid">
+                            <!-- Skins render via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Sidebar Infos -->
+            <aside class="hd-sidebar">
+                <!-- ROLE INFO -->
+                <div class="sidebar-card" id="sidebar-role">
+                    <h3 class="sidebar-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                        Vai trò
+                    </h3>
+                    <div class="sidebar-roles" id="sidebar-roles">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- TIER INFO -->
+                <div class="sidebar-card" id="sidebar-tier-card">
+                    <h3 class="sidebar-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        Xếp hạng Meta
+                    </h3>
+                    <div class="sidebar-tier-info" id="sidebar-tier-info">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- COUNTERS INFO -->
+                <div class="sidebar-card" id="sidebar-counters-card">
+                    <h3 class="sidebar-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                        Bị khắc chế bởi
+                    </h3>
+                    <div class="sidebar-counters" id="sidebar-counters-info">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- QUICK NAVIGATE -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        Khám phá
+                    </h3>
+                    <div class="sidebar-links">
+                        <a href="tier-list.html" class="sidebar-link">
+                            <span>📊</span> Bảng xếp hạng tướng
+                        </a>
+                        <a href="capnhat.html" class="sidebar-link">
+                            <span>📋</span> Bản cập nhật mới
+                        </a>
+                        <a href="new-hero.html" class="sidebar-link">
+                            <span>⚔️</span> Tướng mới nhất
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Để tái sử dụng link ảnh từ tier-list.js nhưng không chạy script render() -->
+    <script>window.isDetailView = true;</script>
+    <script src="tier-list.js"></script>
+    <script src="hero-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+[
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 1,
+    "name": "Quả cầu băng sương",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/icon-badge.png",
+    "description": "Sau khi trận đấu bắt đầu 4 phút, bạn sẽ nhận được Quả cầu băng sương. Sau khi sử dụng sẽ được miễn sát thương nhưng không thể công kích, di chuyển và khi kết thúc sẽ nhận được lá chắn, chỉ dùng 1 lần."
+  },
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 1,
+    "name": "Siêu hồi máu",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_10105.png",
+    "description": "Đổi Hồi máu thành Siêu hồi máu, giúp hồi nhiều máu và năng lượng hơn."
+  },
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 1,
+    "name": "Mật ngữ",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_10106.png",
+    "description": "Phụ trợ giảm hồi chiêu."
+  },
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 2,
+    "name": "Uy áp",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/icon-badge-2.png",
+    "description": "Sau khi tung chiêu hoặc đòn đánh thường vào lính, lính sẽ bị diệt."
+  },
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 2,
+    "name": "Thợ săn",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_10202.png",
+    "description": "Mỗi lần hạ hoặc phụ hạ tướng địch sẽ nhận cộng dồn vật lý và công phép."
+  },
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 3,
+    "name": "Chuyển sinh",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_10302.png",
+    "description": "Sau khi tử vong sẽ nhận được phù hiệu “Hồi sinh”. Sau khi sử dụng sẽ giúp hồi sinh trong tế đàn. Thời gian hồi chiêu của “Hồi sinh” mỗi lần sẽ tăng lên."
+  },
+  {
+    "branch": "Thành khởi nguyên",
+    "level": 3,
+    "name": "Luyện kim",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_10301.png",
+    "description": "Chiêu/Đánh thường trúng tướng địch hoặc trụ sẽ được nhân thêm vàng, liên tiếp đánh trúng sẽ nhận thêm lợi ích."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 1,
+    "name": "Tương phản",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20101.png",
+    "description": "Sát thương gây ra cho tướng địch được tăng nhưng sát thương phải chịu cũng tăng lên."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 1,
+    "name": "Sung mãn",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20102.png",
+    "description": "Tung chiêu hoặc đánh thường trúng tướng địch sẽ được hồi tỷ lệ năng lượng tối đa."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 1,
+    "name": "Thánh châu",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20103.png",
+    "description": "Chiêu cuối được giảm thời gian hồi chiêu thêm 10% (nhưng không được vượt quá 40% tối đa)"
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 2,
+    "name": "Xuyên tâm",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20202.png",
+    "description": "Nhận thêm xuyên giáp và xuyên giáp phép mỗi cấp."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 2,
+    "name": "Bí quyết",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20201.png",
+    "description": "Nhận được thêm chí mạng và công phép từ trang bị."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 3,
+    "name": "Thánh thuẫn",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20303.png",
+    "description": "Sau khi chịu sát thương sẽ nhận được lá chắn và hút máu phép."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 3,
+    "name": "Thần quang",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20302.png",
+    "description": "Tung chiêu hoặc đánh thường lần đầu tiên trúng tướng địch sẽ tạo thành sát thương sấm sét."
+  },
+  {
+    "branch": "Tháp quang minh",
+    "level": 3,
+    "name": "Tinh linh",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_20301.png",
+    "description": "Đòn đánh thường thứ 3 liên tiếp trúng một tướng địch sẽ nhận được một vòng sát tiểu thiên thần quanh cơ thể. Tiểu thiên thần sẽ tự động công kích kẻ địch."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 1,
+    "name": "Ma hỏa",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30104.png",
+    "description": "Đánh thường và tung chiêu sẽ gây thêm sát thương lên tướng địch."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 1,
+    "name": "Dư ảnh",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30102.png",
+    "description": "Mỗi khi dùng lướt sẽ nhận cộng dồn trong 2 giây, tối đa 3 cộng dồn Dư ảnh. Đòn đánh thường sau đó sẽ tiêu hao toàn bộ Dư ảnh để gây sát thương."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 1,
+    "name": "Hấp huyết",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30101.png",
+    "description": "Hạ hoặc phụ hạ sẽ được hồi máu đã mất và năng lượng."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 2,
+    "name": "Cố thủ",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30202.png",
+    "description": "Nhận thêm kháng hiệu ứng."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 2,
+    "name": "Cường công",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30201.png",
+    "description": "Nhận thêm công vật lý và công phép."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 3,
+    "name": "Ma tính",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30304.png",
+    "description": "Sau khi tung chiêu cuối, lập tức giảm mạnh thời gian hồi các chiêu khác. Hạ hoặc phụ hạ sẽ kéo dài thời gian hiệu ứng."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 3,
+    "name": "Ma chú",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30302.png",
+    "description": "Tung chiêu hoặc đánh thường trúng tướng địch sẽ cộng dồn dấu ấn. Cộng dồn đủ 3 ấn sẽ lập tức gây sát thương phép."
+  },
+  {
+    "branch": "Vực hỗn mang",
+    "level": 3,
+    "name": "Đấu khí",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_30301.png",
+    "description": "Gây sát thương lên tướng địch sẽ cộng dồn. Đủ 10 cộng dồn sẽ kích hoạt giúp bản thân hồi máu và tăng xuyên giáp."
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 1,
+    "name": "Canh gác",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40103.png",
+    "description": "Khi đứng gần trụ, bản thân sẽ được nhận kháng hiệu ứng và miễn thương"
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 1,
+    "name": "Ám kích",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40102.png",
+    "description": "Ở trong bụi cỏ tung đòn đánh thường sẽ cộng thêm sát thương chuẩn"
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 1,
+    "name": "Nhạy bén",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40101.png",
+    "description": "Sau khi tử vong sẽ nhận được phù hiệu “Hồi sinh”. Sau khi sử dụng sẽ hồi sinh trong tế đàn. “Hồi sinh” càng về sau càng tăng thêm thời gian hồi chiêu."
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 2,
+    "name": "Sinh tồn",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40202.png",
+    "description": "Chiêu/Đánh thường trúng tướng địch hoặc trụ sẽ được nhân thêm vàng, liên tiếp đánh trúng sẽ nhận thêm lợi ích."
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 2,
+    "name": "Bơm máu",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40201.png",
+    "description": "Hiệu quả hồi máu và lá chắn của bản thân tăng thêm"
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 3,
+    "name": "Du hiệp",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40307.png",
+    "description": "Rời khỏi giao tranh, đòn đánh thường kế tiếp sẽ giảm sát thương địch và làm chậm địch"
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 3,
+    "name": "Mộc giáp",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40306.png",
+    "description": "Gánh chịu sát thương sẽ cộng dồn, đủ lần sẽ gây nổ sát thương phép và hồi máu nếu đánh trúng tướng"
+  },
+  {
+    "branch": "Rừng nguyên sinh",
+    "level": 3,
+    "name": "Trói buộc",
+    "image": "https://lienquan.garena.vn/wp-content/uploads/2024/05/mowen_40303.png",
+    "description": "Khi tung chiêu khống chế trúng tướng địch sẽ giúp bản thân tăng giáp và giáp phép, đồng thời nhận hiệu quả thiêu đốt tính theo tỷ lệ lượng máu tối đa"
+  }
+]

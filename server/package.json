@@ -1,0 +1,17 @@
+{
+  "name": "projekt-t-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Lien Quan Mobile Heroes",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "init-db": "node init-db.js",
+    "update-sql": "node ../index/update_sql.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "get-shit-done-cc": "^1.38.1",
+    "sqlite3": "^5.1.6"
+  }
+}

@@ -1,0 +1,51 @@
+.hero-main {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+.spotlight-card {
+    background: rgba(15, 20, 30, 0.85);
+    border: 1px solid rgba(228, 178, 94, 0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.spotlight-img {
+    width: 55%;
+    object-fit: cover;
+    border-right: 1px solid #333;
+}
+.spotlight-info {
+    width: 45%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.spotlight-info h2 {
+    color: #e4b25e;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.spotlight-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #ddd;
+}
+.btn-read {
+    background: #e4b25e;
+    color: #000;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+@media (max-width: 800px) {
+    .spotlight-img, .spotlight-info { width: 100%; }
+    .spotlight-img { border-right: none; border-bottom: 1px solid #333; height: 300px; }
+}

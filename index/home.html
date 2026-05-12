@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Liên Quân Mobile - Game MOBA eSports đỉnh cao. Tham gia Bình Nguyên Vô Tận, cập nhật tướng mới, sự kiện hot và giải đấu thể thao điện tử hấp dẫn.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="quick-admin.css">
+    <link rel="stylesheet" href="tailwind.css">
+    <title>Trang Chủ - Liên Quân Mobile</title>
+</head>
+
+<body class="home-body">
+    <!-- MÀN HÌNH CHÀO (WELCOME SCREEN) -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-content">
+            <div class="intro-logo">
+                <img src="../img/logo.png" alt="Logo">
+            </div>
+            <h1 class="intro-title text-5xl font-bold uppercase tracking-widest text-[#e4b25e] mb-4">LIÊN QUÂN <span class="highlight">MOBILE</span></h1>
+            <p class="intro-subtitle">Sẵn sàng bước vào Bình Nguyên Vô Tận?</p>
+            <button id="btn-enter" class="btn-enter">KHÁM PHÁ NGAY</button>
+        </div>
+    </div>
+
+    <script src="music.js"></script>
+    <!-- NỀN TRANG ĐỘNG (DYNAMIC BACKGROUND) -->
+    <div class="home-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="../img/freecompress-live-wallpaper.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="glow-orb"></div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="https://play.google.com/store/apps/details/Garena_Li%C3%AAn_Qu%C3%A2n_Mobile?id=com.garena.game.kgvn&hl=en_IE" target="_blank" rel="noopener noreferrer" class="logo-link" title="Tải Game Liên Quân Mobile">
+                    <img src="../img/unnamed.webp" alt="Logo">
+                    <span class="download-badge">TẢI GAME</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html" class="active">Trang chủ</a></li>
+                    <li><a href="tier-list.html">Tier-list</a></li>
+                    <li><a href="new-hero.html">Tướng Mới</a></li>
+                    <li><a href="capnhat.html">Cập nhật</a></li>
+                    <li><a href="gopy.html">Góp ý</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTENT TRANG CHỦ -->
+    <main class="page-content">
+        
+        <!-- Hero Section Cực Trùng -->
+        <section class="home-hero">
+            <div class="home-hero-inner">
+                <h1 class="glow-title">CHÀO MỪNG ĐẾN VỚI <br><span class="highlight">BÌNH NGUYÊN VÔ TẬN</span></h1>
+                <p>Khám phá kỷ nguyên mới của Liên Quân Mobile. Chọn tướng, chiến đấu và chinh phục vinh quang cao nhất trên Đấu Trường Sinh Tử.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn-play">Vào Trận Ngay</a>
+                    <a href="new-hero.html" class="btn-read">Xem Tướng Mới</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- LATEST NEWS SECTION -->
+        <section class="home-section reveal">
+            <h2 class="section-title">Tin tức mới nhất</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <img src="../img/airi-tnvt.jpg" alt="News 1" class="news-img">
+                    <div class="news-info">
+                        <span class="news-tag">Sự kiện</span>
+                        <h4 class="news-title">Airi Bích Hải Thánh Nữ trở lại</h4>
+                        <p>Trải nghiệm vẻ đẹp băng giá và sức mạnh thần thánh của Airi trong sự kiện mới nhất.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="../img/nak-tnvt.jpg" alt="News 2" class="news-img">
+                    <div class="news-info">
+                        <span class="news-tag">Cập nhật</span>
+                        <h4 class="news-title">Nakroth nhận đợt điều chỉnh sức mạnh</h4>
+                        <p>Tìm hiểu các thay đổi về chỉ số và kỹ năng của Nakroth trong phiên bản tới.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="../img/tel-tnvt.jpg" alt="News 3" class="news-img">
+                    <div class="news-info">
+                        <span class="news-tag">E-Sports</span>
+                        <h4 class="news-title">Lộ diện các đội tuyển tham dự APL 2025</h4>
+                        <p>Danh sách các chiến binh xuất sắc nhất từ khắp nơi trên thế giới tụ hội.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ÂM THANH NỀN (MUSIC TOGGLE) -->
+    <div id="music-toggle" class="music-controller active" title="Bật/Tắt nhạc nền">
+        <div class="music-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="music-text">NHẠC NỀN</span>
+    </div>
+
+    <!-- LỐI TẮT TRUY CẬP ADMIN -->
+    <a href="admin.html" class="quick-admin-btn" title="Quản trị hệ thống">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </a>
+   
+    
+    <script>
+        // Scroll Reveal logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const reveals = document.querySelectorAll(".reveal");
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            reveals.forEach(reveal => {
+                revealObserver.observe(reveal);
+            });
+        });
+    </script>
+</body>
+
+</html>
