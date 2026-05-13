@@ -1,4 +1,7 @@
-const BASE_URL = 'http://localhost:3000/api';
+// Auto-detect API base: relative URL on Vercel, localhost for local dev
+const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000/api'
+    : '/api';
 const API_URL = `${BASE_URL}/heroes`;
 
 // Utility: HTML Escape to prevent XSS
@@ -324,31 +327,100 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.lib-pane').forEach(p => p.classList.add('d-none'));
             tab.classList.add('active');
             document.getElementById(tab.dataset.target).classList.remove('d-none');
+            // Re-apply search filter for current tab
+            applyLibSearch(document.getElementById('lib-search').value);
         };
     });
 
-    // Add search listener for lib-search
-    document.getElementById('lib-search').addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        document.querySelectorAll('.draggable-item').forEach(el => {
-            if (el.dataset.name.toLowerCase().includes(query)) el.style.display = 'inline-block';
-            else el.style.display = 'none';
+    // Search: filter wrappers in the active pane only
+    function applyLibSearch(query) {
+        const q = query.toLowerCase();
+        const activePaneId = document.querySelector('.lib-tab.active')?.dataset.target;
+        if (!activePaneId) return;
+        document.getElementById(activePaneId).querySelectorAll('.lib-item-wrapper').forEach(wrapper => {
+            const name = wrapper.dataset.name || '';
+            wrapper.style.display = name.toLowerCase().includes(q) ? '' : 'none';
         });
-    });
+        // Show "no results" if all hidden
+        const pane = document.getElementById(activePaneId);
+        let noRes = pane.querySelector('.lib-no-results');
+        const allHidden = [...pane.querySelectorAll('.lib-item-wrapper')].every(w => w.style.display === 'none');
+        if (allHidden && q) {
+            if (!noRes) { noRes = document.createElement('div'); noRes.className = 'lib-no-results'; noRes.textContent = 'Không tìm thấy'; pane.appendChild(noRes); }
+        } else if (noRes) noRes.remove();
+    }
+
+    document.getElementById('lib-search').addEventListener('input', (e) => applyLibSearch(e.target.value));
 
     // Library Data Loading
     async function loadLibraryData() {
-        const renderLib = (url, containerId, type) => {
+        const renderLib = (url, containerId, type, tabSelector) => {
             fetch(url).then(r => r.json()).then(json => {
-                libraryMaps[type === 'arcana' ? 'arcanas' : (type === 'rune' ? 'runes' : 'items')] = json.data;
+                const mapKey = type === 'arcana' ? 'arcanas' : (type === 'rune' ? 'runes' : 'items');
+                libraryMaps[mapKey] = json.data;
                 const con = document.getElementById(containerId);
-                con.innerHTML = json.data.map(item => `<img src="${item.image_url}" data-name="${item.name}" data-type="${type}" class="draggable-item" draggable="true" title="${item.name}">`).join('');
-                con.querySelectorAll('.draggable-item').forEach(el => {
-                    el.addEventListener('dragstart', (ev) => {
-                        ev.dataTransfer.setData('text/plain', JSON.stringify({name: el.dataset.name, type: el.dataset.type, img: el.src}));
+
+                // Update tab count badge
+                const tab = document.querySelector(`.lib-tab[data-target="${containerId}"]`);
+                if (tab) {
+                    let badge = tab.querySelector('.tab-count');
+                    if (!badge) { badge = document.createElement('span'); badge.className = 'tab-count'; tab.appendChild(badge); }
+                    badge.textContent = json.data.length;
+                }
+
+                con.innerHTML = '';
+                if (!json.data || json.data.length === 0) {
+                    con.innerHTML = '<div class="lib-no-results">Chưa có dữ liệu</div>';
+                    return;
+                }
+
+                json.data.forEach(item => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'lib-item-wrapper';
+                    wrapper.dataset.name = item.name;
+                    wrapper.dataset.type = type;
+                    wrapper.draggable = true;
+                    wrapper.title = item.name;
+
+                    const img = document.createElement('img');
+                    img.src = item.image_url || '';
+                    img.className = 'draggable-item';
+                    img.alt = item.name;
+                    img.onerror = () => { img.style.display = 'none'; };
+
+                    const nameEl = document.createElement('span');
+                    nameEl.className = 'lib-item-name';
+                    nameEl.textContent = item.name;
+
+                    wrapper.appendChild(img);
+                    wrapper.appendChild(nameEl);
+
+                    // Drag start
+                    wrapper.addEventListener('dragstart', (ev) => {
+                        ev.dataTransfer.setData('text/plain', JSON.stringify({ name: item.name, type, img: item.image_url || '' }));
                     });
+
+                    // Click-to-add: click item → add to first empty slot in active build
+                    wrapper.addEventListener('click', () => {
+                        const buildCards = document.querySelectorAll('#multi-builds-container .build-card');
+                        let added = false;
+                        for (const card of buildCards) {
+                            const dz = card.querySelector(`.dropzone[data-type="${type}"]`);
+                            if (dz) {
+                                addDroppedItem(dz, { name: item.name, type, img: item.image_url || '' });
+                                added = true;
+                                break;
+                            }
+                        }
+                        if (!added) showToast('⚠️ Không có lối đồ nào. Hãy thêm lối đồ trước!', 'warning');
+                    });
+
+                    con.appendChild(wrapper);
                 });
-            }).catch(() => {});
+            }).catch(() => {
+                const con = document.getElementById(containerId);
+                if (con) con.innerHTML = '<div class="lib-no-results">Lỗi tải dữ liệu</div>';
+            });
         };
         renderLib(API_URL.replace('/heroes', '/items'), 'lib-items', 'item');
         renderLib(API_URL.replace('/heroes', '/arcanas'), 'lib-arcanas', 'arcana');
@@ -358,24 +430,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // Helper: build a dropped item wrapper (shared between drag-drop and click-to-add)
+    function addDroppedItem(dz, data) {
+        // Remove placeholder if present
+        const ph = dz.querySelector('.dropzone-placeholder');
+        if (ph) ph.remove();
+
+        const itemWrap = document.createElement('div');
+        itemWrap.className = 'dropped-item-wrapper';
+
+        const img = document.createElement('img');
+        img.src = data.img;
+        img.className = 'dropped-item';
+        img.dataset.name = data.name;
+        img.title = data.name;
+        img.onerror = () => { img.src = '../img/unnamed.webp'; };
+
+        const nameEl = document.createElement('span');
+        nameEl.className = 'dropped-item-name';
+        nameEl.textContent = data.name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-dropped-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => {
+            itemWrap.remove();
+            // Restore placeholder if dropzone now empty
+            if (dz.children.length === 0) addDropzonePlaceholder(dz);
+        };
+
+        itemWrap.appendChild(img);
+        if (data.type === 'arcana') {
+            const qty = document.createElement('span');
+            qty.className = 'arcana-quantity';
+            qty.textContent = 'x10';
+            itemWrap.appendChild(qty);
+        }
+        itemWrap.appendChild(nameEl);
+        itemWrap.appendChild(removeBtn);
+        dz.appendChild(itemWrap);
+    }
+
+    // Add a placeholder div to an empty dropzone
+    function addDropzonePlaceholder(dz) {
+        if (dz.querySelector('.dropzone-placeholder')) return;
+        const ph = document.createElement('div');
+        ph.className = 'dropzone-placeholder';
+        const labels = { item: 'Kéo Trang bị vào đây', arcana: 'Kéo Ngọc vào đây', rune: 'Kéo Phù hiệu vào đây' };
+        ph.textContent = labels[dz.dataset.type] || 'Kéo vật phẩm vào đây';
+        dz.appendChild(ph);
+    }
+
     // Helper to setup dropzone events
     const setupDropzone = (dz) => {
-        dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
-        dz.addEventListener('dragleave', e => { dz.classList.remove('dragover'); });
+        // Initial placeholder
+        addDropzonePlaceholder(dz);
+
+        dz.addEventListener('dragover', e => {
+            e.preventDefault();
+            const data = JSON.parse(e.dataTransfer.getData('text/plain') || '{"type":""}');
+            if (dz.dataset.type !== data.type && data.type) {
+                dz.classList.add('drag-reject');
+            } else {
+                dz.classList.remove('drag-reject');
+                dz.classList.add('dragover');
+            }
+        });
+        dz.addEventListener('dragleave', e => {
+            dz.classList.remove('dragover');
+            dz.classList.remove('drag-reject');
+        });
         dz.addEventListener('drop', e => {
             e.preventDefault();
             dz.classList.remove('dragover');
-            const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-            if (dz.dataset.type !== data.type) return showToast('❌ Thả sai khu vực loại!', 'error');
-
-            const itemWrap = document.createElement('div');
-            itemWrap.className = 'dropped-item-wrapper';
-            itemWrap.innerHTML = `<img src="${data.img}" class="dropped-item" data-name="${data.name}" title="${data.name}">
-                                  <button type="button" class="remove-dropped-btn">x</button>`;
-            if (data.type === 'arcana') itemWrap.innerHTML += `<span class="arcana-quantity">x10</span>`;
-            
-            itemWrap.querySelector('.remove-dropped-btn').onclick = () => itemWrap.remove();
-            dz.appendChild(itemWrap);
+            dz.classList.remove('drag-reject');
+            let data;
+            try { data = JSON.parse(e.dataTransfer.getData('text/plain')); } catch { return; }
+            if (dz.dataset.type !== data.type) {
+                dz.classList.add('drag-reject');
+                showToast(`❌ Chỉ thả ${data.type === 'item' ? 'Trang bị' : data.type === 'arcana' ? 'Ngọc' : 'Phù hiệu'} vào đây!`, 'error');
+                setTimeout(() => dz.classList.remove('drag-reject'), 400);
+                return;
+            }
+            addDroppedItem(dz, data);
         });
     };
 
@@ -414,20 +552,18 @@ document.addEventListener('DOMContentLoaded', () => {
         [dzItems, dzArcanas, dzRunes].forEach(setupDropzone);
         card.querySelector('.btn-remove-card').onclick = () => card.remove();
         
-        // Populate items
+        // Populate items using shared addDroppedItem helper
         const populate = (dz, str, mapData) => {
             if (!str || !mapData) return;
             const names = str.split(',').map(s => s.trim().replace(/ x10/g, '')).filter(Boolean);
+            // Remove placeholder before adding items
+            const ph = dz.querySelector('.dropzone-placeholder');
+            if (ph && names.length) ph.remove();
             names.forEach(name => {
+                if (!name) return;
                 const item = mapData.find(m => m.name === name);
-                const imgUrl = item ? item.image_url : '../img/unnamed.webp';
-                const itemWrap = document.createElement('div');
-                itemWrap.className = 'dropped-item-wrapper';
-                itemWrap.innerHTML = `<img src="${imgUrl}" class="dropped-item" data-name="${name}" title="${name}">
-                                      <button type="button" class="remove-dropped-btn">x</button>`;
-                if (dz.dataset.type === 'arcana') itemWrap.innerHTML += `<span class="arcana-quantity">x10</span>`;
-                itemWrap.querySelector('.remove-dropped-btn').onclick = () => itemWrap.remove();
-                dz.appendChild(itemWrap);
+                const imgUrl = item ? item.image_url : '';
+                addDroppedItem(dz, { name, type: dz.dataset.type, img: imgUrl });
             });
         };
 

@@ -1175,5 +1175,358 @@
     white-space: nowrap;
 }
 
+/* ================================================
+   DRAG & DROP BUILDER — V2 UPGRADE
+   (Overrides above rules for enhanced UX)
+   ================================================ */
 
+/* Library Panel — wider, cleaner */
+.loadout-library {
+    width: 230px !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* Library Items — 60px with name label */
+.lib-pane {
+    gap: 6px !important;
+    padding: 4px 0 !important;
+}
+
+.lib-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: grab;
+    width: 62px;
+    border-radius: 8px;
+    padding: 4px 2px;
+    transition: transform 0.15s ease, background 0.15s;
+    position: relative;
+}
+
+.lib-item-wrapper:hover {
+    transform: scale(1.12);
+    z-index: 10;
+    background: rgba(243,156,18,0.08);
+}
+
+/* "Click to add" hint on hover */
+.lib-item-wrapper::after {
+    content: 'Click để thêm';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: #f39c12;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.lib-item-wrapper:hover::after {
+    opacity: 1;
+}
+
+.lib-item-wrapper:active {
+    cursor: grabbing;
+    transform: scale(0.92);
+}
+
+.draggable-item {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 8px !important;
+    border: 2px solid rgba(255,255,255,0.18) !important;
+    background: #0e0e16 !important;
+    pointer-events: none; /* parent wrapper handles events */
+    display: block;
+    object-fit: cover;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.lib-item-wrapper:hover .draggable-item {
+    border-color: #f39c12 !important;
+    box-shadow: 0 0 10px rgba(243,156,18,0.45);
+}
+
+.lib-item-name {
+    font-size: 9px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    line-height: 1.2;
+    width: 62px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Tab count badges */
+.lib-tab {
+    flex-direction: column !important;
+    gap: 2px !important;
+    padding: 8px 3px !important;
+    font-size: 10px !important;
+}
+
+.tab-count {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6);
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 8px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.lib-tab.active .tab-count {
+    background: rgba(243,156,18,0.25);
+    color: #f39c12;
+}
+
+/* Lib search  */
+#lib-search {
+    border-radius: 6px !important;
+    padding: 7px 10px !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* No results message */
+.lib-no-results {
+    width: 100%;
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    font-size: 11px;
+    font-style: italic;
+    padding: 16px 0;
+}
+
+/* Dropzone — larger, clearer placeholders */
+.dropzone {
+    min-height: 72px !important;
+    padding: 10px !important;
+    gap: 8px !important;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease !important;
+}
+
+/* Placeholder text when empty */
+.dropzone-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.18);
+    font-size: 11px;
+    font-style: italic;
+    pointer-events: none;
+    text-align: center;
+    padding: 0 10px;
+    line-height: 1.4;
+}
+
+/* Dragover states */
+.dropzone.dragover {
+    transform: scale(1.01);
+    box-shadow: inset 0 0 16px rgba(46,204,113,0.08) !important;
+}
+
+/* Rejection animation */
+@keyframes dz-reject {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(0.97) rotate(-0.5deg); }
+    75% { transform: scale(0.97) rotate(0.5deg); }
+}
+.dropzone.drag-reject {
+    border-color: #e74c3c !important;
+    background: rgba(231,76,60,0.08) !important;
+    animation: dz-reject 0.3s ease;
+}
+
+/* Color-coded type borders */
+.build-card [data-type="item"] { border-color: rgba(52,152,219,0.45) !important; }
+.build-card [data-type="arcana"] { border-color: rgba(155,89,182,0.45) !important; }
+.build-card [data-type="rune"] { border-color: rgba(241,196,15,0.45) !important; }
+
+.build-card [data-type="item"].dragover { border-color: #3498db !important; background: rgba(52,152,219,0.1) !important; box-shadow: inset 0 0 14px rgba(52,152,219,0.08) !important; }
+.build-card [data-type="arcana"].dragover { border-color: #9b59b6 !important; background: rgba(155,89,182,0.1) !important; box-shadow: inset 0 0 14px rgba(155,89,182,0.08) !important; }
+.build-card [data-type="rune"].dragover { border-color: #f1c40f !important; background: rgba(241,196,15,0.1) !important; box-shadow: inset 0 0 14px rgba(241,196,15,0.08) !important; }
+
+/* Dropped items */
+.dropped-item {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 8px !important;
+    border: 2px solid rgba(243,156,18,0.7) !important;
+    object-fit: cover;
+    background: #0e0e16;
+    display: block;
+    transition: border-color 0.2s;
+}
+
+.dropped-item-wrapper {
+    position: relative;
+    display: inline-flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 2px;
+}
+
+.dropped-item-wrapper:hover .dropped-item {
+    border-color: #e74c3c !important;
+}
+
+.dropped-item-name {
+    font-size: 9px;
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    width: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.1;
+    font-family: 'Montserrat', sans-serif;
+    display: block;
+}
+
+.remove-dropped-btn {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background: #e74c3c;
+    color: white;
+    border: 2px solid rgba(0,0,0,0.6);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    line-height: 14px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+    display: none;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.dropped-item-wrapper:hover .remove-dropped-btn {
+    display: block;
+}
+
+.remove-dropped-btn:hover {
+    background: #c0392b;
+    transform: scale(1.2);
+}
+
+.arcana-quantity {
+    position: absolute;
+    bottom: 18px;
+    right: -8px;
+    background: linear-gradient(135deg, #8e44ad, #6c3483) !important;
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+    z-index: 5;
+    pointer-events: none;
+    line-height: 1.5;
+}
+
+/* Build card inner dropzone size */
+.build-card .dropzone {
+    min-height: 74px !important;
+}
+
+.build-card .dropped-item {
+    width: 48px !important;
+    height: 48px !important;
+}
+
+/* Build card header */
+.build-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.build-card-title {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(243,156,18,0.4) !important;
+    border-radius: 0 !important;
+    color: #f39c12 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 4px 0 !important;
+    width: auto !important;
+    flex: 1;
+    min-width: 120px;
+}
+
+.build-card-title:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border-bottom-color: #f39c12 !important;
+}
+
+.btn-remove-card {
+    background: rgba(231,76,60,0.12);
+    color: #ff7b6b;
+    border: 1px solid rgba(231,76,60,0.3);
+    border-radius: 6px;
+    padding: 5px 11px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Montserrat', sans-serif;
+    flex-shrink: 0;
+}
+
+.btn-remove-card:hover {
+    background: #e74c3c;
+    color: #fff;
+    border-color: transparent;
+}
+
+.btn-add-build-card {
+    width: 100%;
+    padding: 11px;
+    background: rgba(243,156,18,0.05);
+    border: 2px dashed rgba(243,156,18,0.3);
+    color: rgba(243,156,18,0.7);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.25s;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-add-build-card:hover {
+    background: rgba(243,156,18,0.12);
+    border-color: rgba(243,156,18,0.6);
+    color: #f39c12;
+}
+
+/* Library content scrollbar */
+.library-content::-webkit-scrollbar { width: 5px; }
+.library-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 3px; }
+.library-content::-webkit-scrollbar-thumb { background: rgba(243,156,18,0.3); border-radius: 3px; }
+.library-content::-webkit-scrollbar-thumb:hover { background: rgba(243,156,18,0.6); }
 

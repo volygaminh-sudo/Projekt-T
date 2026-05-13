@@ -505,6 +505,11 @@
     pointer-events: none;
 }
 
+/* Navigator Utility */
+.nav-hidden {
+    display: none !important;
+}
+
 /* Glow ring on hover — color-coded per tier */
 .hero-avatar::before {
     content: '';
@@ -840,14 +845,22 @@ nav ul li a.active::after {
    ROLE ICON IMAGES — Garena official icons
    ================================================ */
 .role-icon-img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-    vertical-align: middle;
-    display: inline-block;
-    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
-    transition: transform 0.2s ease, filter 0.2s ease;
-    flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+  filter: drop-shadow(0 0 5px rgba(255,180,0,0.4));
+}
+
+/* SortableJS Ghost Styling */
+.ghost-card {
+    opacity: 0.4;
+    background: var(--accent-gold) !important;
+    border: 2px dashed var(--accent-gold) !important;
+    transform: scale(0.95);
+}
+.drag-container {
+    min-height: 100px; /* Ensure drop zone is always reachable */
 }
 
 .filter-btn .role-icon-img {

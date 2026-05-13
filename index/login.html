@@ -60,7 +60,7 @@
             </form>
 
             <div class="login-footer">
-                <p>Chưa có tài khoản? <a href="#">Gia nhập ngay</a></p>
+                <p>Chưa có tài khoản? <a href="register.html">Gia nhập ngay</a></p>
                 <a href="index.html" class="back-home">
                     <i data-lucide="arrow-left"></i>
                     Quay về Trang chủ
@@ -88,21 +88,34 @@
             loginBtn.innerHTML = 'Đang xác thực...';
 
             try {
-                // Giả lập xử lý đăng nhập - Sau này có thể kết nối với API thực tế
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                const _apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3000/api' : '/api';
+                const response = await fetch(`${_apiBase}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
 
-                if (username === 'admin' && password === 'admin') {
-                    // Thành công
-                    window.location.href = 'admin.html';
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Lưu thông tin người dùng vào localStorage
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Nếu là admin thì vẫn qua trang quản trị, nếu không thì về trang chủ hoặc tier-list
+                    if (data.user.username === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'tier-list.html';
+                    }
                 } else {
                     // Thất bại
-                    alert('Sai tài khoản hoặc mật khẩu! (Gợi ý: admin/admin)');
+                    alert(data.error || 'Sai tài khoản hoặc mật khẩu! (Gợi ý: admin/admin)');
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = 'Đăng Nhập Ngay';
                 }
             } catch (error) {
                 console.error('Lỗi đăng nhập:', error);
-                alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+                alert('Không thể kết nối tới server. Vui lòng thử lại sau.');
                 loginBtn.disabled = false;
                 loginBtn.innerHTML = 'Đăng Nhập Ngay';
             }

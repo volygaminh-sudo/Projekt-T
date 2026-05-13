@@ -1,3 +1,5 @@
+const _API_BASE_GOPY = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3000/api' : '/api';
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('feedback-form');
     const statusDiv = document.getElementById('fb-status');
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Call real endpoint in server.js
-                const res = await fetch('http://localhost:3000/api/feedbacks', {
+                const res = await fetch(`${_API_BASE_GOPY}/feedbacks`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)

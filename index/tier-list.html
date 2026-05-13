@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="tier-list.css">
     <link rel="stylesheet" href="quick-admin.css">
+    <!-- SortableJS for drag & drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body class="home-body">
     <script src="music.js"></script>
@@ -43,9 +45,11 @@
                     <li><a href="new-hero.html">Tướng Mới</a></li>
                     <li><a href="capnhat.html">Cập nhật</a></li>
                     <li><a href="gopy.html">Góp ý</a></li>
-                    <li><a href="login.html">Đăng nhập</a></li>
+                    <li id="nav-login"><a href="login.html">Đăng nhập</a></li>
+                    <li id="nav-user" class="nav-hidden"><a href="#" id="logoutBtn">Đăng xuất (<span id="username-display"></span>)</a></li>
                 </ul>
             </nav>
+    <script src="auth-check.js"></script>
         </div>
     </header>
 

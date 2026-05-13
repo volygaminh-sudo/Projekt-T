@@ -27,3 +27,10 @@ Goal: Security audit and UI polish.
 - [ ] Mitigate XSS risks in admin forms
 - [ ] Add responsive design improvements
 Status: not-started
+
+## Phase 5: Patch Update 2026-04-23
+Goal: Integrate latest patch notes (New Hero Flowborn & Balancing).
+- [x] Add Flowborn (Mage) to heroes.json
+- [x] Implement balancing changes for Rouie, Alice, Helen, Cresht
+- [x] Update `hero_skills_details.md` documentation
+Status: complete

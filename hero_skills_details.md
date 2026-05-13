@@ -341,8 +341,8 @@
 | :--- | :--- | :--- |
 | **Passive** | - | Dòng chảy năng lượng |
 | **Skill 1** | - | Dòng chảy hội tụ |
-| **Skill 2** | - | Nỏ tiễn phá không |
-| **Skill 3** | - | Nỏ tiễn liên hoàn |
+| **Skill 2** | - | Dòng chảy pháp trận |
+| **Skill 3** | - | Dòng chảy hủy diệt |
 
 ## Gildur
 | Skill | Name | Description |
@@ -388,7 +388,7 @@
 | Skill | Name | Description |
 | :--- | :--- | :--- |
 | **Passive** | - | Thanh Cao |
-| **Skill 1** | - | Án sáng thần thánh |
+| **Skill 1** | - | Ánh sáng thần thánh |
 | **Skill 2** | - | Linh hoa thánh khiết |
 | **Skill 3** | - | Kết Giới Sinh Mệnh |
 

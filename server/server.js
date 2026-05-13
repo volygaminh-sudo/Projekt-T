@@ -114,11 +114,38 @@ const db = new sqlite3.Database(dbPath, (err) => {
             message TEXT NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`, (err) => {
-            if (err) {
-                console.error('Lỗi khởi tạo bảng feedbacks:', err.message);
-            } else {
-                console.log('✅ Bảng feedbacks đã sẵn sàng.');
+            if (err) console.error('Lỗi khởi tạo bảng feedbacks:', err.message);
+            else console.log('✅ Bảng feedbacks đã sẵn sàng.');
+        });
+
+        // Bảng Users (Đăng nhập)
+        db.run(`CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL,
+            display_name TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`, (err) => {
+            if (err) console.error('Lỗi khởi tạo bảng users:', err.message);
+            else {
+                console.log('✅ Bảng users đã sẵn sàng.');
+                // Tạo user admin mặc định nếu chưa có
+                db.run(`INSERT OR IGNORE INTO users (username, password, display_name) VALUES ('admin', 'admin', 'Administrator')`);
             }
+        });
+
+        // Bảng User Hero Order (Lưu sắp xếp tier list của từng user)
+        db.run(`CREATE TABLE IF NOT EXISTS user_hero_order (
+            user_id INTEGER NOT NULL,
+            hero_id INTEGER NOT NULL,
+            tier TEXT NOT NULL,
+            sort_order INTEGER NOT NULL,
+            PRIMARY KEY (user_id, hero_id),
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (hero_id) REFERENCES heroes(id)
+        )`, (err) => {
+            if (err) console.error('Lỗi khởi tạo bảng user_hero_order:', err.message);
+            else console.log('✅ Bảng user_hero_order đã sẵn sàng.');
         });
     }
 });
@@ -430,7 +457,82 @@ app.delete('/api/runes/:id', (req, res) => {
     });
 });
 
-// =================== API FEEDBACKS ===================
+// =================== API USER & TIER PERSISTENCE ===================
+
+// GET: Lấy sắp xếp custom của user
+app.get('/api/user-tiers/:username', (req, res) => {
+    const sql = `
+        SELECT uho.* FROM user_hero_order uho
+        JOIN users u ON uho.user_id = u.id
+        WHERE u.username = ?
+        ORDER BY uho.sort_order ASC
+    `;
+    db.all(sql, [req.params.username], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success", data: rows });
+    });
+});
+
+// POST: Lưu sắp xếp custom của user
+app.post('/api/user-tiers', (req, res) => {
+    const { username, tiers } = req.body; // tiers: array of {hero_id, tier, sort_order}
+    if (!username || !Array.isArray(tiers)) return res.status(400).json({ error: "Dữ liệu không hợp lệ" });
+
+    db.get(`SELECT id FROM users WHERE username = ?`, [username], (err, user) => {
+        if (err || !user) return res.status(404).json({ error: "Không tìm thấy người dùng" });
+
+        db.serialize(() => {
+            db.run(`BEGIN TRANSACTION`);
+            
+            // Xóa cũ (hoặc dùng UPSERT)
+            const deleteSql = `DELETE FROM user_hero_order WHERE user_id = ?`;
+            db.run(deleteSql, [user.id]);
+
+            const insertSql = `INSERT INTO user_hero_order (user_id, hero_id, tier, sort_order) VALUES (?, ?, ?, ?)`;
+            const stmt = db.prepare(insertSql);
+            
+            tiers.forEach(item => {
+                stmt.run(user.id, item.hero_id, item.tier, item.sort_order);
+            });
+            
+            stmt.finalize();
+            db.run(`COMMIT`, (err) => {
+                if (err) return res.status(500).json({ error: "Lỗi lưu sắp xếp" });
+                res.json({ message: "success" });
+            });
+        });
+    });
+});
+
+// POST: Đăng nhập (Mock simple)
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    db.get(`SELECT * FROM users WHERE username = ? AND password = ?`, [username, password], (err, row) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!row) return res.status(401).json({ error: "Sai tài khoản hoặc mật khẩu" });
+        // Trả về info user (không có password)
+        const { password: _, ...user } = row;
+        res.json({ message: "success", user });
+    });
+});
+
+// POST: Đăng ký
+app.post('/api/register', (req, res) => {
+    const { username, password, display_name } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ error: "Thiếu username hoặc password" });
+    }
+
+    db.run(`INSERT INTO users (username, password, display_name) VALUES (?, ?, ?)`, [username, password, display_name || username], function(err) {
+        if (err) {
+            if (err.message.includes('UNIQUE constraint failed')) {
+                return res.status(400).json({ error: "Tên đăng nhập đã tồn tại" });
+            }
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ message: "success", user: { id: this.lastID, username, display_name: display_name || username } });
+    });
+});
 
 // POST: Gửi ý kiến góp ý
 app.post('/api/feedbacks', (req, res) => {

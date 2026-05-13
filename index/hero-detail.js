@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:3000/api/heroes';
+const _API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3000/api' : '/api';
+const API_URL = `${_API_BASE}/heroes`;
 
 const ROLE_INFO = {
     assassin: { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/sat-thu.png" class="role-icon-img" alt="Sát thủ">', name: 'Sát Thủ', color: 'rgba(231, 76, 60, 0.15)', textColor: '#ff6b6b', border: 'rgba(231, 76, 60, 0.3)' },
@@ -52,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // ---- TẢI ITEMS ĐỂ LẤY HÌNH ẢNH ----
         let itemsMap = {};
         try {
-            const itemsRes = await fetch('http://localhost:3000/api/items');
+            const itemsRes = await fetch(`${_API_BASE}/items`);
             if (itemsRes.ok) {
                 const itemsData = await itemsRes.json();
                 itemsData.data.forEach(it => {
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let arcanasMap = {};
         try {
-            const arcanasRes = await fetch('http://localhost:3000/api/arcanas');
+            const arcanasRes = await fetch(`${_API_BASE}/arcanas`);
             if (arcanasRes.ok) {
                 const arcanasData = await arcanasRes.json();
                 arcanasData.data.forEach(ar => {
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let runesMap = {};
         try {
-            const runesRes = await fetch('http://localhost:3000/api/runes');
+            const runesRes = await fetch(`${_API_BASE}/runes`);
             if (runesRes.ok) {
                 const runesData = await runesRes.json();
                 runesData.data.forEach(r => {

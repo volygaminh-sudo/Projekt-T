@@ -1,17 +1,33 @@
 {
   "name": "projekt-t",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Liên Quân Mobile - Tier List & Hero Management",
+  "main": "server/server.js",
   "scripts": {
+    "start": "node server/server.pg.js",
+    "dev": "node server/server.js",
     "dev:css": "tailwindcss -i ./src/input.css -o ./index/tailwind.css --watch",
     "build:css": "tailwindcss -i ./src/input.css -o ./index/tailwind.css --minify",
+    "migrate": "node scripts/migrate-to-postgres.js",
+    "fix-skills": "node scripts/fix-skill-names.js",
+    "fix-skills:dry": "node scripts/fix-skill-names.js --dry-run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "lien-quan",
+    "tier-list",
+    "admin"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "dependencies": {
+    "cors": "*",
+    "dotenv": "^16.6.1",
+    "express": "*",
+    "pg": "^8.20.0",
+    "sqlite3": "*"
+  },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.4",
     "tailwindcss": "^4.2.4"
