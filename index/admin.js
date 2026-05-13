@@ -113,8 +113,8 @@ function renderTable() {
             <td class="td-id">${hero.id}</td>
             <td class="td-img"><img src="${hero.image_url ? escapeHTML(hero.image_url) : '../img/unnamed.webp'}" onerror="this.src='../img/unnamed.webp'" alt=""></td>
             <td class="td-name">${escapeHTML(hero.name)}</td>
-            <td>${escapeHTML(formatRole(hero.primary_role))}</td>
-            <td>${hero.secondary_role ? escapeHTML(formatRole(hero.secondary_role)) : '<span class="no-data">—</span>'}</td>
+            <td>${formatRole(hero.primary_role)}</td>
+            <td>${hero.secondary_role ? formatRole(hero.secondary_role) : '<span class="no-data">—</span>'}</td>
             <td><span class="tier-badge tier-${escapeHTML(hero.tier)}">${escapeHTML((hero.tier || '').toUpperCase())}</span></td>
             <td class="td-actions">
                 <button class="btn-edit" data-id="${hero.id}">✏️ Sửa</button>
@@ -184,16 +184,27 @@ function renderPagination() {
 }
 
 // ===== FORMAT ROLE =====
+const ROLE_ICON_URLS = {
+    assassin: 'https://lienquan.garena.vn/wp-content/uploads/2024/05/sat-thu.png',
+    fighter:  'https://lienquan.garena.vn/wp-content/uploads/2024/05/dau-si.png',
+    marksman: 'https://lienquan.garena.vn/wp-content/uploads/2024/05/xa-thu.png',
+    mage:     'https://lienquan.garena.vn/wp-content/uploads/2024/05/phap-su.png',
+    tank:     'https://lienquan.garena.vn/wp-content/uploads/2024/05/do-don.png',
+    support:  'https://lienquan.garena.vn/wp-content/uploads/2024/05/tro-thu.png'
+};
+const ROLE_NAMES = {
+    assassin: 'Sát Thủ',
+    fighter:  'Đấu Sĩ',
+    marksman: 'Xạ Thủ',
+    mage:     'Pháp Sư',
+    tank:     'Đỡ Đòn',
+    support:  'Trợ Thủ'
+};
 function formatRole(role) {
-    const map = {
-        assassin: '🗡️ Sát Thủ',
-        fighter: '⚔️ Đấu Sĩ',
-        marksman: '🏹 Xạ Thủ',
-        mage: '🔮 Pháp Sư',
-        tank: '🛡️ Đỡ Đòn',
-        support: '💚 Trợ Thủ'
-    };
-    return map[role] || role;
+    const url = ROLE_ICON_URLS[role];
+    const name = ROLE_NAMES[role] || role;
+    if (url) return `<img src="${url}" class="role-icon-img" alt="${name}" loading="lazy"> ${name}`;
+    return name;
 }
 
 // ===== DOM READY =====

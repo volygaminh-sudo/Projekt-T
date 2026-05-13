@@ -1,12 +1,12 @@
 const API_URL = 'http://localhost:3000/api/heroes';
 
 const ROLE_INFO = {
-    assassin: { emoji: '🗡️', name: 'Sát Thủ', color: 'rgba(231, 76, 60, 0.15)', textColor: '#ff6b6b', border: 'rgba(231, 76, 60, 0.3)' },
-    fighter:  { emoji: '⚔️', name: 'Đấu Sĩ', color: 'rgba(230, 126, 34, 0.15)', textColor: '#f0b27a', border: 'rgba(230, 126, 34, 0.3)' },
-    marksman: { emoji: '🏹', name: 'Xạ Thủ', color: 'rgba(241, 196, 15, 0.15)', textColor: '#f7dc6f', border: 'rgba(241, 196, 15, 0.3)' },
-    mage:     { emoji: '🔮', name: 'Pháp Sư', color: 'rgba(155, 89, 182, 0.15)', textColor: '#c39bd3', border: 'rgba(155, 89, 182, 0.3)' },
-    tank:     { emoji: '🛡️', name: 'Đỡ Đòn', color: 'rgba(52, 152, 219, 0.15)', textColor: '#85c1e9', border: 'rgba(52, 152, 219, 0.3)' },
-    support:  { emoji: '💎', name: 'Trợ Thủ', color: 'rgba(46, 204, 113, 0.15)', textColor: '#82e0aa', border: 'rgba(46, 204, 113, 0.3)' },
+    assassin: { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/sat-thu.png" class="role-icon-img" alt="Sát thủ">', name: 'Sát Thủ', color: 'rgba(231, 76, 60, 0.15)', textColor: '#ff6b6b', border: 'rgba(231, 76, 60, 0.3)' },
+    fighter:  { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/dau-si.png" class="role-icon-img" alt="Đấu Sĩ">', name: 'Đấu Sĩ', color: 'rgba(230, 126, 34, 0.15)', textColor: '#f0b27a', border: 'rgba(230, 126, 34, 0.3)' },
+    marksman: { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/xa-thu.png" class="role-icon-img" alt="Xạ Thủ">', name: 'Xạ Thủ', color: 'rgba(241, 196, 15, 0.15)', textColor: '#f7dc6f', border: 'rgba(241, 196, 15, 0.3)' },
+    mage:     { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/phap-su.png" class="role-icon-img" alt="Pháp Sư">', name: 'Pháp Sư', color: 'rgba(155, 89, 182, 0.15)', textColor: '#c39bd3', border: 'rgba(155, 89, 182, 0.3)' },
+    tank:     { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/do-don.png" class="role-icon-img" alt="Đỡ Đòn">', name: 'Đỡ Đòn', color: 'rgba(52, 152, 219, 0.15)', textColor: '#85c1e9', border: 'rgba(52, 152, 219, 0.3)' },
+    support:  { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/tro-thu.png" class="role-icon-img" alt="Trợ Thủ">', name: 'Trợ Thủ', color: 'rgba(46, 204, 113, 0.15)', textColor: '#82e0aa', border: 'rgba(46, 204, 113, 0.3)' },
 };
 
 const TIER_INFO = {
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         document.getElementById('hd-tags').innerHTML = roles.map(role => {
             const r = ROLE_INFO[role] || ROLE_INFO['fighter'];
-            return `<span class="hd-role-pill" style="background:${r.color};color:${r.textColor};border:1px solid ${r.border}">${r.emoji} ${r.name}</span>`;
+            return `<span class="hd-role-pill" style="background:${r.color};color:${r.textColor};border:1px solid ${r.border}">${r.icon} ${r.name}</span>`;
         }).join('');
 
         // ---- QUICK STATS ----
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const r = ROLE_INFO[role] || ROLE_INFO['fighter'];
             return `
                 <div class="sidebar-role-item">
-                    <span class="role-emoji">${r.emoji}</span>
+                    <div class="role-icon">${r.icon}</div>
                     <span class="role-name">${r.name}</span>
                     <span class="role-type">${i === 0 ? 'Chính' : 'Phụ'}</span>
                 </div>`;

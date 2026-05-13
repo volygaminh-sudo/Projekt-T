@@ -30,12 +30,12 @@ let HEROES = [];
 // ================================================
 
 const ROLE_LABELS = {
-  tank:     "🛡️ Tank",
-  fighter:  "⚔️ Đấu sĩ",
-  assassin: "🗡️ Sát thủ",
-  marksman: "🏹 Xạ thủ",
-  mage:     "🔮 Pháp sư",
-  support:  "💎 Trợ thủ",
+  tank:     `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/do-don.png" class="role-icon-img" alt="Đỡ đòn"> Đỡ đòn`,
+  fighter:  `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/dau-si.png" class="role-icon-img" alt="Đấu sĩ"> Đấu sĩ`,
+  assassin: `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/sat-thu.png" class="role-icon-img" alt="Sát thủ"> Sát thủ`,
+  marksman: `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/xa-thu.png" class="role-icon-img" alt="Xạ thủ"> Xạ thủ`,
+  mage:     `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/phap-su.png" class="role-icon-img" alt="Pháp sư"> Pháp sư`,
+  support:  `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/tro-thu.png" class="role-icon-img" alt="Trợ thủ"> Trợ thủ`,
 };
 
 function getHeroImg(name, primaryRole, imgUrl) {
