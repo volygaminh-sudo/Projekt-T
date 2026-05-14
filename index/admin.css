@@ -1,5 +1,5 @@
 /* ========== ADMIN.CSS - Liên Quân Admin Dashboard ========== */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 /* === LAYOUT === */
 .admin-main {
@@ -16,10 +16,12 @@
     color: #f39c12;
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    text-shadow: 0 0 20px rgba(243, 156, 18, 0.5);
-    letter-spacing: 1px;
+    font-family: 'Chakra Petch', sans-serif;
+    text-shadow: 0 2px 10px rgba(243, 156, 18, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 /* === TOOLBAR === */
@@ -56,8 +58,8 @@
 }
 
 .filter-wrap select:hover {
-    background: rgba(100, 108, 255, 0.2);
-    border-color: #646cff;
+    background: rgba(243, 156, 18, 0.2);
+    border-color: #f39c12;
 }
 
 .pagination-container {
@@ -82,7 +84,7 @@
 }
 
 .btn-page:hover:not(:disabled) {
-    background: #646cff;
+    background: #f39c12;
     transform: translateY(-2px);
 }
 
@@ -109,7 +111,7 @@
 }
 
 .page-num.active {
-    background: #646cff;
+    background: #f39c12;
     font-weight: bold;
 }
 
@@ -172,7 +174,8 @@
 .tier-hero-item:hover {
     transform: scale(1.2);
     z-index: 100;
-    border-color: #646cff;
+    border-color: #f39c12;
+    box-shadow: 0 0 15px rgba(243, 156, 18, 0.4);
 }
 
 .tier-hero-item img {
@@ -469,7 +472,7 @@
     width: 100%;
     max-width: 560px;
     color: #fff;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(243,156,18,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 15px rgba(243,156,18,0.05);
     position: relative;
     animation: slideUp 0.35s ease;
 }
@@ -1258,8 +1261,9 @@
 }
 
 .lib-item-name {
-    font-size: 9px;
-    color: rgba(255,255,255,0.5);
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
     text-align: center;
     line-height: 1.2;
     width: 62px;
@@ -1268,6 +1272,7 @@
     white-space: nowrap;
     pointer-events: none;
     font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.3px;
 }
 
 /* Tab count badges */
@@ -1388,8 +1393,9 @@
 }
 
 .dropped-item-name {
-    font-size: 9px;
-    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
     text-align: center;
     width: 56px;
     overflow: hidden;
@@ -1398,6 +1404,7 @@
     line-height: 1.1;
     font-family: 'Montserrat', sans-serif;
     display: block;
+    letter-spacing: 0.2px;
 }
 
 .remove-dropped-btn {

@@ -1,7 +1,7 @@
-// Danh sách nhạc (Playlist)
 const PLAYLIST = [
-    "../img/nhac.mp3",
-    "../img/nhac2.mp3" // Bài nhạc từ YouTube (người dùng tự thêm file)
+    "img/nhac.mp3",
+    "img/nhac2.mp3",
+    "img/nhac3.mp3"
 ];
 
 // Quản lý âm thanh nền

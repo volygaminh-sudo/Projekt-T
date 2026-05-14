@@ -62,14 +62,10 @@ function buildCard(hero) {
   const clickAction = window.isDetailView ? "" : `onclick="window.location.href='hero-detail.html?id=${dbId}'" style="cursor:pointer;" title="Nhấn xem chi tiết tướng"`;
   const skinsAttr = (skinUrls && skinUrls.length > 0) ? `data-skins="${skinUrls.join(',')}" data-default="${imgUrl || ''}"` : '';
 
-  const winRate = stats.winRate;
-  const wrColor = parseFloat(winRate) > 51 ? '#2ecc71' : (parseFloat(winRate) < 49 ? '#e74c3c' : '#f1c40f');
-
   return `
     <div class="hero-card tier-hero-card" data-id="${dbId}" data-roles="${roles.join(" ")}" id="hc-${safeId}" ${clickAction} ${skinsAttr}>
       <div class="hero-avatar" style="background:linear-gradient(135deg,${g1},${g2})">
         ${getHeroImg(name, primaryRole, imgUrl)}
-        ${winRate ? `<div class="hero-wr" style="color:${wrColor}">${winRate}</div>` : ''}
       </div>
       <span class="hero-name">${name}</span>
     </div>`;

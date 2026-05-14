@@ -53,7 +53,7 @@
     background: rgba(255,107,0,0.08);
     border: 1px solid rgba(255,107,0,0.28);
     color: #ff9533;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 3px;
@@ -80,7 +80,7 @@
 
 /* ---- PAGE TITLE ---- */
 .tier-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: clamp(40px, 6vw, 72px);
     font-weight: 900;
     text-transform: uppercase;
@@ -92,6 +92,9 @@
 }
 
 .tier-title .highlight {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
     background: linear-gradient(90deg, #ffd700 0%, #ff8c00 50%, #e74c3c 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -100,7 +103,7 @@
 }
 
 .tier-subtitle {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: #7a8494;
     line-height: 1.6;
@@ -120,7 +123,7 @@
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     color: #c8cdd5;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 600;
     padding: 9px 24px;
@@ -155,7 +158,7 @@
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     color: #fff;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     font-weight: 500;
     width: 100%;
@@ -178,7 +181,7 @@
 
 /* Role filter buttons */
 .filter-btn {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 12px;
     font-weight: 700;
     padding: 9px 18px;
@@ -294,7 +297,7 @@
     background: linear-gradient(90deg, rgba(255,69,0,0.07) 0%, rgba(10,12,19,0.7) 160px);
 }
 .tier-row[data-tier="splus"]:hover {
-    box-shadow: 0 14px 45px rgba(255,69,0,0.18), 0 3px 18px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 30px rgba(255,69,0,0.1), 0 3px 18px rgba(0,0,0,0.4);
     border-left-color: #ff6b1a;
 }
 
@@ -304,7 +307,7 @@
     background: linear-gradient(90deg, rgba(207,69,0,0.06) 0%, rgba(10,12,19,0.7) 160px);
 }
 .tier-row[data-tier="s"]:hover {
-    box-shadow: 0 14px 45px rgba(207,69,0,0.14), 0 3px 18px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 30px rgba(207,69,0,0.08), 0 3px 18px rgba(0,0,0,0.4);
 }
 
 .tier-row[data-tier="a"] {
@@ -313,7 +316,7 @@
     background: linear-gradient(90deg, rgba(39,174,96,0.05) 0%, rgba(10,12,19,0.7) 160px);
 }
 .tier-row[data-tier="a"]:hover {
-    box-shadow: 0 14px 45px rgba(39,174,96,0.12);
+    box-shadow: 0 12px 30px rgba(39,174,96,0.08);
 }
 
 .tier-row[data-tier="b"] {
@@ -322,7 +325,7 @@
     background: linear-gradient(90deg, rgba(41,128,185,0.05) 0%, rgba(10,12,19,0.7) 160px);
 }
 .tier-row[data-tier="b"]:hover {
-    box-shadow: 0 14px 45px rgba(41,128,185,0.12);
+    box-shadow: 0 12px 30px rgba(41,128,185,0.08);
 }
 
 .tier-row[data-tier="c"] {
@@ -370,7 +373,7 @@
 }
 
 .tier-letter {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 46px;
     font-weight: 900;
     line-height: 1;
@@ -380,7 +383,7 @@
 }
 
 .tier-desc {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.8px;
@@ -492,17 +495,19 @@
 
 .hero-wr {
     position: absolute;
-    bottom: -5px;
-    right: -5px;
-    background: #111;
-    font-size: 9px;
+    bottom: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.9);
+    font-size: 10px;
     font-weight: 800;
-    padding: 2px 5px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     z-index: 10;
     pointer-events: none;
+    transform: translate(25%, 25%);
+    font-family: 'Chakra Petch', sans-serif;
 }
 
 /* Navigator Utility */
@@ -552,8 +557,8 @@
     transform: scale(1.15);
     border-color: rgba(255,150,0,0.85);
     box-shadow:
-        0 0 0 2px rgba(255,107,0,0.4),
-        0 0 20px rgba(255,107,0,0.45),
+        0 0 0 2px rgba(255,107,0,0.2),
+        0 0 12px rgba(255,107,0,0.2),
         0 8px 24px rgba(0,0,0,0.6);
 }
 
@@ -580,7 +585,7 @@
     justify-content: center;
     color: #fff;
     font-weight: 900;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     border-radius: 50%;
     background: rgba(255,255,255,0.06);
     text-shadow: 0 2px 6px rgba(0,0,0,0.7);
@@ -589,28 +594,27 @@
 /* ---- HERO NAME PILL ---- */
 .hero-name {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 10px;
     font-weight: 700;
-    color: #b0bac8;
+    color: #e2e8f0;
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: fit-content;
-    max-width: 96%;
-    min-width: 58px;
-    letter-spacing: 0.2px;
-    margin: -8px auto 0 auto;
-    padding: 3px 9px;
-    background: rgba(0,0,0,0.38);
-    border-radius: 8px;
+    line-height: 1.1;
+    word-wrap: break-word;
+    width: 68px; 
+    min-height: 26px; 
+    letter-spacing: 0px;
+    margin: -6px auto 0 auto;
+    padding: 3px 4px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 6px;
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     z-index: 2;
-    border: 1px solid rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.08);
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
@@ -634,9 +638,9 @@
 
 .tier-row[data-tier="splus"] .hero-card:hover .hero-avatar {
     box-shadow:
-        0 0 0 2px rgba(255,80,0,0.6),
-        0 0 26px rgba(255,80,0,0.6),
-        0 0 48px rgba(255,120,0,0.3),
+        0 0 0 2px rgba(255,80,0,0.4),
+        0 0 15px rgba(255,80,0,0.3),
+        0 0 30px rgba(255,120,0,0.15),
         0 8px 24px rgba(0,0,0,0.6);
     border-color: rgba(255,130,0,0.9);
 }
@@ -688,7 +692,7 @@
 }
 
 .legend-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 20px;
     font-weight: 800;
     color: #d4dae4;
@@ -731,7 +735,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 20px;
     font-weight: 900;
     color: #fff;
@@ -755,7 +759,7 @@
 .legend-badge.tier-d     { background: linear-gradient(160deg, #1a1c22, #252830, #464b56); }
 
 .legend-item strong {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 13px;
     font-weight: 800;
     color: #d8dde6;
@@ -770,7 +774,7 @@
     color: #5a6475;
     margin: 0;
     line-height: 1.4;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* ================================================
@@ -780,7 +784,7 @@
     text-align: center;
     padding: 80px 30px;
     color: #f39c12;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.5px;

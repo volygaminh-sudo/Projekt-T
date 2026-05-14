@@ -5,14 +5,15 @@
     --color-danger: #e74c3c;
     --color-danger-hover: #c0392b;
     --color-success: #2ecc71;
-    --color-bg-dark: #0b0c10;
+    --color-bg-dark: #0f172a;
     --color-text-main: #ffffff;
-    --color-text-muted: #a0aab2;
-    --color-text-light: #e0e0e0;
+    --color-text-muted: #94a3b8;
+    --color-text-light: #f1f5f9;
     
-    --glass-bg: rgba(20, 22, 30, 0.6);
-    --glass-border: 1px solid rgba(255, 255, 255, 0.05);
-    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --glass-blur: blur(12px);
     
     --font-main: 'Montserrat', sans-serif;
     
@@ -25,12 +26,13 @@
 }
 
 /* ========== FONTS ========== */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Reset and base styles */
 * {
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 /* Header & Glassmorphism Navigation Bar */
@@ -104,6 +106,7 @@ nav ul {
 nav ul li a {
     text-decoration: none;
     color: #ffffff;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
@@ -177,9 +180,9 @@ body.home-body {
     left: 40%;
     width: 80vw;
     height: 80vh;
-    background: radial-gradient(circle at center, rgba(243, 156, 18, 0.4) 0%, transparent 60%);
+    background: radial-gradient(circle at center, rgba(243, 156, 18, 0.15) 0%, transparent 50%);
     border-radius: 50%;
-    filter: blur(100px);
+    filter: blur(120px);
     z-index: -1;
     pointer-events: none;
     animation: orbFloat 15s infinite alternate ease-in-out;
@@ -220,6 +223,7 @@ body.home-body {
 }
 
 .glow-title {
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 60px;
     text-transform: uppercase;
     font-weight: 900;
@@ -230,12 +234,15 @@ body.home-body {
 }
 
 .glow-title .highlight {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
     background: linear-gradient(90deg, #ffd700, #ff8c00);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: none;
-    filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.8));
+    filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.3));
 }
 
 .home-hero-inner p {
@@ -432,6 +439,7 @@ footer {
 }
 
 .intro-title {
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 48px;
     font-weight: 900;
     letter-spacing: 5px;
@@ -605,6 +613,8 @@ footer {
     height: 180px;
     object-fit: cover;
 }
+
+
 
 .news-info {
     padding: 20px;
