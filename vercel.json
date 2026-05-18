@@ -1,15 +1,16 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/[...path].js", "use": "@vercel/node" }
-  ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/[...path].js" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/", "destination": "/index/index.html" },
     { "source": "/tier-list", "destination": "/index/tier-list.html" },
     { "source": "/capnhat", "destination": "/index/capnhat.html" },
     { "source": "/login", "destination": "/index/login.html" },
     { "source": "/hero-detail\\.html", "destination": "/index/hero-detail.html" },
-    { "source": "/(.*)", "destination": "/$1" }
+    { "source": "/(.*\\.js)", "destination": "/$1" },
+    { "source": "/(.*\\.css)", "destination": "/$1" },
+    { "source": "/(.*\\.json)", "destination": "/$1" },
+    { "source": "/(.*\\.png|.*\\.jpg|.*\\.svg|.*\\.webp|.*\\.ico)", "destination": "/$1" },
+    { "source": "/(.*)", "destination": "/index/$1" }
   ]
 }
