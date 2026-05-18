@@ -1,6 +1,10 @@
 {
   "version": 2,
+  "builds": [
+    { "src": "api/[...path].js", "use": "@vercel/node" }
+  ],
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/[...path].js" },
     { "source": "/", "destination": "/index/index.html" },
     { "source": "/tier-list", "destination": "/index/tier-list.html" },
     { "source": "/capnhat", "destination": "/index/capnhat.html" },
