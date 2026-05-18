@@ -1,7 +1,7 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/", "destination": "/index/index.html" },
     { "source": "/tier-list", "destination": "/index/tier-list.html" },
     { "source": "/capnhat", "destination": "/index/capnhat.html" },

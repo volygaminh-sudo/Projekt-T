@@ -76,3 +76,6 @@ yarn-debug.log*
 # ===========================
 # .planning/
 # .agent/
+
+.vercel
+.env*.local
