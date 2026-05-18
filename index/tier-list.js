@@ -3,7 +3,7 @@
 //  Dữ liệu giờ đây chủ yếu được kéo từ Database Backend
 // ================================================
 const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://localhost:3000/api'
+    ? 'http://127.0.0.1:3008/api'
     : '/api';
 
 

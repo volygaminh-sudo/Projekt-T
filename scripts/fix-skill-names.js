@@ -4,7 +4,7 @@
  * Usage: node scripts/fix-skill-names.js [--dry-run] [--hero-id=XX]
  */
 
-const BASE_URL = 'http://localhost:3000/api/heroes';
+const BASE_URL = 'http://localhost:3008/api/heroes';
 const isDryRun = process.argv.includes('--dry-run');
 const heroIdFilter = process.argv.find(a => a.startsWith('--hero-id='))?.split('=')[1];
 

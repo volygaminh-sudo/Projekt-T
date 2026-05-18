@@ -1,4 +1,4 @@
-const _API_BASE_GOPY = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3000/api' : '/api';
+const _API_BASE_GOPY = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:3008/api' : '/api';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('feedback-form');

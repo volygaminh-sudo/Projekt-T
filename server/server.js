@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3008;
 
 app.use(cors());
 app.use(express.json());
@@ -33,6 +33,15 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 console.error('Lỗi migration builds:', err.message);
             } else if (!err) {
                 console.log('✅ Đã thêm cột builds vào database.');
+            }
+        });
+
+        // Migration: thêm cột skills để hỗ trợ mảng kỹ năng động
+        db.run(`ALTER TABLE heroes ADD COLUMN skills TEXT`, (err) => {
+            if (err && !err.message.includes('duplicate column')) {
+                console.error('Lỗi migration skills:', err.message);
+            } else if (!err) {
+                console.log('✅ Đã thêm cột skills vào database.');
             }
         });
 
@@ -156,6 +165,25 @@ const db = new sqlite3.Database(dbPath, (err) => {
 app.get('/api/heroes', (req, res) => {
     db.all(`SELECT * FROM heroes ORDER BY id ASC`, [], (err, rows) => {
         if (err) return res.status(500).json({ error: err.message });
+        
+        // Auto convert old skills format to dynamic array
+        rows.forEach(row => {
+            if (!row.skills) {
+                const skillsArr = [];
+                const oldKeys = ['p', '1', '2', '3'];
+                oldKeys.forEach(k => {
+                    if (row[`skill_${k}`] || row[`skill_${k}_img`]) {
+                        skillsArr.push({
+                            name: row[`skill_${k}`] && row[`skill_${k}`].includes(':') ? row[`skill_${k}`].split(':')[0].trim() : '',
+                            desc: row[`skill_${k}`] && row[`skill_${k}`].includes(':') ? row[`skill_${k}`].substring(row[`skill_${k}`].indexOf(':') + 1).trim() : row[`skill_${k}`] || '',
+                            img: row[`skill_${k}_img`] || ''
+                        });
+                    }
+                });
+                row.skills = JSON.stringify(skillsArr);
+            }
+        });
+
         res.json({ message: "success", data: rows });
     });
 });
@@ -165,51 +193,59 @@ app.get('/api/heroes/:id', (req, res) => {
     db.get(`SELECT * FROM heroes WHERE id = ?`, [req.params.id], (err, row) => {
         if (err) return res.status(500).json({ error: err.message });
         if (!row) return res.status(404).json({ error: "Không tìm thấy tướng" });
+
+        // Auto convert old skills format to dynamic array
+        if (!row.skills) {
+            const skillsArr = [];
+            const oldKeys = ['p', '1', '2', '3'];
+            oldKeys.forEach(k => {
+                if (row[`skill_${k}`] || row[`skill_${k}_img`]) {
+                    skillsArr.push({
+                        name: row[`skill_${k}`] && row[`skill_${k}`].includes(':') ? row[`skill_${k}`].split(':')[0].trim() : '',
+                        desc: row[`skill_${k}`] && row[`skill_${k}`].includes(':') ? row[`skill_${k}`].substring(row[`skill_${k}`].indexOf(':') + 1).trim() : row[`skill_${k}`] || '',
+                        img: row[`skill_${k}_img`] || ''
+                    });
+                }
+            });
+            row.skills = JSON.stringify(skillsArr);
+        }
+
         res.json({ message: "success", data: row });
     });
 });
 
 // POST: Thêm tướng mới
 app.post('/api/heroes', (req, res) => {
-    const { name, primary_role, secondary_role, tier, story, skill_p, skill_1, skill_2, skill_3, items, builds, image_url, skins,
-            skill_p_img, skill_1_img, skill_2_img, skill_3_img, win_rate, pick_rate, ban_rate, counters, recommended_arcanas, recommended_runes } = req.body;
+    const { name, primary_role, secondary_role, tier, story, items, builds, image_url, skins,
+            win_rate, pick_rate, ban_rate, counters, recommended_arcanas, recommended_runes, skills } = req.body;
     if (!name || !primary_role || !tier) {
         return res.status(400).json({ error: "Thiếu trường bắt buộc (Name, Role, Tier)" });
     }
 
-    const sql = `INSERT INTO heroes (name, primary_role, secondary_role, tier, story, skill_p, skill_1, skill_2, skill_3, items, builds, image_url, skins, skill_p_img, skill_1_img, skill_2_img, skill_3_img, win_rate, pick_rate, ban_rate, counters, recommended_arcanas, recommended_runes)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    const sql = `INSERT INTO heroes (name, primary_role, secondary_role, tier, story, items, builds, image_url, skins, win_rate, pick_rate, ban_rate, counters, recommended_arcanas, recommended_runes, skills)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                  ON CONFLICT(name) DO UPDATE SET
                  primary_role = excluded.primary_role,
                  secondary_role = excluded.secondary_role,
                  tier = excluded.tier,
                  story = CASE WHEN excluded.story IS NOT NULL THEN excluded.story ELSE heroes.story END,
-                 skill_p = CASE WHEN excluded.skill_p IS NOT NULL THEN excluded.skill_p ELSE heroes.skill_p END,
-                 skill_1 = CASE WHEN excluded.skill_1 IS NOT NULL THEN excluded.skill_1 ELSE heroes.skill_1 END,
-                 skill_2 = CASE WHEN excluded.skill_2 IS NOT NULL THEN excluded.skill_2 ELSE heroes.skill_2 END,
-                 skill_3 = CASE WHEN excluded.skill_3 IS NOT NULL THEN excluded.skill_3 ELSE heroes.skill_3 END,
                  items = CASE WHEN excluded.items IS NOT NULL THEN excluded.items ELSE heroes.items END,
                  builds = CASE WHEN excluded.builds IS NOT NULL THEN excluded.builds ELSE heroes.builds END,
                  image_url = CASE WHEN excluded.image_url IS NOT NULL THEN excluded.image_url ELSE heroes.image_url END,
                  skins = CASE WHEN excluded.skins IS NOT NULL THEN excluded.skins ELSE heroes.skins END,
-                 skill_p_img = CASE WHEN excluded.skill_p_img IS NOT NULL THEN excluded.skill_p_img ELSE heroes.skill_p_img END,
-                 skill_1_img = CASE WHEN excluded.skill_1_img IS NOT NULL THEN excluded.skill_1_img ELSE heroes.skill_1_img END,
-                 skill_2_img = CASE WHEN excluded.skill_2_img IS NOT NULL THEN excluded.skill_2_img ELSE heroes.skill_2_img END,
-                 skill_3_img = CASE WHEN excluded.skill_3_img IS NOT NULL THEN excluded.skill_3_img ELSE heroes.skill_3_img END,
                  win_rate = CASE WHEN excluded.win_rate IS NOT NULL THEN excluded.win_rate ELSE heroes.win_rate END,
                  pick_rate = CASE WHEN excluded.pick_rate IS NOT NULL THEN excluded.pick_rate ELSE heroes.pick_rate END,
                  ban_rate = CASE WHEN excluded.ban_rate IS NOT NULL THEN excluded.ban_rate ELSE heroes.ban_rate END,
                  counters = CASE WHEN excluded.counters IS NOT NULL THEN excluded.counters ELSE heroes.counters END,
                  recommended_arcanas = CASE WHEN excluded.recommended_arcanas IS NOT NULL THEN excluded.recommended_arcanas ELSE heroes.recommended_arcanas END,
-                 recommended_runes = CASE WHEN excluded.recommended_runes IS NOT NULL THEN excluded.recommended_runes ELSE heroes.recommended_runes END`;
+                 recommended_runes = CASE WHEN excluded.recommended_runes IS NOT NULL THEN excluded.recommended_runes ELSE heroes.recommended_runes END,
+                 skills = CASE WHEN excluded.skills IS NOT NULL THEN excluded.skills ELSE heroes.skills END`;
     
     const params = [
         name, primary_role, secondary_role || null, tier,
-        story || null, skill_p || null, skill_1 || null, skill_2 || null, skill_3 || null,
-        items || null, builds || null, image_url || null, skins || null,
-        skill_p_img || null, skill_1_img || null, skill_2_img || null, skill_3_img || null,
+        story || null, items || null, builds || null, image_url || null, skins || null,
         win_rate || null, pick_rate || null, ban_rate || null, counters || null,
-        recommended_arcanas || null, recommended_runes || null
+        recommended_arcanas || null, recommended_runes || null, skills || null
     ];
 
     db.run(sql, params, function(err) {
@@ -220,8 +256,8 @@ app.post('/api/heroes', (req, res) => {
 
 // PUT: Cập nhật tướng
 app.put('/api/heroes/:id', (req, res) => {
-    const { name, primary_role, secondary_role, tier, story, skill_p, skill_1, skill_2, skill_3, items, builds, image_url, skins,
-            skill_p_img, skill_1_img, skill_2_img, skill_3_img, win_rate, pick_rate, ban_rate, counters, recommended_arcanas, recommended_runes } = req.body;
+    const { name, primary_role, secondary_role, tier, story, items, builds, image_url, skins,
+            win_rate, pick_rate, ban_rate, counters, recommended_arcanas, recommended_runes, skills } = req.body;
 
     const sql = `UPDATE heroes SET
                  name = COALESCE(?, name),
@@ -229,34 +265,24 @@ app.put('/api/heroes/:id', (req, res) => {
                  secondary_role = ?,
                  tier = COALESCE(?, tier),
                  story = COALESCE(?, story),
-                 skill_p = COALESCE(?, skill_p),
-                 skill_1 = COALESCE(?, skill_1),
-                 skill_2 = COALESCE(?, skill_2),
-                 skill_3 = COALESCE(?, skill_3),
                  items = COALESCE(?, items),
                  builds = COALESCE(?, builds),
                  image_url = COALESCE(?, image_url),
                  skins = ?,
-                 skill_p_img = ?,
-                 skill_1_img = ?,
-                 skill_2_img = ?,
-                 skill_3_img = ?,
                  win_rate = ?,
                  pick_rate = ?,
                  ban_rate = ?,
                  counters = ?,
                  recommended_arcanas = ?,
-                 recommended_runes = ?
+                 recommended_runes = ?,
+                 skills = COALESCE(?, skills)
                  WHERE id = ?`;
 
     const params = [
         name, primary_role, secondary_role || null, tier,
-        story, skill_p, skill_1, skill_2, skill_3,
-        items, builds || null, image_url,
-        skins || null,
-        skill_p_img || null, skill_1_img || null, skill_2_img || null, skill_3_img || null,
-        win_rate || null, pick_rate || null, ban_rate || null, counters || null,
-        recommended_arcanas || null, recommended_runes || null,
+        story, items, builds || null, image_url,
+        skins || null, win_rate || null, pick_rate || null, ban_rate || null, counters || null,
+        recommended_arcanas || null, recommended_runes || null, skills || null,
         req.params.id
     ];
 

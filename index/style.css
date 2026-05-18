@@ -162,15 +162,71 @@ body.home-body {
     height: 100vh;
     z-index: -2;
     overflow: hidden;
-    background-color: #0b0c10;
+    background-color: #000000;
 }
 
 .home-background video {
+    display: none;
     width: 100%;
     height: 100%;
     object-fit: cover;
     opacity: 0.8; /* Makes text more readable over the video */
     pointer-events: none;
+}
+
+/* Simplified Welcome Screen Style */
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+}
+
+.welcome-text {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #f39c12;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(243, 156, 18, 0.5);
+    animation: welcomeGlow 3s infinite alternate;
+}
+
+.welcome-link {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    padding: 0 5px;
+}
+
+.welcome-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 30px #f39c12, 0 0 60px #f39c12;
+}
+
+.welcome-link::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: #f39c12;
+    transition: width 0.3s ease;
+}
+
+.welcome-link:hover::after {
+    width: 100%;
+}
+
+@keyframes welcomeGlow {
+    from { text-shadow: 0 0 10px rgba(243, 156, 18, 0.3); }
+    to { text-shadow: 0 0 30px rgba(243, 156, 18, 0.8), 0 0 50px rgba(243, 156, 18, 0.4); }
 }
 
 /* Thêm điểm sáng glow sau nội dung chính */

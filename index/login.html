@@ -16,11 +16,7 @@
 </head>
 <body class="home-body">
     <!-- Video Background Synchronization -->
-    <div class="home-background">
-        <video autoplay muted loop id="bg-video" poster="img/airi-tnvt.jpg">
-            <source src="img/freecompress-live-wallpaper.mp4" type="video/mp4">
-        </video>
-    </div>
+    <div class="home-background"></div>
     <div class="glow-orb"></div>
 
     <div class="login-container">
@@ -92,7 +88,7 @@
             loginBtn.innerHTML = 'Đang xác thực...';
 
             try {
-                const _apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3000/api' : '/api';
+                const _apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:3008/api' : '/api';
                 const response = await fetch(`${_apiBase}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

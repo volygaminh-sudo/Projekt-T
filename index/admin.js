@@ -1,6 +1,6 @@
 // Auto-detect API base: relative URL on Vercel, localhost for local dev
 const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000/api'
+    ? 'http://127.0.0.1:3008/api'
     : '/api';
 const API_URL = `${BASE_URL}/heroes`;
 
@@ -76,9 +76,9 @@ async function loadHeroes() {
 
 // ===== FILTER & RENDER LOGIC =====
 function applyFiltersAndRender() {
-    const searchTerm = document.getElementById('search-input').value.toLowerCase();
-    const roleFilter = document.getElementById('filter-role').value;
-    const tierFilter = document.getElementById('filter-tier').value;
+    const searchTerm = document.getElementById('search-input')?.value?.toLowerCase() || "";
+    const roleFilter = document.getElementById('filter-role')?.value || "";
+    const tierFilter = document.getElementById('filter-tier')?.value || "";
 
     filteredHeroes = allHeroes.filter(h => {
         const matchesSearch = h.name.toLowerCase().includes(searchTerm);

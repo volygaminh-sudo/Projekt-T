@@ -13,11 +13,7 @@
     <link rel="stylesheet" href="admin.css">
 </head>
 <body class="home-body">
-    <div class="home-background">
-        <video autoplay muted loop id="bg-video" poster="img/airi-tnvt.jpg">
-            <source src="img/freecompress-live-wallpaper.mp4" type="video/mp4">
-        </video>
-    </div>
+    <div class="home-background"></div>
     <div class="glow-orb"></div>
 
     <header>
@@ -55,6 +51,11 @@
                     <option value="marksman">🏹 Xạ Thủ</option>
                     <option value="fighter">⚔️ Đấu Sĩ</option>
                     <option value="tank">🛡️ Đỡ Đòn</option>
+                </select>
+                <select id="filter-tier" title="Lọc theo Tier">
+                    <option value="">Tất cả Tier</option>
+                    <option value="splus">S+</option>
+                    <option value="s">S</option>
                     <option value="a">A</option>
                     <option value="b">B</option>
                     <option value="c">C</option>
@@ -302,51 +303,12 @@
                     <label>📖 Tiểu sử:</label>
                     <textarea id="hero-story" rows="3" placeholder="Câu chuyện về nhân vật..."></textarea>
 
-                    <div class="skills-grid">
-                        <div>
-                            <label>🔥 Kỹ năng Nội tại:</label>
-                            <input type="text" id="hero-skill-p-name" placeholder="Tên Nội tại" class="mb-8">
-                            <input type="text" id="hero-skill-p" placeholder="Mô tả kỹ năng">
+                    <div class="dynamic-skills-wrapper">
+                        <label>⚔️ Kỹ năng của Tướng:</label>
+                        <div id="dynamic-skills-container">
+                            <!-- JS sẽ inject các dòng skill vào đây -->
                         </div>
-                        <div>
-                            <label>1️⃣ Chiêu 1:</label>
-                            <input type="text" id="hero-skill-1-name" placeholder="Tên chiêu 1" class="mb-8">
-                            <input type="text" id="hero-skill-1" placeholder="Mô tả chiêu 1">
-                        </div>
-                        <div>
-                            <label>2️⃣ Chiêu 2:</label>
-                            <input type="text" id="hero-skill-2-name" placeholder="Tên chiêu 2" class="mb-8">
-                            <input type="text" id="hero-skill-2" placeholder="Mô tả chiêu 2">
-                        </div>
-                        <div>
-                            <label>💥 Chiêu 3 (Ultimate):</label>
-                            <input type="text" id="hero-skill-3-name" placeholder="Tên chiêu 3" class="mb-8">
-                            <input type="text" id="hero-skill-3" placeholder="Mô tả chiêu 3">
-                        </div>
-                    </div>
-
-                    <label>🖼️ Ảnh kỹ năng (URL từng chiêu):</label>
-                    <div class="skills-img-grid">
-                        <div class="skill-img-item">
-                            <span class="skill-img-label">🔥 Nội tại</span>
-                            <input type="url" id="skill-p-img" placeholder="URL ảnh kỹ năng P">
-                            <img class="skill-img-preview" id="prev-skill-p" src="" alt="">
-                        </div>
-                        <div class="skill-img-item">
-                            <span class="skill-img-label">1️⃣ Chiêu 1</span>
-                            <input type="url" id="skill-1-img" placeholder="URL ảnh chiêu 1">
-                            <img class="skill-img-preview" id="prev-skill-1" src="" alt="">
-                        </div>
-                        <div class="skill-img-item">
-                            <span class="skill-img-label">2️⃣ Chiêu 2</span>
-                            <input type="url" id="skill-2-img" placeholder="URL ảnh chiêu 2">
-                            <img class="skill-img-preview" id="prev-skill-2" src="" alt="">
-                        </div>
-                        <div class="skill-img-item">
-                            <span class="skill-img-label">💥 Ultimate</span>
-                            <input type="url" id="skill-3-img" placeholder="URL ảnh chiêu 3">
-                            <img class="skill-img-preview" id="prev-skill-3" src="" alt="">
-                        </div>
+                        <button type="button" id="btn-add-skill" class="btn-success" style="margin-top:10px; width:100%; border-radius:8px; padding:8px;">➕ Thêm Kỹ Năng</button>
                     </div>
 
                     <div class="loadout-builder-container">

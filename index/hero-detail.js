@@ -1,4 +1,4 @@
-const _API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3000/api' : '/api';
+const _API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:3008/api' : '/api';
 const API_URL = `${_API_BASE}/heroes`;
 
 const ROLE_INFO = {
@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelector('.hero-overview').innerHTML = `
             <div style="text-align:center; padding:40px; width:100%;">
                 <h2 style="color:#e74c3c; margin-bottom:10px;">⚠️ Lỗi tải dữ liệu</h2>
-                <p style="color:#6b7280;">Hãy chắc chắn Server Backend đang chạy tại localhost:3000</p>
+                <p style="color:#6b7280;">Hãy chắc chắn Server Backend đang chạy tại localhost:3008</p>
                 <a href="tier-list.html" style="color:#f39c12; margin-top:15px; display:inline-block;">← Quay lại Tier List</a>
             </div>`;
     }

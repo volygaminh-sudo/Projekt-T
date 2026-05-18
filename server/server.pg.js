@@ -13,12 +13,12 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3008;
 
 // --- CORS: cho phép cả localhost và domain Vercel ---
 const allowedOrigins = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
+    'http://localhost:3008',
+    'http://127.0.0.1:3008',
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
     process.env.FRONTEND_URL || null,
 ].filter(Boolean);
