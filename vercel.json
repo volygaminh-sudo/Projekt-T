@@ -4,6 +4,14 @@
     {
       "src": "server/server.pg.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "data/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,20 +20,12 @@
       "dest": "/server/server.pg.js"
     },
     {
-      "src": "/index/(.*)",
-      "dest": "/index/$1"
-    },
-    {
       "src": "/",
       "dest": "/index/index.html"
     },
     {
-      "src": "/(.*\\.(css|js|json|png|jpg|webp|svg|ico|mp4|woff2?))",
-      "dest": "/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index/$1"
+      "dest": "/$1"
     }
   ]
 }
