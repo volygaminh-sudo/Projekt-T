@@ -36,6 +36,7 @@ app.use(cors({
 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static(path.join(__dirname, '../')));
+app.use('/index', express.static(path.join(__dirname, '../index')));
 
 // --- PostgreSQL Pool ---
 const pool = new Pool({
@@ -426,6 +427,24 @@ app.post('/api/user-tiers', async (req, res) => {
         }
         res.json({ message: 'success' });
     } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// =================== FALLBACK ROUTES ===================
+
+// Root → index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index/index.html'));
+});
+
+// Catch-all: serve from index/ folder (for pages like /tier-list → /index/tier-list.html)
+app.get('/:page', (req, res) => {
+    const filePath = path.join(__dirname, '../index', req.params.page + '.html');
+    const fs = require('fs');
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.sendFile(path.join(__dirname, '../index/index.html'));
+    }
 });
 
 // =================== START (Local) ===================

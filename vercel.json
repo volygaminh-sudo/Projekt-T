@@ -3,29 +3,19 @@
   "builds": [
     {
       "src": "server/server.pg.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "index/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "data/**",
-      "use": "@vercel/static"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "index/**",
+          "data/**"
+        ]
+      }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/server/server.pg.js"
-    },
-    {
-      "src": "/",
-      "dest": "/index/index.html"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/server/server.pg.js"
     }
   ]
 }
