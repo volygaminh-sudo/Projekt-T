@@ -1537,3 +1537,64 @@
 .library-content::-webkit-scrollbar-thumb { background: rgba(243,156,18,0.3); border-radius: 3px; }
 .library-content::-webkit-scrollbar-thumb:hover { background: rgba(243,156,18,0.6); }
 
+/* === RESPONSIVE ENHANCEMENTS V2 === */
+
+/* Loadout Builder stacking */
+@media (max-width: 900px) {
+    .loadout-builder-container {
+        flex-direction: column;
+        padding: 12px;
+    }
+    .loadout-library {
+        width: 100% !important;
+        order: 2;
+        margin-top: 20px;
+    }
+    .library-content {
+        max-height: 280px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+        gap: 10px;
+    }
+    .build-dz-row {
+        grid-template-columns: 1fr;
+    }
+    .dropped-item {
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
+/* Modal Polish */
+.modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #f39c12 rgba(0,0,0,0.2);
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #f39c12;
+    border-radius: 10px;
+}
+
+/* Smooth transitions for sections */
+.admin-section:not(.d-none) {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glassmorphism focus */
+.table-container, .modal-content, .loadout-builder-container {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+

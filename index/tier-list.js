@@ -2,10 +2,9 @@
 //  TIER LIST DATA — Liên Quân Mobile
 //  Dữ liệu giờ đây chủ yếu được kéo từ Database Backend
 // ================================================
-const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://127.0.0.1:3008/api'
-    : '/api';
-
+const hostname = window.location.hostname;
+const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
+const API_BASE = isLocal ? 'http://127.0.0.1:3008/api' : '/api';
 
 // Fallback gradient per role when image 404s hoặc không có ảnh
 const ROLE_GRADIENT = {

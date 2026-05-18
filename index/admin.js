@@ -1,7 +1,7 @@
 // Auto-detect API base: relative URL on Vercel, localhost for local dev
-const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://127.0.0.1:3008/api'
-    : '/api';
+const hostname = window.location.hostname;
+const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
+const BASE_URL = isLocal ? 'http://127.0.0.1:3008/api' : '/api';
 const API_URL = `${BASE_URL}/heroes`;
 
 // Utility: HTML Escape to prevent XSS
@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'build-card';
         card.innerHTML = `
             <div class="build-card-header">
-                <input type="text" class="build-card-title" value="${title || 'Lối đồ mới'}" placeholder="Tên lối đồ...">
+                <input type="text" class="build-card-title" value="${escapeHTML(title || 'Lối đồ mới')}" placeholder="Tên lối đồ...">
                 <button type="button" class="btn-remove-card">Xóa</button>
             </div>
             <div class="build-card-content">
@@ -1355,8 +1355,8 @@ async function initTierManagement() {
                 item.className = 'tier-hero-item';
                 item.dataset.id = hero.id;
                 item.dataset.name = hero.name;
-                item.title = `${hero.name} (Nhấn để chuyển Tier)`;
-                item.innerHTML = `<img src="${hero.image_url ? escapeHTML(hero.image_url) : '../img/unnamed.webp'}" onerror="this.src='../img/unnamed.webp'">`;
+                item.title = `${escapeHTML(hero.name)} (Nhấn để chuyển Tier)`;
+                item.innerHTML = `<img src="${hero.image_url ? escapeHTML(hero.image_url) : '../img/unnamed.webp'}" onerror="this.src='../img/unnamed.webp'" alt="${escapeHTML(hero.name)}">`;
                 
                 item.onclick = () => cycleTier(hero);
                 container.appendChild(item);

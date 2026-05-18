@@ -1,6 +1,7 @@
-const _API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:3008/api' : '/api';
+const hostname = window.location.hostname;
+const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
+const _API_BASE = isLocal ? 'http://127.0.0.1:3008/api' : '/api';
 const API_URL = `${_API_BASE}/heroes`;
-
 const ROLE_INFO = {
     assassin: { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/sat-thu.png" class="role-icon-img" alt="Sát thủ">', name: 'Sát Thủ', color: 'rgba(231, 76, 60, 0.15)', textColor: '#ff6b6b', border: 'rgba(231, 76, 60, 0.3)' },
     fighter:  { icon: '<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/dau-si.png" class="role-icon-img" alt="Đấu Sĩ">', name: 'Đấu Sĩ', color: 'rgba(230, 126, 34, 0.15)', textColor: '#f0b27a', border: 'rgba(230, 126, 34, 0.3)' },

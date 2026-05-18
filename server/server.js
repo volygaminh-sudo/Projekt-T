@@ -143,6 +143,8 @@ const db = new sqlite3.Database(dbPath, (err) => {
             }
         });
 
+
+
         // Bảng User Hero Order (Lưu sắp xếp tier list của từng user)
         db.run(`CREATE TABLE IF NOT EXISTS user_hero_order (
             user_id INTEGER NOT NULL,
@@ -571,6 +573,46 @@ app.post('/api/feedbacks', (req, res) => {
     db.run(sql, [name, email || null, subject || null, message], function(err) {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ message: "success", data: { id: this.lastID } });
+    });
+});
+
+// =================== API USER TIERS ===================
+
+app.get('/api/user-tiers/:username', (req, res) => {
+    const { username } = req.params;
+    db.get('SELECT id FROM users WHERE username = ?', [username], (err, user) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!user) return res.json({ message: 'success', data: [] });
+        
+        db.all('SELECT * FROM user_hero_order WHERE user_id = ? ORDER BY tier, sort_order', [user.id], (err, rows) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ message: 'success', data: rows });
+        });
+    });
+});
+
+app.post('/api/user-tiers', (req, res) => {
+    const { username, tiers } = req.body;
+    if (!username || !Array.isArray(tiers)) {
+        return res.status(400).json({ error: 'Dữ liệu không hợp lệ' });
+    }
+
+    db.get('SELECT id FROM users WHERE username = ?', [username], (err, user) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!user) return res.status(404).json({ error: 'Không tìm thấy user' });
+
+        const userId = user.id;
+        db.run('DELETE FROM user_hero_order WHERE user_id = ?', [userId], function(err) {
+            if (err) return res.status(500).json({ error: err.message });
+
+            const stmt = db.prepare('INSERT INTO user_hero_order (user_id, hero_id, tier, sort_order) VALUES (?, ?, ?, ?)');
+            for (let i = 0; i < tiers.length; i++) {
+                const { hero_id, tier, sort_order } = tiers[i];
+                stmt.run([userId, hero_id, tier, sort_order]);
+            }
+            stmt.finalize();
+            res.json({ message: 'success' });
+        });
     });
 });
 

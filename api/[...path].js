@@ -408,22 +408,30 @@ app.delete('/api/feedback/:id', async (req, res) => {
 
 // =================== API USER TIERS ===================
 
-app.get('/api/user-tiers/:userId', async (req, res) => {
+app.get('/api/user-tiers/:username', async (req, res) => {
     try {
-        const result = await query('SELECT * FROM user_hero_order WHERE user_id=$1 ORDER BY tier, sort_order', [req.params.userId]);
+        const userRes = await query('SELECT id FROM users WHERE username=$1', [req.params.username]);
+        if (!userRes.rows.length) return res.json({ message: 'success', data: [] });
+        const userId = userRes.rows[0].id;
+        
+        const result = await query('SELECT * FROM user_hero_order WHERE user_id=$1 ORDER BY tier, sort_order', [userId]);
         res.json({ message: 'success', data: result.rows });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.post('/api/user-tiers', async (req, res) => {
-    const { userId, order } = req.body;
-    if (!userId || !Array.isArray(order)) return res.status(400).json({ error: 'Dữ liệu không hợp lệ' });
+    const { username, tiers } = req.body;
+    if (!username || !Array.isArray(tiers)) return res.status(400).json({ error: 'Dữ liệu không hợp lệ' });
     try {
+        const userRes = await query('SELECT id FROM users WHERE username=$1', [username]);
+        if (!userRes.rows.length) return res.status(404).json({ error: 'Không tìm thấy user' });
+        const userId = userRes.rows[0].id;
+
         await query('DELETE FROM user_hero_order WHERE user_id=$1', [userId]);
-        for (let i = 0; i < order.length; i++) {
-            const { heroId, tier } = order[i];
+        for (let i = 0; i < tiers.length; i++) {
+            const { hero_id, tier, sort_order } = tiers[i];
             await query('INSERT INTO user_hero_order (user_id, hero_id, tier, sort_order) VALUES ($1,$2,$3,$4)',
-                [userId, heroId, tier, i]);
+                [userId, hero_id, tier, sort_order]);
         }
         res.json({ message: 'success' });
     } catch (e) { res.status(500).json({ error: e.message }); }
