@@ -6,7 +6,12 @@ const hostname = window.location.hostname;
 const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
 const API_BASE = isLocal ? 'http://127.0.0.1:3008/api' : '/api';
 
-// Fallback gradient per role when image 404s hoặc không có ảnh
+// Global State
+let MAKER_MODE = false;
+let HEROES = [];
+let USER_CUSTOM_ORDER = null;
+
+// Fallback gradient per role when image 404s
 const ROLE_GRADIENT = {
   tank:     ["#1a3a5c","#2e86c1"],
   fighter:  ["#7a0000","#e53935"],
@@ -24,19 +29,6 @@ const TIERS = [
   { id:"c",     label:"C",  desc:"Bình thường"},
   { id:"d",     label:"D",  desc:"Cần buff"   },
 ];
-
-// Biến chứa dữ liệu toàn cục
-let HEROES = [];
-let USER_CUSTOM_ORDER = null;
-
-const ROLE_LABELS = {
-  tank:     `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/do-don.png" class="role-icon-img" alt="Đỡ đòn"> Đỡ đòn`,
-  fighter:  `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/dau-si.png" class="role-icon-img" alt="Đấu sĩ"> Đấu sĩ`,
-  assassin: `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/sat-thu.png" class="role-icon-img" alt="Sát thủ"> Sát thủ`,
-  marksman: `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/xa-thu.png" class="role-icon-img" alt="Xạ thủ"> Xạ thủ`,
-  mage:     `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/phap-su.png" class="role-icon-img" alt="Pháp sư"> Pháp sư`,
-  support:  `<img src="https://lienquan.garena.vn/wp-content/uploads/2024/05/tro-thu.png" class="role-icon-img" alt="Trợ thủ"> Trợ thủ`,
-};
 
 // ================================================
 //  RENDER ENGINE
@@ -72,31 +64,59 @@ function buildCard(hero) {
 
 function render() {
   const board = document.getElementById("tier-board");
+  const poolContainer = document.getElementById("tier-pool");
   if (!board) return;
   
   const tierMap = {};
   TIERS.forEach(t=>{ tierMap[t.id]=[]; });
+  let poolHeroes = [];
 
-  if (USER_CUSTOM_ORDER && USER_CUSTOM_ORDER.length > 0) {
-      USER_CUSTOM_ORDER.forEach(orderItem => {
-          const hero = HEROES.find(h => h[3] == orderItem.hero_id);
-          if (hero) {
-              const customHero = [...hero];
-              customHero[2] = orderItem.tier; 
-              tierMap[orderItem.tier].push(customHero);
-          }
-      });
-      HEROES.forEach(h => {
-          const alreadyIn = USER_CUSTOM_ORDER.find(o => o.hero_id == h[3]);
-          if (!alreadyIn) tierMap[h[2]].push(h);
-      });
+  // Logic phân loại tướng
+  if (MAKER_MODE) {
+      if (USER_CUSTOM_ORDER && USER_CUSTOM_ORDER.length > 0) {
+          USER_CUSTOM_ORDER.forEach(orderItem => {
+              const hero = HEROES.find(h => h[3] == orderItem.hero_id);
+              if (hero && tierMap[orderItem.tier]) {
+                  const customHero = [...hero];
+                  customHero[2] = orderItem.tier; 
+                  tierMap[orderItem.tier].push(customHero);
+              }
+          });
+          // Những tướng chưa nằm trong custom order sẽ vào Pool
+          HEROES.forEach(h => {
+              const inOrder = USER_CUSTOM_ORDER.some(o => o.hero_id == h[3] && o.tier !== 'pool');
+              if (!inOrder) poolHeroes.push(h);
+          });
+      } else {
+          // Chưa có custom order -> Tất cả vào Pool
+          poolHeroes = [...HEROES];
+      }
   } else {
-      HEROES.forEach(h=>{ if(tierMap[h[2]]) tierMap[h[2]].push(h); });
+      // Chế độ META (Mặc định)
+      if (USER_CUSTOM_ORDER && USER_CUSTOM_ORDER.length > 0) {
+          USER_CUSTOM_ORDER.forEach(orderItem => {
+              const hero = HEROES.find(h => h[3] == orderItem.hero_id);
+              if (hero && tierMap[orderItem.tier]) {
+                  const customHero = [...hero];
+                  customHero[2] = orderItem.tier; 
+                  tierMap[orderItem.tier].push(customHero);
+              }
+          });
+          HEROES.forEach(h => {
+              if (!USER_CUSTOM_ORDER.find(o => o.hero_id == h[3])) {
+                  if(tierMap[h[2]]) tierMap[h[2]].push(h);
+              }
+          });
+      } else {
+          HEROES.forEach(h=>{ if(tierMap[h[2]]) tierMap[h[2]].push(h); });
+      }
+      // Sort alphabetical trong chế độ Meta
       Object.keys(tierMap).forEach(key => {
           tierMap[key].sort((a, b) => a[0].localeCompare(b[0]));
       });
   }
 
+  // Render Board
   board.innerHTML = TIERS.map(tier=>`
     <div class="tier-row" data-tier="${tier.id}">
       <div class="tier-label tier-${tier.id}">
@@ -108,14 +128,109 @@ function render() {
       </div>
     </div>`).join("");
 
+  // Render Pool
+  if (poolContainer) {
+      poolContainer.innerHTML = poolHeroes.map(buildCard).join("");
+  }
+
   updateCounts();
   initHoverSkins();
   initDragAndDrop();
 }
 
+// ================================================
+//  MODES & CONTROLLERS
+// ================================================
+
+function toggleMakerMode(enable) {
+    MAKER_MODE = enable;
+    const btnMeta = document.getElementById('btn-meta-view');
+    const btnMaker = document.getElementById('btn-maker-mode');
+    const poolSec = document.getElementById('pool-section');
+
+    if (enable) {
+        btnMaker.classList.add('active');
+        btnMeta.classList.remove('active');
+        poolSec.classList.remove('hidden');
+        showToast("Đã bật Chế độ Tự tạo Tier List", "info");
+    } else {
+        btnMeta.classList.add('active');
+        btnMaker.classList.remove('active');
+        poolSec.classList.add('hidden');
+        showToast("Đã quay lại Bảng Meta hệ thống", "info");
+    }
+    render();
+}
+
+function initMakerControls() {
+    document.getElementById('btn-meta-view')?.addEventListener('click', () => toggleMakerMode(false));
+    document.getElementById('btn-maker-mode')?.addEventListener('click', () => toggleMakerMode(true));
+    
+    document.getElementById('btn-save')?.addEventListener('click', () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            showToast("Bạn cần đăng nhập để lưu bảng xếp hạng!", "error");
+            return;
+        }
+        saveUserTiers(user.username);
+    });
+
+    document.getElementById('btn-reset')?.addEventListener('click', () => {
+        if (confirm("Bạn có chắc muốn xóa bảng xếp hạng cá nhân và quay về mặc định?")) {
+            resetToDefault();
+        }
+    });
+
+    document.getElementById('btn-download')?.addEventListener('click', downloadTierList);
+}
+
+async function resetToDefault() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        try {
+            await fetch(`${API_BASE}/user-tiers`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user.username, tiers: [] })
+            });
+        } catch (e) {}
+    }
+    USER_CUSTOM_ORDER = null;
+    showToast("Đã reset về bảng mặc định", "success");
+    render();
+}
+
+async function downloadTierList() {
+    const board = document.getElementById('tier-board');
+    if (!board) return;
+    
+    showToast("Đang chuẩn bị ảnh...", "info");
+    
+    try {
+        const canvas = await html2canvas(board, {
+            backgroundColor: "#0a0c13",
+            scale: 2,
+            logging: false,
+            useCORS: true
+        });
+        
+        const link = document.createElement('a');
+        link.download = `tier-list-lien-quan-${new Date().getTime()}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        showToast("Tải ảnh thành công!", "success");
+    } catch (err) {
+        console.error(err);
+        showToast("Lỗi khi tạo ảnh", "error");
+    }
+}
+
+// ================================================
+//  DRAG & DROP
+// ================================================
+
 function initDragAndDrop() {
     const containers = document.querySelectorAll('.drag-container');
-    const user = JSON.parse(localStorage.getItem('user'));
     
     containers.forEach(el => {
         new Sortable(el, {
@@ -123,9 +238,6 @@ function initDragAndDrop() {
             animation: 150,
             ghostClass: 'ghost-card',
             onEnd: function () {
-                if (user) {
-                    saveUserTiers(user.username);
-                }
                 updateCounts();
             }
         });
@@ -147,13 +259,19 @@ async function saveUserTiers(username) {
     });
 
     try {
-        await fetch(`${API_BASE}/user-tiers`, {
+        const res = await fetch(`${API_BASE}/user-tiers`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, tiers: tiersData })
         });
+        const json = await res.json();
+        if (json.message === "success") {
+            showToast("Đã lưu bảng xếp hạng cá nhân!", "success");
+            USER_CUSTOM_ORDER = tiersData;
+        }
     } catch (err) {
         console.error("Lỗi khi lưu sắp xếp:", err);
+        showToast("Lỗi khi kết nối máy chủ", "error");
     }
 }
 
@@ -169,6 +287,30 @@ async function loadUserTiers(username) {
     }
 }
 
+// ================================================
+//  UTILITIES
+// ================================================
+
+function showToast(message, type = "info") {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${message}</span>`;
+    
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = 'toastSlideOut 0.4s forwards';
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
+}
+
 let slideIntervalId = null;
 let activeSlideCard = null;
 
@@ -176,7 +318,7 @@ function initHoverSkins() {
   const board = document.getElementById("tier-board");
   if (!board) return;
 
-  board.addEventListener('mouseover', (e) => {
+  const handleMouseOver = (e) => {
       const card = e.target.closest('.tier-hero-card');
       if (!card || activeSlideCard === card) return;
       
@@ -240,9 +382,9 @@ function initHoverSkins() {
               card.faderCtx.useFader1 = !card.faderCtx.useFader1;
           }, 800);
       }
-  });
+  };
 
-  board.addEventListener('mouseout', (e) => {
+  const handleMouseOut = (e) => {
       const card = e.target.closest('.tier-hero-card');
       if (!card || card.contains(e.relatedTarget)) return;
 
@@ -264,14 +406,22 @@ function initHoverSkins() {
               }
           }, 350);
       }
-  });
+  };
+
+  board.addEventListener('mouseover', handleMouseOver);
+  board.addEventListener('mouseout', handleMouseOut);
+  const pool = document.getElementById("tier-pool");
+  if(pool) {
+      pool.addEventListener('mouseover', handleMouseOver);
+      pool.addEventListener('mouseout', handleMouseOut);
+  }
 }
 
 function updateCounts() {
   const tEl = document.getElementById("total-count");
   const vEl = document.getElementById("visible-count");
-  const all  = document.querySelectorAll(".hero-card");
-  const show = document.querySelectorAll(".hero-card:not(.hidden)");
+  const all  = document.querySelectorAll("#tier-board .hero-card");
+  const show = document.querySelectorAll("#tier-board .hero-card:not(.hidden)");
   if (tEl) tEl.textContent = all.length;
   if (vEl) vEl.textContent = show.length;
 }
@@ -335,6 +485,7 @@ async function fetchHeroes() {
 
         render();
         initFilters();
+        initMakerControls();
         
     } catch (error) {
         console.error("Lỗi:", error);

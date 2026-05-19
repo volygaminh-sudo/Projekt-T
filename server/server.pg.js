@@ -380,6 +380,34 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
+app.post('/api/google-login', async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Thiếu email' });
+    try {
+        const emailTrimmed = email.trim();
+        let result = await query('SELECT id, username, display_name, role FROM users WHERE username=$1', [emailTrimmed]);
+        
+        if (!result.rows.length) {
+            // Sử dụng module crypto tích hợp của Node.js để sinh mật khẩu an toàn
+            const crypto = require('crypto');
+            const randomPassword = crypto.randomBytes(8).toString('hex');
+            const displayName = emailTrimmed.split('@')[0];
+            
+            const insertResult = await query(`
+                INSERT INTO users (username, password, display_name, role)
+                VALUES ($1,$2,$3,'user')
+                RETURNING id, username, display_name, role
+            `, [emailTrimmed, randomPassword, displayName]);
+            
+            res.json({ message: 'success', user: insertResult.rows[0] });
+        } else {
+            res.json({ message: 'success', user: result.rows[0] });
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // =================== API FEEDBACK ===================
 
 app.post('/api/feedback', async (req, res) => {

@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="quick-admin.css">
     <!-- SortableJS for drag & drop -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- html2canvas for export -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body class="home-body">
     <script src="music.js"></script>
@@ -78,10 +80,47 @@
             </div>
         </section>
 
+        <!-- Action Bar -->
+        <section class="tier-actions-bar">
+            <div class="actions-container">
+                <div class="mode-toggle">
+                    <button class="action-btn mode-btn active" id="btn-meta-view">BẢNG META</button>
+                    <button class="action-btn mode-btn" id="btn-maker-mode">TỰ TẠO TIER-LIST</button>
+                </div>
+                <div class="action-group">
+                    <button class="action-btn reset-btn" id="btn-reset" title="Khôi phục mặc định">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                        RESET
+                    </button>
+                    <button class="action-btn download-btn" id="btn-download" title="Tải ảnh PNG">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        TẢI ẢNH
+                    </button>
+                    <button class="action-btn save-btn highlight-btn" id="btn-save" title="Lưu thay đổi">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v13a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        LƯU
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- Tier Board -->
         <section class="tier-board-section">
             <div class="tier-board-wrapper" id="tier-board">
                 <!-- Rendered by tier-list.js -->
+            </div>
+        </section>
+
+        <!-- Hero Pool (Hidden in Meta View) -->
+        <section class="tier-pool-section hidden" id="pool-section">
+            <div class="pool-wrapper">
+                <div class="pool-header">
+                    <h3 class="pool-title">KHO TƯỚNG CHƯA XẾP</h3>
+                    <p class="pool-desc">Kéo tướng từ đây vào các hàng ở trên để bắt đầu xếp hạng.</p>
+                </div>
+                <div class="tier-heroes drag-container pool-container" id="tier-pool" data-tier="pool">
+                    <!-- Heroes will be moved here in Maker Mode -->
+                </div>
             </div>
         </section>
 

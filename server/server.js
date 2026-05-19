@@ -562,6 +562,30 @@ app.post('/api/register', (req, res) => {
     });
 });
 
+// POST: Google Login (Mock)
+app.post('/api/google-login', (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: "Thiếu email" });
+    
+    const emailTrimmed = email.trim();
+    db.get(`SELECT id, username, display_name FROM users WHERE username = ?`, [emailTrimmed], (err, user) => {
+        if (err) return res.status(500).json({ error: err.message });
+        
+        if (!user) {
+            // Sử dụng module crypto tích hợp của Node.js để sinh mật khẩu an toàn
+            const crypto = require('crypto');
+            const randomPassword = crypto.randomBytes(8).toString('hex');
+            const display_name = emailTrimmed.split('@')[0];
+            db.run(`INSERT INTO users (username, password, display_name) VALUES (?, ?, ?)`, [emailTrimmed, randomPassword, display_name], function(err) {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ message: "success", user: { id: this.lastID, username: emailTrimmed, display_name } });
+            });
+        } else {
+            res.json({ message: "success", user });
+        }
+    });
+});
+
 // POST: Gửi ý kiến góp ý
 app.post('/api/feedbacks', (req, res) => {
     const { name, email, subject, message } = req.body;
