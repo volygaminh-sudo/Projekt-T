@@ -22,6 +22,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "cors": "*",
     "dotenv": "^16.6.1",
     "express": "*",
