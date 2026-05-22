@@ -39,10 +39,35 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // App Data State
+  const [dbHeroes, setDbHeroes] = useState<Hero[]>(HEROES);
   const [state, setState] = useState<TierState>({
     tiers: INITIAL_TIERS,
     inventory: HEROES,
   });
+
+  // Fetch from Postgres
+  useEffect(() => {
+    const fetchDB = async () => {
+      try {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const url = isLocal ? 'http://127.0.0.1:3008/api/heroes' : '/api/heroes';
+        const res = await fetch(url);
+        if (res.ok) {
+          const json = await res.json();
+          const fetchedHeroes: Hero[] = json.data.map((h: any) => ({
+             id: String(h.id),
+             name: h.name,
+             role: h.primary_role || 'fighter',
+             image: h.image_url || 'https://lienquan.garena.vn/wp-content/uploads/2024/02/zata.png'
+          }));
+          setDbHeroes(fetchedHeroes);
+        }
+      } catch (e) {
+        console.error("Offline Fallback: Using cached HEROES.");
+      }
+    };
+    fetchDB();
+  }, []);
 
   const [activeHero, setActiveHero] = useState<Hero | null>(null);
   const [filterRole, setFilterRole] = useState<Role>('all');
@@ -52,13 +77,13 @@ export default function Home() {
   const META_STORAGE_KEY = 'lienquan_meta_tier_list';
   const USER_STORAGE_KEY = 'lienquan_user_tier_list';
 
-  // Load from local storage when mode changes
+  // Load from local storage when mode or dbHeroes changes
   useEffect(() => {
-    loadData(mode);
+    loadData(mode, dbHeroes);
     setIsLoaded(true);
-  }, [mode]);
+  }, [mode, dbHeroes]);
 
-  const loadData = (targetMode: AppMode) => {
+  const loadData = (targetMode: AppMode, baseHeroes: Hero[]) => {
     const key = targetMode === 'META' ? META_STORAGE_KEY : USER_STORAGE_KEY;
     const saved = localStorage.getItem(key);
     if (saved) {
@@ -68,7 +93,7 @@ export default function Home() {
         const usedIds = new Set<string>();
         parsed.tiers.forEach(t => t.heroes.forEach(h => usedIds.add(h.id)));
         
-        const availableHeroes = HEROES.filter(h => !usedIds.has(h.id));
+        const availableHeroes = baseHeroes.filter(h => !usedIds.has(h.id));
         
         setState({
           tiers: parsed.tiers,
@@ -81,7 +106,7 @@ export default function Home() {
     }
     
     // Fallback if no data saved
-    setState({ tiers: INITIAL_TIERS, inventory: HEROES });
+    setState({ tiers: INITIAL_TIERS, inventory: baseHeroes });
   };
 
   const saveData = () => {
@@ -173,7 +198,7 @@ export default function Home() {
 
   const handleReset = () => {
     if (confirm(`Đặt lại bảng về mặc định? Bạn sẽ mất dữ liệu chưa lưu.`)) {
-      setState({ tiers: INITIAL_TIERS, inventory: HEROES });
+      setState({ tiers: INITIAL_TIERS, inventory: dbHeroes });
       const key = mode === 'META' ? META_STORAGE_KEY : USER_STORAGE_KEY;
       localStorage.removeItem(key);
     }

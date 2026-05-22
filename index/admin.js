@@ -268,8 +268,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Tìm kiếm & Lọc
-    searchInput.addEventListener('input', applyFiltersAndRender);
+    // Tìm kiếm & Lọc (Sử dụng hàm debounce tương tự nội bộ)
+    let heroSearchTimeout;
+    searchInput.addEventListener('input', () => {
+        clearTimeout(heroSearchTimeout);
+        heroSearchTimeout = setTimeout(applyFiltersAndRender, 300);
+    });
     document.getElementById('filter-role').addEventListener('change', applyFiltersAndRender);
     document.getElementById('filter-tier').addEventListener('change', applyFiltersAndRender);
 
@@ -350,7 +354,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (noRes) noRes.remove();
     }
 
-    document.getElementById('lib-search').addEventListener('input', (e) => applyLibSearch(e.target.value));
+    let libSearchTimeout;
+    document.getElementById('lib-search').addEventListener('input', (e) => {
+        clearTimeout(libSearchTimeout);
+        libSearchTimeout = setTimeout(() => applyLibSearch(e.target.value), 300);
+    });
 
     // Library Data Loading
     async function loadLibraryData() {
@@ -910,15 +918,23 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPreview('arcana-image', 'arcana-img-preview');
     setupPreview('rune-image', 'rune-img-preview');
 
-    // Search handlers
+    // Search handlers with Debounce to prevent Database DDoS
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
     const itemSearchInput = document.getElementById('item-search-input');
-    if (itemSearchInput) itemSearchInput.addEventListener('input', () => loadItems(itemSearchInput.value));
+    if (itemSearchInput) itemSearchInput.addEventListener('input', debounce(() => loadItems(itemSearchInput.value), 400));
 
     const arcanaSearchInput = document.getElementById('arcana-search-input');
-    if (arcanaSearchInput) arcanaSearchInput.addEventListener('input', () => loadArcanas(arcanaSearchInput.value));
+    if (arcanaSearchInput) arcanaSearchInput.addEventListener('input', debounce(() => loadArcanas(arcanaSearchInput.value), 400));
 
     const runeSearchInput = document.getElementById('rune-search-input');
-    if (runeSearchInput) runeSearchInput.addEventListener('input', () => loadRunes(runeSearchInput.value));
+    if (runeSearchInput) runeSearchInput.addEventListener('input', debounce(() => loadRunes(runeSearchInput.value), 400));
 
     // Item form submit
     if (itemForm) {
