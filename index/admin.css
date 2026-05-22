@@ -1573,6 +1573,13 @@
     scrollbar-color: #f39c12 rgba(0,0,0,0.2);
 }
 
+#btn-add-skill {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
 .modal-content::-webkit-scrollbar {
     width: 6px;
 }

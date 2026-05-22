@@ -1,36 +1,517 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Liên Quân Mobile - Game MOBA eSports đỉnh cao. Tham gia Bình Nguyên Vô Tận, cập nhật tướng mới, sự kiện hot và giải đấu thể thao điện tử hấp dẫn.">
+    <meta name="description" content="Liên Quân Mobile - Bảng xếp hạng tướng, Tier List meta mới nhất, hồ sơ chi tiết tướng và công cụ quản lý đội hình chuyên nghiệp.">
     <meta property="og:title" content="Trang Chủ - Liên Quân Mobile | Projekt-T">
     <meta property="og:description" content="Hệ thống quản lý và tra cứu tướng Liên Quân Mobile chuyên nghiệp.">
     <meta property="og:image" content="https://lienquan.garena.vn/wp-content/uploads/2024/05/bg-share.jpg">
     <meta property="og:url" content="https://projekt-t.vercel.app">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="quick-admin.css">
-    <link rel="stylesheet" href="tailwind.css">
+    <title>Trang Chủ - Liên Quân Mobile | Projekt-T</title>
+    <link rel="icon" type="image/x-icon" href="https://lienquan.garena.vn/wp-content/themes/lq/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <title>Trang Chủ - Liên Quân Mobile</title>
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Chakra+Petch:wght@400;700&family=Montserrat:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="quick-admin.css">
+    <style>
+        /* ===== HOMEPAGE SPECIFIC ===== */
+        .home-hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+        }
 
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(243,156,18,0.2), rgba(255,140,0,0.1));
+            border: 1px solid rgba(243,156,18,0.4);
+            color: #f39c12;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-main-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(52px, 9vw, 100px);
+            font-weight: 900;
+            line-height: 1;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0 0 20px;
+            animation: fadeUp 0.9s ease 0.1s both;
+        }
+
+        .hero-main-title .gold {
+            background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: rgba(255,255,255,0.65);
+            max-width: 650px;
+            line-height: 1.7;
+            margin: 0 auto 50px;
+            animation: fadeUp 1s ease 0.2s both;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeUp 1.1s ease 0.3s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #fff;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 15px;
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 30px rgba(243,156,18,0.45);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 15px 40px rgba(243,156,18,0.65);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 15px 38px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .btn-secondary:hover {
+            border-color: #f39c12;
+            color: #f39c12;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(243,156,18,0.2);
+        }
+
+        /* Stats row */
+        .hero-stats-row {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 70px;
+            animation: fadeUp 1.2s ease 0.4s both;
+        }
+
+        .hero-stat-item {
+            text-align: center;
+        }
+        .hero-stat-item .stat-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            color: #f39c12;
+            line-height: 1;
+            display: block;
+        }
+        .hero-stat-item .stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-label {
+            color: #f39c12;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(36px, 5vw, 52px);
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #fff;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 35px 30px;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--card-color, #f39c12), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(243,156,18,0.25);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 22px;
+            background: rgba(243,156,18,0.12);
+            border: 1px solid rgba(243,156,18,0.2);
+        }
+
+        .feature-title {
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .feature-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
+            margin: 0 0 20px;
+        }
+        .feature-link-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #f39c12;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Tier preview section */
+        .tier-preview-section {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(243,156,18,0.04), transparent);
+        }
+
+        .tier-badges-showcase {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .tier-badge-demo {
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .tier-badge-demo:hover { transform: scale(1.12) translateY(-3px); }
+        .tier-s-plus { background: linear-gradient(135deg, #cc3300, #ff6b00); box-shadow: 0 6px 20px rgba(255,107,0,0.4); }
+        .tier-s { background: linear-gradient(135deg, #8b1a00, #d35400); box-shadow: 0 6px 20px rgba(211,84,0,0.4); }
+        .tier-a { background: linear-gradient(135deg, #145200, #27ae60); box-shadow: 0 6px 20px rgba(39,174,96,0.4); }
+        .tier-b { background: linear-gradient(135deg, #003666, #2980b9); box-shadow: 0 6px 20px rgba(41,128,185,0.4); }
+        .tier-c { background: linear-gradient(135deg, #9a7d00, #f1c40f); box-shadow: 0 6px 20px rgba(241,196,15,0.4); }
+        .tier-d { background: linear-gradient(135deg, #222, #555); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            padding: 80px 20px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .bottom-cta h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .bottom-cta p {
+            color: rgba(255,255,255,0.55);
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        /* Page footer */
+        .site-footer {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 20px;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 13px;
+        }
+        .site-footer a { color: rgba(243,156,18,0.7); text-decoration: none; }
+        .site-footer a:hover { color: #f39c12; }
+
+        @media (max-width: 600px) {
+            .hero-stats-row { gap: 30px; }
+            .hero-cta-group { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
 <body class="home-body">
+    <script src="music.js"></script>
     <div class="home-background"></div>
-    
-    <main class="welcome-container">
-        <h1 class="welcome-text"><a href="tier-list.html" class="welcome-link">Welcome Projekt-T</a></h1>
+    <div class="glow-orb"></div>
+
+    <!-- ===== STICKY HEADER ===== -->
+    <header id="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" class="logo-link" title="Trang chủ">
+                    <img src="img/unnamed.webp" alt="Liên Quân Mobile Logo">
+                    <span class="download-badge">PROJEKT-T</span>
+                </a>
+            </div>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="index.html" class="active">Trang chủ</a></li>
+                    <li><a href="tier-list.html">Tier-list</a></li>
+                    <li><a href="new-hero.html">Tướng Mới</a></li>
+                    <li><a href="capnhat.html">Cập nhật</a></li>
+                    <li><a href="gopy.html">Góp ý</a></li>
+                    <li id="nav-login"><a href="login.html">Đăng nhập</a></li>
+                    <li id="nav-user" class="nav-hidden"><a href="#" id="logoutBtn">Đăng xuất (<span id="username-display"></span>)</a></li>
+                </ul>
+                <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </nav>
+        </div>
+        <script src="auth-check.js"></script>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <main>
+        <section class="home-hero-section">
+            <span class="hero-badge">🔥 Meta Season 2025 · Cập nhật liên tục</span>
+            <h1 class="hero-main-title">
+                PROJEKT-T<br>
+                <span class="gold">LIÊN QUÂN</span>
+            </h1>
+            <p class="hero-subtitle">
+                Tra cứu tier list tướng, xem hồ sơ, kỹ năng, trang bị gợi ý — tất cả trong một nền tảng dành riêng cho game thủ Liên Quân.
+            </p>
+            <div class="hero-cta-group">
+                <a href="tier-list.html" class="btn-primary">⚔️ Xem Tier List</a>
+                <a href="login.html" class="btn-secondary">Đăng nhập</a>
+            </div>
+
+            <div class="hero-stats-row">
+                <div class="hero-stat-item">
+                    <span class="stat-num" id="hero-count">90+</span>
+                    <span class="stat-label">Tướng</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-num">6</span>
+                    <span class="stat-label">Cấp Bậc</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="stat-num">S+</span>
+                    <span class="stat-label">Tier Cao Nhất</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURES SECTION ===== -->
+        <section class="features-section">
+            <div class="section-header">
+                <span class="section-label">Tính năng nổi bật</span>
+                <h2 class="section-title">Khám Phá Projekt-T</h2>
+            </div>
+            <div class="features-grid">
+                <a href="tier-list.html" class="feature-card" style="--card-color:#f39c12">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Tier List Meta</h3>
+                    <p class="feature-desc">Bảng xếp hạng đầy đủ tất cả tướng theo meta hiện tại — từ S+ thống trị đến D cần buff.</p>
+                    <span class="feature-link-text">Xem ngay →</span>
+                </a>
+                <a href="tier-list.html" class="feature-card" style="--card-color:#9b59b6">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Tự Tạo Tier List</h3>
+                    <p class="feature-desc">Kéo thả tướng để tạo bảng xếp hạng theo ý riêng của bạn. Lưu &amp; chia sẻ với cộng đồng.</p>
+                    <span class="feature-link-text">Dùng thử →</span>
+                </a>
+                <a href="hero-detail.html?id=1" class="feature-card" style="--card-color:#2ecc71">
+                    <div class="feature-icon">⚔️</div>
+                    <h3 class="feature-title">Hồ Sơ Tướng</h3>
+                    <p class="feature-desc">Kỹ năng chi tiết, lên đồ gợi ý, ngọc, phù hiệu và bộ sưu tập skin cho mỗi tướng.</p>
+                    <span class="feature-link-text">Khám phá →</span>
+                </a>
+                <a href="new-hero.html" class="feature-card" style="--card-color:#3498db">
+                    <div class="feature-icon">🆕</div>
+                    <h3 class="feature-title">Tướng Mới Nhất</h3>
+                    <p class="feature-desc">Cập nhật tức thì thông tin về tướng mới được thêm vào Liên Quân Mobile.</p>
+                    <span class="feature-link-text">Xem thêm →</span>
+                </a>
+                <a href="capnhat.html" class="feature-card" style="--card-color:#e74c3c">
+                    <div class="feature-icon">📋</div>
+                    <h3 class="feature-title">Bản Cập Nhật</h3>
+                    <p class="feature-desc">Theo dõi các bản vá chỉnh sửa chỉ số, buff/nerf tướng và sự kiện game mới nhất.</p>
+                    <span class="feature-link-text">Đọc bản vá →</span>
+                </a>
+                <a href="gopy.html" class="feature-card" style="--card-color:#1abc9c">
+                    <div class="feature-icon">💬</div>
+                    <h3 class="feature-title">Góp Ý</h3>
+                    <p class="feature-desc">Giúp chúng tôi phát triển tốt hơn. Mọi phản hồi đều được lắng nghe và xem xét.</p>
+                    <span class="feature-link-text">Gửi ý kiến →</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== TIER SHOWCASE ===== -->
+        <section class="tier-preview-section">
+            <div class="section-header">
+                <span class="section-label">Hệ thống xếp hạng</span>
+                <h2 class="section-title">Từ Thống Trị Đến Cần Buff</h2>
+            </div>
+            <div class="tier-badges-showcase">
+                <a href="tier-list.html" class="tier-badge-demo tier-s-plus">S+</a>
+                <a href="tier-list.html" class="tier-badge-demo tier-s">S</a>
+                <a href="tier-list.html" class="tier-badge-demo tier-a">A</a>
+                <a href="tier-list.html" class="tier-badge-demo tier-b">B</a>
+                <a href="tier-list.html" class="tier-badge-demo tier-c">C</a>
+                <a href="tier-list.html" class="tier-badge-demo tier-d">D</a>
+            </div>
+        </section>
+
+        <!-- ===== BOTTOM CTA ===== -->
+        <section class="bottom-cta">
+            <h2>Sẵn sàng leo rank?</h2>
+            <p>Đăng nhập để lưu bảng xếp hạng của riêng bạn và theo dõi tướng yêu thích mỗi mùa giải.</p>
+            <div class="hero-cta-group">
+                <a href="login.html" class="btn-primary">Đăng nhập ngay</a>
+                <a href="register.html" class="btn-secondary">Tạo tài khoản</a>
+            </div>
+        </section>
     </main>
 
-    <div style="position: fixed; bottom: 10px; left: 10px; opacity: 0.2;">
-        <a href="tier-list.html" style="color: #444; text-decoration: none; font-size: 10px;">Tier List</a> | 
-        <a href="admin.html" style="color: #444; text-decoration: none; font-size: 10px;">Admin</a>
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <p>© 2025 Projekt-T · Dữ liệu tham khảo từ <a href="https://lienquan.garena.vn" target="_blank" rel="noopener">Liên Quân Mobile</a> · Không thuộc Garena</p>
+    </footer>
+
+    <!-- Music Toggle -->
+    <div id="music-toggle" class="music-controller" title="Bật/Tắt nhạc nền">
+        <div class="music-icon">
+            <span></span><span></span><span></span><span></span>
+        </div>
+        <span class="music-text">NHẠC NỀN</span>
     </div>
+
+    <!-- Quick Admin Access -->
+    <a href="admin.html" class="quick-admin-btn" title="Quản trị hệ thống">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+    </a>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mainHeader = document.getElementById('main-header');
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = mainHeader.classList.toggle('nav-open');
+            hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close menu when clicking a nav link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => mainHeader.classList.remove('nav-open'));
+        });
+
+        // Fetch hero count
+        const _apiBase = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:3008/api' : '/api';
+        fetch(`${_apiBase}/heroes`).then(r => r.json()).then(d => {
+            if (d.data && d.data.length) {
+                document.getElementById('hero-count').textContent = d.data.length + '+';
+            }
+        }).catch(() => {});
+    </script>
 </body>
-
-
 </html>

@@ -12,6 +12,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="login.css">
 </head>
 <body class="home-body">
@@ -83,7 +84,24 @@
         </div>
     </div>
 
+    <!-- Toast container -->
+    <div class="toast-container" id="toast-container"></div>
+
     <script>
+        // ===== TOAST SYSTEM (BUG-003 FIX) =====
+        function showToast(msg, type = 'error', duration = 4000) {
+            const icons = { error: '❌', success: '✅', info: 'ℹ️', warning: '⚠️' };
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><span class="toast-msg">${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 350);
+            }, duration);
+        }
+
         // Khởi tạo Lucide Icons
         lucide.createIcons();
 
@@ -99,11 +117,10 @@
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             if (username.toLowerCase() !== 'admin' && !emailRegex.test(username)) {
-                alert('Vui lòng nhập một địa chỉ email hợp lệ (hoặc "admin" cho quản trị viên).');
+                showToast('Vui lòng nhập email hợp lệ (hoặc "admin" cho quản trị viên).', 'warning');
                 return;
             }
 
-            // Hiệu ứng loading
             loginBtn.disabled = true;
             loginBtn.innerHTML = 'Đang xác thực...';
 
@@ -118,37 +135,32 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Lưu thông tin người dùng vào localStorage
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    
-                    // Nếu là admin thì vẫn qua trang quản trị, nếu không thì về trang chủ hoặc tier-list
-                    if (data.user.username === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'tier-list.html';
-                    }
+                    showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success', 1500);
+                    setTimeout(() => {
+                        window.location.href = data.user.username === 'admin' ? 'admin.html' : 'tier-list.html';
+                    }, 1000);
                 } else {
-                    // Thất bại
-                    alert(data.error || 'Sai tài khoản hoặc mật khẩu! (Gợi ý: admin/admin)');
+                    showToast(data.error || 'Sai tài khoản hoặc mật khẩu! (Gợi ý: admin/admin)', 'error');
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = 'Đăng Nhập Ngay';
                 }
             } catch (error) {
                 console.error('Lỗi đăng nhập:', error);
-                alert('Không thể kết nối tới server. Vui lòng thử lại sau.');
+                showToast('Không thể kết nối tới server. Vui lòng thử lại sau.', 'error');
                 loginBtn.disabled = false;
                 loginBtn.innerHTML = 'Đăng Nhập Ngay';
             }
         });
 
-        // Xử lý Google Login Form (Mô phỏng)
+        // Xử lý Google Login (Mô phỏng)
         document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-            const mockEmail = prompt('Vui lòng nhập Email Gmail của bạn (Mô phỏng Đăng nhập Google):');
-            if (mockEmail === null) return; // Hủy
+            const mockEmail = prompt('Nhập Email Gmail của bạn (Mô phỏng Đăng nhập Google):');
+            if (mockEmail === null) return;
             
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(mockEmail)) {
-                alert('Email không hợp lệ! Vui lòng nhập đúng định dạng.');
+                showToast('Email không hợp lệ! Vui lòng nhập đúng định dạng.', 'warning');
                 return;
             }
             
@@ -169,13 +181,14 @@
 
                 if (response.ok) {
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = 'tier-list.html';
+                    showToast('Đăng nhập thành công!', 'success', 1500);
+                    setTimeout(() => { window.location.href = 'tier-list.html'; }, 1000);
                 } else {
-                    alert(data.error || 'Lỗi đăng nhập Google');
+                    showToast(data.error || 'Lỗi đăng nhập Google', 'error');
                 }
             } catch (error) {
                 console.error('Lỗi đăng nhập Google:', error);
-                alert('Không thể kết nối tới server.');
+                showToast('Không thể kết nối tới server.', 'error');
             } finally {
                 btn.innerHTML = originalContent;
                 btn.disabled = false;

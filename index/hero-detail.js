@@ -20,12 +20,14 @@ const TIER_INFO = {
     d:     { label: 'D',  desc: 'Cần Buff', detail: 'Yếu so với phần còn lại.', gradient: 'linear-gradient(135deg, #222, #7f8c8d)' },
 };
 
-// Tab switching
-window.switchTab = function(tabName) {
+// Tab switching — BUG-002 FIX: pass `event` explicitly, do NOT rely on deprecated global
+window.switchTab = function(tabName, e) {
     document.querySelectorAll('.hd-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-    
-    event.target.closest('.hd-tab').classList.add('active');
+
+    // Find the closest .hd-tab button from the clicked element
+    const clickedTab = (e && e.target) ? e.target.closest('.hd-tab') : null;
+    if (clickedTab) clickedTab.classList.add('active');
     document.getElementById('tab-' + tabName).classList.add('active');
 }
 

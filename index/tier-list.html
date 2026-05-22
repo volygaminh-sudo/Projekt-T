@@ -28,7 +28,7 @@
     <div class="glow-orb"></div>
 
     <!-- ===== STICKY HEADER ===== -->
-    <header>
+    <header id="tl-header">
         <div class="container">
             <div class="logo">
                 <a href="https://play.google.com/store/apps/details?id=com.garena.game.kgvn" target="_blank" rel="noopener noreferrer" class="logo-link" title="Tải Game">
@@ -37,7 +37,7 @@
                 </a>
             </div>
             <nav>
-                <ul>
+                <ul id="tl-nav-menu">
                     <li><a href="index.html">Trang chủ</a></li>
                     <li><a href="tier-list.html" class="active">Tier-list</a></li>
                     <li><a href="new-hero.html">Tướng Mới</a></li>
@@ -46,10 +46,30 @@
                     <li id="nav-login"><a href="login.html">Đăng nhập</a></li>
                     <li id="nav-user" class="nav-hidden"><a href="#" id="logoutBtn">Đăng xuất (<span id="username-display"></span>)</a></li>
                 </ul>
+                <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
             </nav>
     <script src="auth-check.js"></script>
         </div>
     </header>
+    <script>
+        // Hamburger toggle for tier-list
+        (function() {
+            const btn = document.getElementById('hamburger-btn');
+            const hdr = document.getElementById('tl-header');
+            if (btn && hdr) {
+                btn.addEventListener('click', () => {
+                    const open = hdr.classList.toggle('nav-open');
+                    btn.setAttribute('aria-expanded', open);
+                });
+                document.querySelectorAll('#tl-nav-menu a').forEach(a => {
+                    a.addEventListener('click', () => hdr.classList.remove('nav-open'));
+                });
+            }
+        })();
+    </script>
+
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="tier-main">

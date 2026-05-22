@@ -12,6 +12,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="login.css">
 </head>
 <body class="home-body">
@@ -91,11 +92,27 @@
         </div>
     </div>
 
+    <!-- Toast container -->
+    <div class="toast-container" id="toast-container"></div>
+
     <script>
+        // ===== TOAST SYSTEM (BUG-004/005 FIX) =====
+        function showToast(msg, type = 'error', duration = 4000) {
+            const icons = { error: '❌', success: '✅', info: 'ℹ️', warning: '⚠️' };
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><span class="toast-msg">${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 350);
+            }, duration);
+        }
+
         // Khởi tạo Lucide Icons
         lucide.createIcons();
 
-        // Xử lý Form Register
         const registerForm = document.getElementById('registerForm');
         const registerBtn = document.getElementById('registerBtn');
 
@@ -109,16 +126,15 @@
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(username)) {
-                alert('Vui lòng nhập một địa chỉ email hợp lệ!');
+                showToast('Vui lòng nhập một địa chỉ email hợp lệ!', 'warning');
                 return;
             }
 
             if (password !== confirm_password) {
-                alert('Mật khẩu xác nhận không khớp!');
+                showToast('Mật khẩu xác nhận không khớp!', 'warning');
                 return;
             }
 
-            // Hiệu ứng loading
             registerBtn.disabled = true;
             registerBtn.innerHTML = 'Đang xử lý...';
 
@@ -133,29 +149,29 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert('Đăng ký thành công! Hãy đăng nhập để bắt đầu.');
-                    window.location.href = 'login.html';
+                    showToast('Đăng ký thành công! Đang chuyển đến trang đăng nhập...', 'success', 2000);
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
                 } else {
-                    alert(data.error || 'Có lỗi xảy ra khi đăng ký.');
+                    showToast(data.error || 'Có lỗi xảy ra khi đăng ký.', 'error');
                     registerBtn.disabled = false;
                     registerBtn.innerHTML = 'Gia Nhập Ngay';
                 }
             } catch (error) {
                 console.error('Lỗi đăng ký:', error);
-                alert('Không thể kết nối tới server. Vui lòng thử lại sau.');
+                showToast('Không thể kết nối tới server. Vui lòng thử lại sau.', 'error');
                 registerBtn.disabled = false;
                 registerBtn.innerHTML = 'Gia Nhập Ngay';
             }
         });
 
-        // Xử lý Google Login Form (Mô phỏng)
+        // Xử lý Google Register (Mô phỏng)
         document.getElementById('googleLoginBtn').addEventListener('click', async () => {
-            const mockEmail = prompt('Vui lòng nhập Email Gmail của bạn (Mô phỏng Đăng nhập Google):');
-            if (mockEmail === null) return; // Hủy
+            const mockEmail = prompt('Nhập Email Gmail của bạn:');
+            if (mockEmail === null) return;
             
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(mockEmail)) {
-                alert('Email không hợp lệ! Vui lòng nhập đúng định dạng.');
+                showToast('Email không hợp lệ! Vui lòng nhập đúng định dạng.', 'warning');
                 return;
             }
             
@@ -176,13 +192,14 @@
 
                 if (response.ok) {
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.href = 'tier-list.html';
+                    showToast('Đăng ký thành công!', 'success', 1500);
+                    setTimeout(() => { window.location.href = 'tier-list.html'; }, 1000);
                 } else {
-                    alert(data.error || 'Lỗi đăng nhập Google');
+                    showToast(data.error || 'Lỗi đăng ký Google', 'error');
                 }
             } catch (error) {
-                console.error('Lỗi đăng nhập Google:', error);
-                alert('Không thể kết nối tới server.');
+                console.error('Lỗi đăng ký Google:', error);
+                showToast('Không thể kết nối tới server.', 'error');
             } finally {
                 btn.innerHTML = originalContent;
                 btn.disabled = false;

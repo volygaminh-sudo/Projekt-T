@@ -51,3 +51,7 @@
     .spotlight-img, .spotlight-info { width: 100%; }
     .spotlight-img { border-right: none; border-bottom: 1px solid #333; height: 300px; }
 }
+
+.glow-title {
+    text-align: center;
+}
