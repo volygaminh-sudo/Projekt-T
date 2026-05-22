@@ -55,6 +55,7 @@
                     <option value="marksman">🏹 Xạ Thủ</option>
                     <option value="fighter">⚔️ Đấu Sĩ</option>
                     <option value="tank">🛡️ Đỡ Đòn</option>
+                    <option value="support">💚 Trợ Thủ</option>
                 </select>
                 <select id="filter-tier" title="Lọc theo Tier">
                     <option value="">Tất cả Tier</option>
@@ -308,11 +309,29 @@
                     <textarea id="hero-story" rows="3" placeholder="Câu chuyện về nhân vật..."></textarea>
 
                     <div class="dynamic-skills-wrapper">
-                        <label>⚔️ Kỹ năng của Tướng:</label>
-                        <div id="dynamic-skills-container">
-                            <!-- JS sẽ inject các dòng skill vào đây -->
-                        </div>
-                        <button type="button" id="btn-add-skill" class="btn-success">➕ Thêm Kỹ Năng</button>
+                        <label>⚔️ Nội tại (Skill P):</label>
+                        <input type="text" id="hero-skill-p-name" placeholder="Tên nội tại">
+                        <textarea id="hero-skill-p" rows="2" placeholder="Chi tiết nội tại..."></textarea>
+                        <input type="url" id="skill-p-img" placeholder="Link ảnh nội tại">
+                        <img id="prev-skill-p" class="skill-img-preview" style="display:none;">
+
+                        <label>⚔️ Kỹ năng 1:</label>
+                        <input type="text" id="hero-skill-1-name" placeholder="Tên Kỹ năng 1">
+                        <textarea id="hero-skill-1" rows="2" placeholder="Chi tiết Kỹ năng 1..."></textarea>
+                        <input type="url" id="skill-1-img" placeholder="Link ảnh Kỹ năng 1">
+                        <img id="prev-skill-1" class="skill-img-preview" style="display:none;">
+
+                        <label>⚔️ Kỹ năng 2:</label>
+                        <input type="text" id="hero-skill-2-name" placeholder="Tên Kỹ năng 2">
+                        <textarea id="hero-skill-2" rows="2" placeholder="Chi tiết Kỹ năng 2..."></textarea>
+                        <input type="url" id="skill-2-img" placeholder="Link ảnh Kỹ năng 2">
+                        <img id="prev-skill-2" class="skill-img-preview" style="display:none;">
+
+                        <label>⚔️ Kỹ năng 3 (Chiêu cuối):</label>
+                        <input type="text" id="hero-skill-3-name" placeholder="Tên Chiêu cuối">
+                        <textarea id="hero-skill-3" rows="2" placeholder="Chi tiết Chiêu cuối..."></textarea>
+                        <input type="url" id="skill-3-img" placeholder="Link ảnh Chiêu cuối">
+                        <img id="prev-skill-3" class="skill-img-preview" style="display:none;">
                     </div>
 
                     <div class="loadout-builder-container">

@@ -788,7 +788,7 @@ const runeMap = new Map();
 
 // --- TAB SWITCHING ---
 document.addEventListener('DOMContentLoaded', () => {
-    const heroesMain  = document.querySelector('.admin-main:not(#items-section):not(#arcanas-section):not(#runes-section)');
+    const heroesMain  = document.querySelector('.admin-main:not(.admin-section)');
     const itemsMain   = document.getElementById('items-section');
     const arcanasMain = document.getElementById('arcanas-section');
     const runesMain   = document.getElementById('runes-section');
