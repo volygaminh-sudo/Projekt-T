@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Hàm tìm ID và Ảnh của tướng khắc chế từ danh sách HEROES (nếu có)
             const findCounterHero = (name) => {
                 const nameLower = name.toLowerCase().replace(/['’\-\s]/g, '');
-                return HEROES.find(h => h[0].toLowerCase().replace(/['’\-\s]/g, '') === nameLower);
+                return (window.HEROES || []).find(h => h[0].toLowerCase().replace(/['’\-\s]/g, '') === nameLower);
             };
 
             // Nếu HEROES chưa kịp load, ta đợi 1 tí hoặc render tạm
