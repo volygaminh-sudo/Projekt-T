@@ -237,7 +237,15 @@ function initDragAndDrop() {
             group: 'shared',
             animation: 150,
             ghostClass: 'ghost-card',
+            dragClass: 'dragging-card',
+            forceFallback: true,        // Đảm bảo hoạt động trơn tru trên Edge/Mobile
+            fallbackOnBody: true,
+            swapThreshold: 0.65,
+            onStart: function() {
+                document.body.classList.add('is-dragging');
+            },
             onEnd: function () {
+                document.body.classList.remove('is-dragging');
                 updateCounts();
             }
         });
