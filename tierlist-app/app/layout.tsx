@@ -18,12 +18,16 @@ export const metadata: Metadata = {
   },
 };
 
+import { ClerkProvider } from '@clerk/nextjs'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={outfit.variable}>
-      <body className={`${outfit.className} antialiased bg-gray-950`}>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="vi" className={outfit.variable}>
+        <body className={`${outfit.className} antialiased bg-gray-950`}>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
