@@ -495,5 +495,10 @@ async function fetchHeroes() {
 document.addEventListener("DOMContentLoaded", () => {
     const board = document.getElementById("tier-board");
     if (board) board.innerHTML = `<div class="tier-loading">Đang tải dữ liệu tướng...</div>`;
-    fetchHeroes();
+    fetchHeroes().then(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'maker') {
+            toggleMakerMode(true);
+        }
+    });
 });
