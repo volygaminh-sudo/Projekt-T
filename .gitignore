@@ -8,15 +8,9 @@ node_modules/
 # Large media files (>50MB or binary assets streamed externally)
 # ===========================
 index/img/freecompress-live-wallpaper.mp4
-index/img/nhac.mp3
-index/img/nhac2.mp3
-index/img/nhac3.mp3
 
 # Old path (kept for history safety)
 img/live-wallpaper.webm
-img/nhac.mp3
-img/nhac2.mp3
-img/nhac3.mp3
 
 # ===========================
 # Database & runtime data
