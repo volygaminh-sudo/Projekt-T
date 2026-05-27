@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUẢN TRỊ | PROJEKT-T CLUB - Senior Dashboard</title>
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cyan-neon: #00f2ff;
+            --cyan-glow: rgba(0, 242, 255, 0.4);
+            --gold-neon: #f1c40f;
+            --gold-glow: rgba(241, 196, 15, 0.4);
+        }
+
+        body {
+            background-color: #020617; /* Slate 950 */
+            color: #f8fafc;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(0, 242, 255, 0.03) 0%, transparent 40%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-gaming { font-family: 'Chakra Petch', sans-serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cyan-neon); }
+
+        /* Animations */
+        @keyframes pulse-cyan {
+            0%, 100% { box-shadow: 0 0 10px var(--cyan-glow); }
+            50% { box-shadow: 0 0 20px var(--cyan-glow); }
+        }
+
+        .cyan-glow-text { text-shadow: 0 0 10px var(--cyan-glow); }
+        .cyan-border-glow:focus {
+            outline: none;
+            border-color: var(--cyan-neon);
+            box-shadow: 0 0 15px var(--cyan-glow);
+        }
+
+        .tier-s-plus { border-color: var(--gold-neon); box-shadow: 0 0 10px var(--gold-glow); }
+        .tier-s { border-color: #e74c3c; }
+        .tier-a { border-color: #3498db; }
+        .tier-b { border-color: #95a5a6; }
+
+        .gaming-button {
+            transition: all 0.3s ease;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        .gaming-button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+            box-shadow: 0 5px 15px var(--cyan-glow);
+        }
+
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.85);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // --- REAL API CONNECTION ---
+        const API_BASE = 'http://127.0.0.1:3008/api';
+
+        async function fetchMetaHeroes() {
+            try {
+                const response = await fetch(`${API_BASE}/heroes`);
+                const json = await response.json();
+                
+                // Map API data to our internal format
+                return json.data.map(hero => ({
+                    id: hero.id,
+                    name: hero.name,
+                    class: hero.primary_role === 'tank' ? 'Đỡ đòn' : 
+                          hero.primary_role === 'fighter' ? 'Đấu sĩ' :
+                          hero.primary_role === 'assassin' ? 'Sát thủ' :
+                          hero.primary_role === 'marksman' ? 'Xạ thủ' :
+                          hero.primary_role === 'mage' ? 'Pháp sư' : 'Trợ thủ',
+                    tier: hero.tier || 'A',
+                    lane: hero.primary_role === 'assassin' ? 'Rừng' :
+                          hero.primary_role === 'mage' ? 'Giữa' :
+                          hero.primary_role === 'marksman' ? 'AD' :
+                          hero.primary_role === 'support' ? 'SP' : 'Top',
+                    img: hero.image_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${hero.name}`
+                }));
+            } catch (error) {
+                console.warn("API Offline - Using Fallback Meta Data");
+                return [
+                    { id: 1, name: 'Nakroth', class: 'Sát thủ', tier: 'S+', lane: 'Rừng', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Nakroth' },
+                    { id: 2, name: 'Tulen', class: 'Pháp sư', tier: 'S+', lane: 'Giữa', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Tulen' },
+                    { id: 3, name: 'Hayate', class: 'Xạ thủ', tier: 'S', lane: 'AD', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Hayate' },
+                    { id: 4, name: 'Maloch', class: 'Đấu sĩ', tier: 'A', lane: 'Top', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Maloch' },
+                    { id: 5, name: 'Omen', class: 'Đấu sĩ', tier: 'S', lane: 'Top', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Omen' },
+                    { id: 6, name: 'Krixi', class: 'Pháp sư', tier: 'A', lane: 'Giữa', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Krixi' },
+                    { id: 7, name: 'Zip', class: 'Trợ thủ', tier: 'S+', lane: 'SP', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Zip' },
+                    { id: 8, name: 'Elsu', class: 'Xạ thủ', tier: 'S+', lane: 'AD', img: 'https://api.dicebear.com/7.x/bottts/svg?seed=Elsu' },
+                ];
+            }
+        }
+
+        const STORAGE_KEY = 'pt_players';
+        const DEFAULT_PLAYERS = [
+            { id: 1, ign: 'PT.Nakroth', realName: 'Nguyễn Văn A', birthday: '2004-05-12', position: 'Rừng', heroes: ['Nakroth'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Nakroth' },
+            { id: 2, ign: 'PT.Tulen', realName: 'Trần Thị B', birthday: '2005-08-20', position: 'Giữa', heroes: ['Tulen'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Natalya' }
+        ];
+        function loadPlayers() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : DEFAULT_PLAYERS;
+            } catch { return DEFAULT_PLAYERS; }
+        }
+        function savePlayers(players) {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(players)); } catch {}
+        }
+
+        function App() {
+            const [tab, setTab] = useState('players');
+            const [players, setPlayers] = useState(loadPlayers);
+            const [metaHeroes, setMetaHeroes] = useState([]);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                async function load() {
+                    const data = await fetchMetaHeroes();
+                    setMetaHeroes(data);
+                    setLoading(false);
+                }
+                load();
+            }, []);
+
+            // Persist players to localStorage on every change
+            useEffect(() => { savePlayers(players); }, [players]);
+
+            // Filters
+            const [heroFilterClass, setHeroFilterClass] = useState('All');
+            const [heroFilterTier, setHeroFilterTier] = useState('All');
+
+            // Modal States
+            const [deleteModal, setDeleteModal] = useState({ open: false, player: null });
+            const [isEdit, setIsEdit] = useState(false);
+            const [playerForm, setPlayerForm] = useState({ id: null, ign: '', realName: '', birthday: '', position: 'Giữa', heroes: [], avatar: '' });
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [tab, players, metaHeroes, deleteModal]);
+
+            // --- HANDLERS ---
+            const handlePlayerSubmit = (e) => {
+                e.preventDefault();
+                if (!playerForm.ign?.trim() || !playerForm.realName?.trim()) return alert('Bắt buộc nhập Tên Ingame và Tên thật!');
+                
+                let nextPlayers;
+                if (isEdit) {
+                    nextPlayers = players.map(p => p.id === playerForm.id ? { ...playerForm } : p);
+                    setIsEdit(false);
+                } else {
+                    const newPlayer = {
+                        ...playerForm,
+                        id: Date.now(),
+                        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(playerForm.ign)}`
+                    };
+                    nextPlayers = [...players, newPlayer];
+                }
+                setPlayers(nextPlayers);
+                savePlayers(nextPlayers);
+                resetPlayerForm();
+            };
+
+            const resetPlayerForm = () => {
+                setPlayerForm({ id: null, ign: '', realName: '', birthday: '', position: 'Giữa', heroes: [], avatar: '' });
+                setIsEdit(false);
+            };
+
+            const startEdit = (player) => {
+                setPlayerForm(player);
+                setIsEdit(true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const confirmDelete = (player) => {
+                setDeleteModal({ open: true, player });
+            };
+
+            const executeDelete = () => {
+                const nextPlayers = players.filter(p => p.id !== deleteModal?.player?.id);
+                setPlayers(nextPlayers);
+                savePlayers(nextPlayers);
+                setDeleteModal({ open: false, player: null });
+            };
+
+            const toggleHeroSelection = (heroName) => {
+                const current = playerForm.heroes;
+                if (current.includes(heroName)) {
+                    setPlayerForm({ ...playerForm, heroes: current.filter(h => h !== heroName) });
+                } else {
+                    setPlayerForm({ ...playerForm, heroes: [...current, heroName] });
+                }
+            };
+
+            const filteredHeroes = useMemo(() => {
+                return metaHeroes.filter(h => {
+                    const classMatch = heroFilterClass === 'All' || h.class === heroFilterClass;
+                    const tierMatch = heroFilterTier === 'All' || h.tier === heroFilterTier;
+                    return classMatch && tierMatch;
+                });
+            }, [metaHeroes, heroFilterClass, heroFilterTier]);
+
+            return (
+                <div className="min-h-screen flex">
+                    {/* SIDEBAR NAVIGATION */}
+                    <aside className="w-64 bg-slate-950 border-r border-slate-800 flex flex-col fixed h-full z-40">
+                        <div className="p-8 border-b border-slate-800">
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-8 h-8 bg-cyan-500 rounded flex items-center justify-center">
+                                    <i data-lucide="shield" className="text-black w-5 h-5"></i>
+                                </div>
+                                <span className="font-black italic text-xl tracking-tighter uppercase font-gaming">PT-ADMIN</span>
+                            </div>
+                            <div className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Esport Management v2.0</div>
+                        </div>
+                        
+                        <nav className="flex-1 p-4 space-y-2 mt-4">
+                            <NavItem active={tab === 'players'} onClick={() => setTab('players')} icon="users" label="Tuyển thủ" />
+                            <NavItem active={tab === 'heroes'} onClick={() => setTab('heroes')} icon="swords" label="Kho Tướng" />
+                            <NavItem active={tab === 'schedules'} onClick={() => setTab('schedules')} icon="calendar" label="Lịch trình" />
+                            <div className="pt-8 px-4 text-[10px] font-bold text-slate-600 uppercase">Hệ thống</div>
+                            <NavItem active={false} onClick={() => window.location.href='clb-esport.html'} icon="log-out" label="Về trang chủ" />
+                        </nav>
+                    </aside>
+
+                    {/* MAIN CONTENT */}
+                    <main className="flex-1 ml-64 p-12 bg-slate-950/20">
+                        
+                        {/* TAB: PLAYERS */}
+                        {tab === 'players' && (
+                            <div className="max-w-5xl mx-auto space-y-12 animate-in fade-in duration-500">
+                                <header className="flex justify-between items-end">
+                                    <div>
+                                        <h1 className="text-4xl font-black italic uppercase font-gaming cyan-glow-text">Quản lý <span className="text-slate-600">Tuyển thủ</span></h1>
+                                        <p className="text-slate-500 text-sm mt-2">Cập nhật danh sách đội hình chiến thuật</p>
+                                    </div>
+                                </header>
+
+                                {/* PLAYER FORM */}
+                                <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl relative overflow-hidden">
+                                    <h3 className="text-lg font-black uppercase mb-8 flex items-center gap-3">
+                                        <i data-lucide={isEdit ? "edit-3" : "plus-circle"} className="text-cyan-400 w-5 h-5"></i> 
+                                        {isEdit ? "CẬP NHẬT TUYỂN THỦ" : "THÊM TUYỂN THỦ MỚI"}
+                                    </h3>
+                                    <form onSubmit={handlePlayerSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-6">
+                                            <div>
+                                                <label className="text-[10px] font-bold text-slate-400 mb-2 block uppercase tracking-widest">Tên Ingame (IGN) *</label>
+                                                <input 
+                                                    value={playerForm.ign}
+                                                    onChange={e => setPlayerForm({...playerForm, ign: e.target.value})}
+                                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm cyan-border-glow" placeholder="VD: PT.Nakroth" 
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] font-bold text-slate-400 mb-2 block uppercase tracking-widest">Tên thật *</label>
+                                                <input 
+                                                    value={playerForm.realName}
+                                                    onChange={e => setPlayerForm({...playerForm, realName: e.target.value})}
+                                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm cyan-border-glow" placeholder="Nguyễn Văn A" 
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] font-bold text-slate-400 mb-2 block uppercase tracking-widest">Ngày sinh</label>
+                                                <input 
+                                                    type="date"
+                                                    value={playerForm.birthday}
+                                                    onChange={e => setPlayerForm({...playerForm, birthday: e.target.value})}
+                                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm cyan-border-glow" 
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-6">
+                                            <div>
+                                                <label className="text-[10px] font-bold text-slate-400 mb-2 block uppercase tracking-widest">Vị trí sở trường</label>
+                                                <select 
+                                                    value={playerForm.position}
+                                                    onChange={e => setPlayerForm({...playerForm, position: e.target.value})}
+                                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm cyan-border-glow"
+                                                >
+                                                    <option>Top</option><option>Rừng</option><option>Giữa</option><option>AD</option><option>SP</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] font-bold text-slate-400 mb-2 block uppercase tracking-widest">Tướng tủ (Đã chọn: {playerForm.heroes.length})</label>
+                                                <div className="h-32 overflow-y-auto bg-slate-950 border border-slate-800 rounded-xl p-3 grid grid-cols-2 gap-2 custom-scroll">
+                                                    {metaHeroes.map(h => (
+                                                        <label key={h.id} className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer text-[10px] transition-colors ${playerForm.heroes.includes(h.name) ? 'bg-cyan-500/10 border border-cyan-500/30' : 'hover:bg-slate-800'}`}>
+                                                            <input 
+                                                                type="checkbox" 
+                                                                checked={playerForm.heroes.includes(h.name)} 
+                                                                onChange={() => toggleHeroSelection(h.name)}
+                                                                className="hidden" 
+                                                            />
+                                                            <span className={playerForm.heroes.includes(h.name) ? 'text-cyan-400 font-bold' : 'text-slate-500'}>{h.name}</span>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="md:col-span-2 flex gap-4 pt-4">
+                                            <button type="submit" className="flex-1 gaming-button bg-cyan-500 text-black py-4 font-black uppercase text-xs tracking-widest">
+                                                {isEdit ? "CẬP NHẬT NGAY" : "XÁC NHẬN THÊM"}
+                                            </button>
+                                            {isEdit && (
+                                                <button onClick={resetPlayerForm} className="px-8 bg-slate-800 text-white rounded-xl font-bold uppercase text-[10px]">Hủy</button>
+                                            )}
+                                        </div>
+                                    </form>
+                                </div>
+
+                                {/* PLAYER LIST */}
+                                <div className="space-y-6">
+                                    <h2 className="text-xl font-bold uppercase flex items-center gap-3">
+                                        <i data-lucide="list" className="w-5 h-5 text-slate-500"></i> Danh sách đội hình
+                                    </h2>
+                                    <div className="grid grid-cols-1 gap-4">
+                                        {players.map(p => (
+                                            <div key={p.id} className="group p-6 bg-slate-900 border border-slate-800 rounded-3xl flex items-center gap-6 hover:border-cyan-500/50 transition-all">
+                                                <img src={p.avatar} className="w-16 h-16 rounded-2xl bg-slate-950 border border-slate-800" />
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-lg font-black text-white font-gaming uppercase tracking-tight">{p.ign}</span>
+                                                        <span className="px-2 py-0.5 bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 rounded text-[8px] font-black uppercase">{p.position}</span>
+                                                    </div>
+                                                    <div className="text-[11px] text-slate-500 mt-1 flex gap-4">
+                                                        <span><span className="text-slate-700">Thật:</span> {p.realName}</span>
+                                                        <span><span className="text-slate-700">Sinh:</span> {p.birthday || "N/A"}</span>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-2 mt-3">
+                                                        {p.heroes.map(h => (
+                                                            <span key={h} className="px-2 py-1 bg-slate-950 border border-slate-800 text-slate-400 text-[9px] rounded font-medium italic">{h}</span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <button onClick={() => startEdit(p)} className="p-3 bg-slate-800 hover:bg-cyan-500 hover:text-black rounded-xl transition-all"><i data-lucide="edit-2" className="w-4 h-4"></i></button>
+                                                    <button onClick={() => confirmDelete(p)} className="p-3 bg-slate-800 hover:bg-red-500 rounded-xl transition-all text-red-400 hover:text-white"><i data-lucide="trash-2" className="w-4 h-4"></i></button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB: KHO TƯỚNG (HEROES) */}
+                        {tab === 'heroes' && (
+                            <div className="max-w-6xl mx-auto space-y-12 animate-in fade-in duration-500">
+                                <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                                    <div>
+                                        <h1 className="text-4xl font-black italic uppercase font-gaming cyan-glow-text">Kho Tướng <span className="text-slate-600">Tier List</span></h1>
+                                        <p className="text-slate-500 text-sm mt-2">Dữ liệu Meta Game & Xếp hạng hiện tại</p>
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <div className="space-y-1">
+                                            <label className="text-[8px] font-bold text-slate-600 uppercase tracking-widest pl-2">Chất tướng</label>
+                                            <select 
+                                                value={heroFilterClass} 
+                                                onChange={e => setHeroFilterClass(e.target.value)}
+                                                className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
+                                            >
+                                                <option>All</option><option>Sát thủ</option><option>Pháp sư</option><option>Xạ thủ</option><option>Đấu sĩ</option><option>Trợ thủ</option><option>Đỡ đòn</option>
+                                            </select>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[8px] font-bold text-slate-600 uppercase tracking-widest pl-2">Xếp hạng Tier</label>
+                                            <select 
+                                                value={heroFilterTier} 
+                                                onChange={e => setHeroFilterTier(e.target.value)}
+                                                className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
+                                            >
+                                                <option>All</option><option>S+</option><option>S</option><option>A</option><option>B</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </header>
+
+                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                                    {filteredHeroes.map(h => (
+                                        <div key={h.id} className={`group relative bg-slate-900 border-b-4 rounded-3xl p-5 hover:scale-105 transition-all duration-300 ${h.tier === 'S+' ? 'tier-s-plus' : h.tier === 'S' ? 'tier-s' : h.tier === 'A' ? 'tier-a' : 'tier-b'}`}>
+                                            <div className="relative aspect-square bg-slate-950 rounded-2xl overflow-hidden mb-4">
+                                                <img src={h.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-2 right-2 flex flex-col items-center">
+                                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${h.tier === 'S+' ? 'bg-yellow-500 text-black' : 'bg-slate-800 text-white'}`}>
+                                                        {h.tier}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-sm font-black text-white uppercase font-gaming">{h.name}</div>
+                                                <div className="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">{h.class} • {h.lane}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB: SCHEDULES */}
+                        {tab === 'schedules' && (
+                            <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in duration-500">
+                                <div>
+                                    <h1 className="text-4xl font-black italic uppercase font-gaming cyan-glow-text">Lịch <span className="text-slate-600">Huấn luyện</span></h1>
+                                    <p className="text-slate-500 text-sm mt-2">Đồng bộ lịch Scrim & Giải đấu CLB</p>
+                                </div>
+                                
+                                <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl">
+                                    <p className="text-slate-500 text-xs italic">Chức năng quản lý lịch trình chi tiết đang được đồng bộ dữ liệu. Vui lòng sử dụng Form thêm tại tab Tuyển thủ để kiểm tra Re-render.</p>
+                                    <div className="mt-8 p-12 border border-dashed border-slate-800 rounded-3xl text-center">
+                                        <i data-lucide="clock" className="w-12 h-12 text-slate-800 mx-auto mb-4"></i>
+                                        <div className="text-slate-700 font-bold text-xs uppercase tracking-widest">Hệ thống Lịch đang ở chế độ Read-only</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+
+                    {/* DELETE CONFIRMATION MODAL */}
+                    {deleteModal.open && (
+                        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 modal-overlay">
+                            <div className="bg-slate-950 border border-slate-800 w-full max-w-sm rounded-[40px] p-10 text-center relative overflow-hidden animate-in zoom-in duration-300">
+                                <div className="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                                <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <i data-lucide="alert-triangle" className="text-red-500 w-10 h-10"></i>
+                                </div>
+                                <h3 className="text-2xl font-black text-white italic uppercase font-gaming mb-2">XÁC NHẬN XÓA?</h3>
+                                <p className="text-slate-400 text-sm mb-10 leading-relaxed">
+                                    Bạn có chắc chắn muốn xóa tuyển thủ <span className="text-white font-bold">{deleteModal.player.ign}</span> khỏi hệ thống? Hành động này không thể hoàn tác.
+                                </p>
+                                <div className="flex flex-col gap-3">
+                                    <button onClick={executeDelete} className="bg-red-500 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-red-600 transition-all">
+                                        VÂNG, XÓA NGAY
+                                    </button>
+                                    <button onClick={() => setDeleteModal({ open: false, player: null })} className="bg-slate-900 text-slate-400 py-4 rounded-2xl font-bold uppercase text-[10px] hover:text-white transition-all">
+                                        HỦY BỎ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const NavItem = ({ active, onClick, icon, label }) => (
+            <button 
+                onClick={onClick}
+                className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all group ${active ? 'bg-cyan-500 text-black shadow-[0_0_20px_var(--cyan-glow)]' : 'text-slate-400 hover:bg-slate-900 hover:text-white'}`}
+            >
+                <i data-lucide={icon} className={`w-5 h-5 ${active ? 'text-black' : 'group-hover:text-cyan-400'}`}></i>
+                <span className="text-xs font-black uppercase tracking-widest">{label}</span>
+            </button>
+        );
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

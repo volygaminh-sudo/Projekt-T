@@ -496,7 +496,18 @@ async function fetchHeroes() {
         initMakerControls();
         
     } catch (error) {
-        console.error("Lỗi:", error);
+        console.warn("⚠️ API Offline - Sử dụng dữ liệu dự phòng (Mock Data)");
+        // Fallback data structure matching the expected HEROES format
+        const MOCK_HEROES = [
+            ["Nakroth", ["assassin"], "splus", 1, "https://lienquan.garena.vn/wp-content/uploads/2024/05/769a9fe6cb9b9725127a094bb6dd36545f0ed6543592e1.jpg", [], {winRate: "52%", pickRate: "15%", banRate: "40%"}],
+            ["Tulen", ["mage"], "splus", 2, "https://lienquan.garena.vn/wp-content/uploads/2024/05/07210c9e529faa7766ba324bd86b75165a81722f3eab81.jpg", [], {winRate: "51%", pickRate: "12%", banRate: "20%"}],
+            ["Zip", ["support", "tank"], "splus", 3, "https://lienquan.garena.vn/wp-content/uploads/2024/05/e0f8f382d1be41adc8947bf1b849479b5d3823c7418f71.jpg", [], {winRate: "54%", pickRate: "8%", banRate: "80%"}],
+            ["Elsu", ["marksman"], "splus", 4, "https://lienquan.garena.vn/wp-content/uploads/2024/05/449789489494c0f108a3db5db3098e585bc98d17e666b1.jpg", [], {winRate: "49%", pickRate: "20%", banRate: "90%"}]
+        ];
+        HEROES = MOCK_HEROES;
+        render();
+        initFilters();
+        initMakerControls();
     }
 }
 
