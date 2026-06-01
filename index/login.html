@@ -94,8 +94,19 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
-            toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><span class="toast-msg">${msg}</span>`;
+            
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'toast-icon';
+            iconSpan.textContent = icons[type] || 'ℹ️';
+
+            const msgSpan = document.createElement('span');
+            msgSpan.className = 'toast-msg';
+            msgSpan.textContent = msg;
+
+            toast.appendChild(iconSpan);
+            toast.appendChild(msgSpan);
             container.appendChild(toast);
+            
             setTimeout(() => {
                 toast.classList.add('hiding');
                 setTimeout(() => toast.remove(), 350);
@@ -116,8 +127,8 @@
             const password = document.getElementById('password').value;
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (username.toLowerCase() !== 'admin' && !emailRegex.test(username)) {
-                showToast('Vui lòng nhập email hợp lệ (hoặc "admin" cho quản trị viên).', 'warning');
+            if (!username) {
+                showToast('Vui lòng nhập tên đăng nhập.', 'warning');
                 return;
             }
 
@@ -141,7 +152,7 @@
                         window.location.href = data.user.username === 'admin' ? 'admin.html' : 'tier-list.html';
                     }, 1000);
                 } else {
-                    showToast(data.error || 'Sai tài khoản hoặc mật khẩu! (Gợi ý: admin/admin)', 'error');
+                    showToast(data.error || 'Sai tài khoản hoặc mật khẩu!', 'error');
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = 'Đăng Nhập Ngay';
                 }
