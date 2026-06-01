@@ -11,6 +11,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 const PORT = process.env.PORT || 3008;
@@ -25,10 +26,18 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.some(o => origin.startsWith(o.replace('https://', '').replace('http://', '')))) {
+        // Enforce allowlist in production; be more permissive in local dev
+        const isProduction = process.env.NODE_ENV === 'production';
+        const isAllowed = !origin || allowedOrigins.some(o => origin.startsWith(o.replace('https://', '').replace('http://', '')));
+
+        if (isAllowed) {
             callback(null, true);
         } else {
-            callback(null, true); // Dev: allow all
+            if (isProduction) {
+                callback(new Error('Not allowed by CORS'));
+            } else {
+                callback(null, true);
+            }
         }
     },
     credentials: true
@@ -70,8 +79,13 @@ async function initSchema() {
             image_url TEXT, skins TEXT,
             win_rate TEXT, pick_rate TEXT, ban_rate TEXT,
             counters TEXT,
+            typical_lane TEXT,
+            club_notes TEXT,
             created_at TIMESTAMPTZ DEFAULT NOW()
-        )
+        );
+        -- Migration for existing tables
+        ALTER TABLE heroes ADD COLUMN IF NOT EXISTS typical_lane TEXT;
+        ALTER TABLE heroes ADD COLUMN IF NOT EXISTS club_notes TEXT;
     `);
     await query(`
         CREATE TABLE IF NOT EXISTS items (
@@ -81,6 +95,14 @@ async function initSchema() {
             description TEXT, image_url TEXT, price INTEGER DEFAULT 0,
             created_at TIMESTAMPTZ DEFAULT NOW()
         )
+    `);
+    await query(`
+      CREATE TABLE IF NOT EXISTS teams (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        description TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
     `);
     await query(`
         CREATE TABLE IF NOT EXISTS arcanas (
@@ -99,16 +121,31 @@ async function initSchema() {
         )
     `);
     await query(`
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            username TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
-            display_name TEXT,
-            role TEXT DEFAULT 'user',
-            created_at TIMESTAMPTZ DEFAULT NOW()
-        )
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        display_name TEXT,
+        ign VARCHAR(100),
+        full_name VARCHAR(100),
+        lane VARCHAR(20),
+        rank_current VARCHAR(50),
+        role VARCHAR(20) DEFAULT 'PLAYER',
+        team_id INTEGER REFERENCES teams(id),
+        hero_pool TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
     `);
-    await query(`INSERT INTO users (username, password, display_name, role) VALUES ('admin','admin','Administrator','admin') ON CONFLICT (username) DO NOTHING`);
+    // --- Admin Seed Protection (FIX-3) ---
+    const adminUser = process.env.ADMIN_USERNAME;
+    const adminPass = process.env.ADMIN_PASSWORD;
+
+    if (adminUser && adminPass) {
+        const hashedAdminPass = await bcrypt.hash(adminPass, 12);
+        await query(`INSERT INTO users (username, password, display_name, role) VALUES ($1, $2, 'Administrator', 'ADMIN') ON CONFLICT (username) DO NOTHING`, [adminUser, hashedAdminPass]);
+    } else {
+        console.warn('⚠️ [SECURITY] ADMIN_USERNAME or ADMIN_PASSWORD not set. No default admin created.');
+    }
     await query(`
         CREATE TABLE IF NOT EXISTS feedbacks (
             id SERIAL PRIMARY KEY,
@@ -117,6 +154,33 @@ async function initSchema() {
             created_at TIMESTAMPTZ DEFAULT NOW()
         )
     `);
+    await query(`
+      CREATE TABLE IF NOT EXISTS schedules (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(200) NOT NULL,
+        type VARCHAR(50) NOT NULL CHECK (type IN ('TRAIN', 'SCRIM', 'TOURNAMENT', 'MEETING')),
+        start_time TIMESTAMPTZ,
+        end_time TIMESTAMPTZ,
+        opponent VARCHAR(100),
+        voice_channel VARCHAR(100),
+        room_id TEXT,
+        tactical_goal TEXT,
+        team_id INTEGER REFERENCES teams(id),
+        created_by INTEGER REFERENCES users(id),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    await query(`
+        CREATE TABLE IF NOT EXISTS schedule_participants (
+            id SERIAL PRIMARY KEY,
+            schedule_id INTEGER REFERENCES schedules(id),
+            user_id INTEGER REFERENCES users(id),
+            status TEXT DEFAULT 'PENDING',
+            note TEXT,
+            UNIQUE(schedule_id, user_id)
+        )
+    `);
+
     await query(`
         CREATE TABLE IF NOT EXISTS user_hero_order (
             user_id INTEGER NOT NULL,
@@ -354,9 +418,26 @@ app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) return res.status(400).json({ error: 'Thiếu username hoặc password' });
     try {
-        const result = await query('SELECT id, username, display_name, role FROM users WHERE username=$1 AND password=$2', [username, password]);
+        const result = await query('SELECT id, username, password, display_name, role FROM users WHERE username=$1', [username]);
         if (!result.rows.length) return res.status(401).json({ error: 'Sai tài khoản hoặc mật khẩu' });
-        res.json({ message: 'success', user: result.rows[0] });
+        
+        const user = result.rows[0];
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            // Lazy migration: if bcrypt fails, check plaintext (Fix 1)
+            if (password === user.password) {
+                console.log(`[AUTH] Lazy migration for user: ${username}`);
+                const newHash = await bcrypt.hash(password, 12);
+                await query('UPDATE users SET password=$1 WHERE id=$2', [newHash, user.id]);
+            } else {
+                return res.status(401).json({ error: 'Sai tài khoản hoặc mật khẩu' });
+            }
+        }
+
+        // Remove sensitive fields
+        delete user.password;
+        res.json({ message: 'success', user });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -366,11 +447,12 @@ app.post('/api/register', async (req, res) => {
     if (username.length < 3) return res.status(400).json({ error: 'Username phải có ít nhất 3 ký tự' });
     if (password.length < 4) return res.status(400).json({ error: 'Password phải có ít nhất 4 ký tự' });
     try {
+        const hashedPassword = await bcrypt.hash(password, 12);
         const result = await query(`
             INSERT INTO users (username, password, display_name, role)
             VALUES ($1,$2,$3,'user')
             RETURNING id, username, display_name, role
-        `, [username.trim(), password, display_name || username]);
+        `, [username.trim(), hashedPassword, display_name || username]);
         res.status(201).json({ message: 'success', user: result.rows[0] });
     } catch (e) {
         if (e.message.includes('unique') || e.message.includes('duplicate')) {
@@ -433,6 +515,66 @@ app.post('/api/user-tiers', async (req, res) => {
             await query('INSERT INTO user_hero_order (user_id, hero_id, tier, sort_order) VALUES ($1,$2,$3,$4)',
                 [userId, hero_id, tier, sort_order]);
         }
+        res.json({ message: 'success' });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// =================== API PLAYER MANAGEMENT ===================
+
+app.get('/api/players', async (req, res) => {
+    try {
+        const result = await query('SELECT id, username, display_name as full_name, role, ign, primary_lane, rank_current, hero_pool, created_at FROM users ORDER BY role ASC, display_name ASC');
+        res.json({ message: 'success', data: result.rows });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/players', async (req, res) => {
+    const { username, password, full_name, role, ign, primary_lane, rank_current } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password || '123456', 12);
+        await query(`INSERT INTO users (username, password, display_name, role, ign, primary_lane, rank_current) VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+            [username, hashedPassword, full_name, role || 'PLAYER', ign, primary_lane, rank_current]);
+        res.json({ message: 'success' });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/players/:id', async (req, res) => {
+    const { full_name, role, ign, primary_lane, rank_current } = req.body;
+    try {
+        await query(`UPDATE users SET display_name=$1, role=$2, ign=$3, primary_lane=$4, rank_current=$5 WHERE id=$6`,
+            [full_name, role, ign, primary_lane, rank_current, req.params.id]);
+        res.json({ message: 'success' });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete('/api/players/:id', async (req, res) => {
+    try {
+        await query('DELETE FROM users WHERE id=$1 AND username != \'admin\'', [req.params.id]);
+        res.json({ message: 'success' });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// =================== API SCHEDULES ===================
+
+app.get('/api/schedules', async (req, res) => {
+    try {
+        const result = await query(`
+            SELECT s.*, u.display_name as creator_name 
+            FROM schedules s 
+            LEFT JOIN users u ON s.created_by = u.id 
+            ORDER BY s.start_time ASC
+        `);
+        res.json({ message: 'success', data: result.rows });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/schedules', async (req, res) => {
+    const { title, type, start_time, end_time, room_id, tactical_goal, created_by } = req.body;
+    try {
+        await query(`
+            INSERT INTO schedules (title, type, start_time, end_time, room_id, tactical_goal, created_by)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `, [title, type, start_time, end_time, room_id, tactical_goal, created_by]);
         res.json({ message: 'success' });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
