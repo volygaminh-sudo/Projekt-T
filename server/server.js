@@ -2,6 +2,7 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 const PORT = 3008;
@@ -127,19 +128,45 @@ const db = new sqlite3.Database(dbPath, (err) => {
             else console.log('✅ Bảng feedbacks đã sẵn sàng.');
         });
 
-        // Bảng Users (Đăng nhập)
+        // Create teams table
+        db.run(`CREATE TABLE IF NOT EXISTS teams (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`);
+
+        // Create users (players) table
         db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             display_name TEXT,
+            ign TEXT,
+            full_name TEXT,
+            lane TEXT,
+            rank_current TEXT,
+            role TEXT DEFAULT 'PLAYER',
+            team_id INTEGER REFERENCES teams(id),
+            hero_pool TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`, (err) => {
             if (err) console.error('Lỗi khởi tạo bảng users:', err.message);
             else {
                 console.log('✅ Bảng users đã sẵn sàng.');
-                // Tạo user admin mặc định nếu chưa có
-                db.run(`INSERT OR IGNORE INTO users (username, password, display_name) VALUES ('admin', 'admin', 'Administrator')`);
+                // --- Admin Seed Protection (FIX-3) ---
+                const adminUser = process.env.ADMIN_USERNAME;
+                const adminPass = process.env.ADMIN_PASSWORD;
+
+                if (adminUser && adminPass) {
+                    bcrypt.hash(adminPass, 12, (err, hash) => {
+                        if (!err) {
+                            db.run(`INSERT OR IGNORE INTO users (username, password, display_name, role) VALUES (?, ?, 'Administrator', 'ADMIN')`, [adminUser, hash]);
+                        }
+                    });
+                } else {
+                    console.warn('⚠️ [SECURITY] ADMIN_USERNAME or ADMIN_PASSWORD not set. No default admin created.');
+                }
             }
         });
 
@@ -158,6 +185,57 @@ const db = new sqlite3.Database(dbPath, (err) => {
             if (err) console.error('Lỗi khởi tạo bảng user_hero_order:', err.message);
             else console.log('✅ Bảng user_hero_order đã sẵn sàng.');
         });
+
+        // =================== CLUB MANAGEMENT MIGRATIONS ===================
+        db.serialize(() => {
+            // Thêm các cột tuyển thủ vào bảng users
+            const userCols = [
+                { name: 'role', type: 'TEXT DEFAULT "PLAYER"' },
+                { name: 'ign', type: 'TEXT' },
+                { name: 'primary_lane', type: 'TEXT' },
+                { name: 'rank_current', type: 'TEXT' },
+                { name: 'hero_pool', type: 'TEXT' }
+            ];
+            userCols.forEach(col => {
+                db.run(`ALTER TABLE users ADD COLUMN ${col.name} ${col.type}`, (err) => {});
+            });
+
+            // Thêm cột chiến thuật vào bảng heroes
+            const heroCols = [
+                { name: 'typical_lane', type: 'TEXT' },
+                { name: 'club_notes', type: 'TEXT' }
+            ];
+            heroCols.forEach(col => {
+                db.run(`ALTER TABLE heroes ADD COLUMN ${col.name} ${col.type}`, (err) => {});
+            });
+
+            // Bảng Lịch trình (Schedules)
+            db.run(`CREATE TABLE IF NOT EXISTS schedules (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                type TEXT CHECK(type IN ('TRAIN', 'SCRIM', 'TOURNAMENT', 'MEETING')),
+                start_time DATETIME,
+                end_time DATETIME,
+                room_id TEXT,
+                tactical_goal TEXT,
+                created_by INTEGER,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (created_by) REFERENCES users(id)
+            )`);
+
+            // Bảng Điểm danh (Participants)
+            db.run(`CREATE TABLE IF NOT EXISTS schedule_participants (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                schedule_id INTEGER,
+                user_id INTEGER,
+                status TEXT DEFAULT 'PENDING',
+                note TEXT,
+                UNIQUE(schedule_id, user_id),
+                FOREIGN KEY (schedule_id) REFERENCES schedules(id),
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            )`);
+        });
+
     }
 });
 
@@ -532,15 +610,32 @@ app.post('/api/user-tiers', (req, res) => {
     });
 });
 
-// POST: Đăng nhập (Mock simple)
+// POST: Đăng nhập (Bcrypt + Lazy Migration)
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    db.get(`SELECT * FROM users WHERE username = ? AND password = ?`, [username, password], (err, row) => {
+    db.get(`SELECT * FROM users WHERE username = ?`, [username], async (err, row) => {
         if (err) return res.status(500).json({ error: err.message });
         if (!row) return res.status(401).json({ error: "Sai tài khoản hoặc mật khẩu" });
-        // Trả về info user (không có password)
-        const { password: _, ...user } = row;
-        res.json({ message: "success", user });
+        
+        try {
+            const isMatch = await bcrypt.compare(password, row.password);
+            
+            if (!isMatch) {
+                // Lazy migration (Fix 1)
+                if (password === row.password) {
+                    console.log(`[AUTH] Lazy migration for user: ${username}`);
+                    const newHash = await bcrypt.hash(password, 12);
+                    db.run(`UPDATE users SET password = ? WHERE id = ?`, [newHash, row.id]);
+                } else {
+                    return res.status(401).json({ error: "Sai tài khoản hoặc mật khẩu" });
+                }
+            }
+
+            const { password: _, ...user } = row;
+            res.json({ message: "success", user });
+        } catch (e) {
+            res.status(500).json({ error: e.message });
+        }
     });
 });
 
@@ -550,15 +645,42 @@ app.post('/api/register', (req, res) => {
     if (!username || !password) {
         return res.status(400).json({ error: "Thiếu username hoặc password" });
     }
-
-    db.run(`INSERT INTO users (username, password, display_name) VALUES (?, ?, ?)`, [username, password, display_name || username], function(err) {
-        if (err) {
-            if (err.message.includes('UNIQUE constraint failed')) {
-                return res.status(400).json({ error: "Tên đăng nhập đã tồn tại" });
+    
+    bcrypt.hash(password, 12, (err, hash) => {
+        if (err) return res.status(500).json({ error: err.message });
+        
+        db.run(`INSERT INTO users (username, password, display_name) VALUES (?, ?, ?)`, [username, hash, display_name || username], function(err) {
+            if (err) {
+                if (err.message.includes('UNIQUE constraint failed')) {
+                    return res.status(400).json({ error: "Tên đăng nhập đã tồn tại" });
+                }
+                return res.status(500).json({ error: err.message });
             }
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ message: "success", user: { id: this.lastID, username, display_name: display_name || username } });
+            res.json({ message: "success", user: { id: this.lastID, username, display_name: display_name || username } });
+        });
+    });
+});
+
+// --- TEAMS API (FIX-5: Extracted from register handler) ---
+app.get('/api/teams', (req, res) => {
+    db.all('SELECT * FROM teams ORDER BY id ASC', [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ data: rows });
+    });
+});
+
+app.post('/api/teams', (req, res) => {
+    const { name, description } = req.body;
+    db.run('INSERT INTO teams (name, description) VALUES (?, ?)', [name, description], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ id: this.lastID, name, description });
+    });
+});
+
+app.delete('/api/teams/:id', (req, res) => {
+    db.run('DELETE FROM teams WHERE id = ?', [req.params.id], (err) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true });
     });
 });
 
@@ -586,7 +708,107 @@ app.post('/api/google-login', (req, res) => {
     });
 });
 
-// POST: Gửi ý kiến góp ý
+// =================== API PLAYER MANAGEMENT (ADMIN/CAPTAIN) ===================
+
+app.get('/api/players', (req, res) => {
+    const sql = `SELECT id, username, full_name, role, ign, primary_lane, rank_current, hero_pool, created_at FROM users ORDER BY role ASC, full_name ASC`;
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success", data: rows });
+    });
+});
+
+app.post('/api/players', (req, res) => {
+    const { username, password, full_name, role, ign, primary_lane, rank_current } = req.body;
+    const finalPassword = password || '123456';
+    
+    bcrypt.hash(finalPassword, 12, (err, hash) => {
+        if (err) return res.status(500).json({ error: err.message });
+        
+        const sql = `INSERT INTO users (username, password, full_name, role, ign, primary_lane, rank_current) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        db.run(sql, [username, hash, full_name, role || 'PLAYER', ign, primary_lane, rank_current], function(err) {
+            if (err) return res.status(500).json({ error: "Lỗi thêm tuyển thủ: " + err.message });
+            res.json({ message: "success", data: { id: this.lastID } });
+        });
+    });
+});
+
+app.put('/api/players/:id', (req, res) => {
+    const { full_name, role, ign, primary_lane, rank_current } = req.body;
+    const sql = `UPDATE users SET full_name = ?, role = ?, ign = ?, primary_lane = ?, rank_current = ? WHERE id = ?`;
+    db.run(sql, [full_name, role, ign, primary_lane, rank_current, req.params.id], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success" });
+    });
+});
+
+app.delete('/api/players/:id', (req, res) => {
+    db.run(`DELETE FROM users WHERE id = ? AND username != 'admin'`, [req.params.id], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success" });
+    });
+});
+
+// =================== API SCHEDULES ===================
+
+app.get('/api/schedules', (req, res) => {
+    const sql = `SELECT s.*, u.full_name as creator_name FROM schedules s LEFT JOIN users u ON s.created_by = u.id ORDER BY s.start_time ASC`;
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success", data: rows });
+    });
+});
+
+app.post('/api/schedules', (req, res) => {
+    const { title, type, start_time, end_time, room_id, tactical_goal, created_by } = req.body;
+    const sql = `INSERT INTO schedules (title, type, start_time, end_time, room_id, tactical_goal, created_by) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    db.run(sql, [title, type, start_time, end_time, room_id, tactical_goal, created_by], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success", data: { id: this.lastID } });
+    });
+});
+
+app.delete('/api/schedules/:id', (req, res) => {
+    db.run(`DELETE FROM schedules WHERE id = ?`, [req.params.id], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success" });
+    });
+});
+
+// =================== API PARTICIPATION ===================
+
+// GET: Danh sách điểm danh của 1 buổi
+app.get('/api/schedules/:id/participants', (req, res) => {
+    const sql = `
+        SELECT p.*, u.full_name, u.ign FROM schedule_participants p
+        JOIN users u ON p.user_id = u.id
+        WHERE p.schedule_id = ?
+    `;
+    db.all(sql, [req.params.id], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success", data: rows });
+    });
+});
+
+// POST: Tuyển thủ xác nhận tham gia
+app.post('/api/attendance', (req, res) => {
+    const { schedule_id, user_id, status, note } = req.body;
+    const sql = `
+        INSERT INTO schedule_participants (schedule_id, user_id, status, note)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(schedule_id, user_id) DO UPDATE SET
+        status = excluded.status,
+        note = excluded.note
+    `;
+    // Note: To use ON CONFLICT here, we need a unique constraint on (schedule_id, user_id)
+    db.run(sql, [schedule_id, user_id, status, note], function(err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: "success" });
+    });
+});
+
+
+// =================== POST: Gửi ý kiến góp ý ===================
 app.post('/api/feedbacks', (req, res) => {
     const { name, email, subject, message } = req.body;
     if (!name || !message) {
@@ -601,6 +823,15 @@ app.post('/api/feedbacks', (req, res) => {
 });
 
 // Khởi động server
+app.get('/admin', (req, res) => {
+    // Nếu chạy local, chuyển hướng sang port 3000 của Next.js cho giao diện Admin mới
+    if (process.env.NODE_ENV !== 'production') {
+        return res.redirect('http://localhost:3000/admin');
+    }
+    // Ở production, Vercel sẽ tự handle qua rewrites/proxy
+    res.sendFile(path.join(__dirname, '../index/admin.html'));
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 Server đang chạy tại: http://localhost:${PORT}`);
     console.log(`Mở Frontend: http://localhost:${PORT}/index/index.html`);
